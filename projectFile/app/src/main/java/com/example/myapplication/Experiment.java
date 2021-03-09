@@ -1,4 +1,4 @@
-package com.example.a301project;
+package com.example.myapplication;
 
 import android.location.Location;
 
