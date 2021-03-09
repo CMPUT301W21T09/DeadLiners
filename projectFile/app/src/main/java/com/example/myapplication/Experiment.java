@@ -14,8 +14,8 @@ public class Experiment {
     public ArrayList<Location> location;
     public ArrayList<Location> ignores;
     //public barcode;
-    public User owner;
-    public Array<User> participants;
+    //public User owner;
+    //public Array<User> participants;
     
 
     public String getExpName(){return this.expName;}
