@@ -168,7 +168,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginBottom="24dp"
-        android:text="Question_Forum"
+        android:text="Question Forum"
         app:layout_constraintBottom_toTopOf="@+id/View_Trials"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -181,7 +181,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="55dp"
-        android:text="View_Trials"
+        android:text="View Trials"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/Add_Trials"
         app:layout_constraintStart_toStartOf="parent" />
@@ -195,7 +195,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="55dp"
-        android:text="Add_Trials"
+        android:text="Add Trials"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/View_Trials" />
