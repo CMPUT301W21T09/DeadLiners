@@ -37,9 +37,9 @@ public class mainCostomList extends ArrayAdapter<Experiment> {
         TextView description = convertView.findViewById(R.id.description_text);
         TextView trails = convertView.findViewById(R.id.NumberOfTrials_Text);
 
-        experimentName.setText();
-        description.setText();
-        trails.setText();
+        //experimentName.setText();
+        //description.setText();
+        //trails.setText();
 
         return convertView;
     }
