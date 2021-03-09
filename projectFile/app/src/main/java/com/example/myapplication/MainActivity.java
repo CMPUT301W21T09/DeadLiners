@@ -2,7 +2,14 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+
+import android.util.Log;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -43,6 +50,12 @@ public class MainActivity extends AppCompatActivity {
     public void userButtonClicked(View view){
         //do something when user is clicked
 
+    }
+
+
+    public void GoProfile(View view) {
+        Intent intent = new Intent().setClass(MainActivity.this, LoginActivity.class);
+        startActivity(intent);
     }
 
 
