@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import android.location.Location;
+
 import java.sql.Date;
 import java.util.ArrayList;
 

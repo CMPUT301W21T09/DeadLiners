@@ -4,7 +4,6 @@ import android.location.Location;
 
 public class User {
     private String username;
-    private String uid;
     private String email;
     private Location address;
 
