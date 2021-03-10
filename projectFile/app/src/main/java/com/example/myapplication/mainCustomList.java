@@ -12,12 +12,12 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-public class mainCostomList extends ArrayAdapter<Experiment> {
+public class mainCustomList extends ArrayAdapter<Experiment> {
 
     private Context context;
     private ArrayList<Experiment> experimentsArrayList;
 
-    public mainCostomList(@NonNull Context context, ArrayList<Experiment> experimentsArrayList) {
+    public mainCustomList(@NonNull Context context, ArrayList<Experiment> experimentsArrayList) {
         super(context, 0, experimentsArrayList);
 
         this.context = context;
@@ -33,13 +33,14 @@ public class mainCostomList extends ArrayAdapter<Experiment> {
         }
 
         Experiment experiment = experimentsArrayList.get(position);
+
         TextView experimentName = convertView.findViewById(R.id.experiment_name);
         TextView description = convertView.findViewById(R.id.description_text);
         TextView trails = convertView.findViewById(R.id.NumberOfTrials_Text);
 
-        //experimentName.setText();
-        //description.setText();
-        //trails.setText();
+        experimentName.setText(experiment.getExpName());
+        description.setText(experiment.getDescription());
+        trails.setText(experiment.getMinimum_trails());
 
         return convertView;
     }

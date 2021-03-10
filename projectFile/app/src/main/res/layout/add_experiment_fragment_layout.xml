@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout3"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/Region_editText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Region"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Binomial" />
+
+    <EditText
+        android:id="@+id/Number_Of_Trails_editText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Minimun number of trails"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Region_editText" />
+
+    <EditText
+        android:id="@+id/Name_editText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Experiment name"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/description_editText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Desciption"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Name_editText" />
+
+    <EditText
+        android:id="@+id/category_editText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Category: Choose one"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/description_editText" />
+
+    <Button
+        android:id="@+id/Count"
+        android:layout_width="101dp"
+        android:layout_height="38dp"
+        android:text="Count"
+        app:layout_constraintEnd_toStartOf="@+id/Binomial"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/category_editText" />
+
+    <Button
+        android:id="@+id/Binomial"
+        android:layout_width="101dp"
+        android:layout_height="38dp"
+        android:text="Binomial"
+        app:layout_constraintEnd_toStartOf="@+id/IntCount"
+        app:layout_constraintStart_toEndOf="@+id/Count"
+        app:layout_constraintTop_toBottomOf="@+id/category_editText" />
+
+    <Button
+        android:id="@+id/IntCount"
+        android:layout_width="101dp"
+        android:layout_height="38dp"
+        android:text="IntCount"
+        app:layout_constraintEnd_toStartOf="@+id/Measure"
+        app:layout_constraintStart_toEndOf="@+id/Binomial"
+        app:layout_constraintTop_toBottomOf="@+id/category_editText" />
+
+    <Button
+        android:id="@+id/Measure"
+        android:layout_width="101dp"
+        android:layout_height="38dp"
+        android:text="Measure"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/IntCount"
+        app:layout_constraintTop_toBottomOf="@+id/category_editText" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
