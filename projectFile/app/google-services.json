@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "979488934834",
+    "firebase_url": "https://deadliner-ecd2d-default-rtdb.firebaseio.com",
+    "project_id": "deadliner-ecd2d",
+    "storage_bucket": "deadliner-ecd2d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:979488934834:android:ddff355cec5b6e92aab2ab",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "979488934834-6jppjmernjbgccs4sma7157jjk56ged3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsSlofAmHR818-rSabfHlyEl6xdgPNPzw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "979488934834-6jppjmernjbgccs4sma7157jjk56ged3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
