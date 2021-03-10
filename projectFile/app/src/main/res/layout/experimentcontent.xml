@@ -13,38 +13,36 @@
     <TextView
         android:id="@+id/experiment_name"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:text="Name"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-    </TextView>
-
-    <TextView
-        android:id="@+id/description_text"
-        android:layout_width="150dp"
-        android:layout_height="72dp"
-        android:text="description"
-        android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/experiment_name"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </TextView>
+        app:layout_constraintBottom_toTopOf="@+id/description_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/NumberOfTrials_Text"
-        android:layout_width="165dp"
-        android:layout_height="73dp"
-        android:layout_marginStart="27dp"
-        android:layout_marginLeft="27dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="NumOfTrials"
+        android:layout_width="393dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:text="minimunNumofTrail"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.818"
-        app:layout_constraintStart_toEndOf="@+id/description_text"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/description_text" />
 
+    <TextView
+        android:id="@+id/description_text"
+        android:layout_width="398dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:text="Description"
+        app:layout_constraintBottom_toTopOf="@+id/NumberOfTrials_Text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/experiment_name" />
 </androidx.constraintlayout.widget.ConstraintLayout>
