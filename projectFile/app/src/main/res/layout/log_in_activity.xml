@@ -32,7 +32,7 @@
         app:layout_constraintVertical_bias="0.041" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/uid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/setbar_bg2"
@@ -50,7 +50,7 @@
         app:layout_constraintVertical_bias="0.031" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/setbar_bg"
@@ -70,7 +70,7 @@
         android:layout_marginRight="64dp"
         android:background="@drawable/setbar_bg"
         android:text="CANCEL"
-        app:layout_constraintBottom_toBottomOf="@+id/button"
+        app:layout_constraintBottom_toBottomOf="@+id/login"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView

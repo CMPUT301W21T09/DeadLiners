@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -22,6 +23,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
+import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -31,7 +33,8 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
     private ListView mainScrollView;
 
     mainCustomList customList;
-
+    private Boolean login = false;
+    private String uid;
     private final String TAG = "Sample";
     private ImageButton button_user;
     private ImageButton button_add;
@@ -79,7 +82,20 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
 
     public void GoProfile(View view) {
         Intent intent = new Intent().setClass(MainActivity.this, LoginActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 0);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 0){
+            if(resultCode == 1){
+                Bundle bundle = data.getExtras();
+                String back = bundle.getString("return");
+                Toast.makeText(MainActivity.this,"Welcome "+ back,Toast.LENGTH_SHORT).show();
+                uid = back;
+                login = true;
+            }
+        }
     }
 
     @Override
