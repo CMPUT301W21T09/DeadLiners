@@ -40,7 +40,6 @@
         android:inputType="textPersonName"
         android:rotationX="0"
         android:shadowColor="#000000"
-        android:text=" u001"
         android:textColorHint="#9F9B9B"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/imageButton"
