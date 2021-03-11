@@ -26,6 +26,10 @@ public class Experiment {
         this.minimum_trails = minimum_trails;
         this.published = true;
     }
+
+    public Experiment(String name) {
+        this.expName = name;
+    }
     public String getExpName(){return this.expName;}
     public void setExpName(String name){this.expName = name;}
     public String getDescription(){return this.description;}
