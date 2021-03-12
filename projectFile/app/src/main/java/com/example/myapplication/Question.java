@@ -5,23 +5,12 @@ import android.location.Location;
 import java.sql.Date;
 import java.util.ArrayList;
 
-public class Question {
-    private String description;
-    private User owner;
-    private Date time;
+public class Question extends Reply {
     private ArrayList<Reply> replies;
 
-    public Question(String description, Date time) {
-        this.description = description;
-        this.time = time;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public Date getTime() {
-        return time;
+    public Question(String description, User publisher) {
+        super(description, publisher);
+        replies = new ArrayList<Reply>();
     }
 
     public ArrayList<Reply> getReplies() {
