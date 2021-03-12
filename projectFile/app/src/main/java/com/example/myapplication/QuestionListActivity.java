@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -26,7 +27,7 @@ public class QuestionListActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.questionlist);
 
-        Intent intent = getIntent(); // TODO how to use getExtra to handle User and Experiment?
+        Intent intent = getIntent(); // TODO use UID to find the user on firebase
         // TODO delete test area
         user = new User("sb");
         Question q1 = new Question("description 1",user);
@@ -47,11 +48,25 @@ public class QuestionListActivity extends AppCompatActivity
                 new AddQAFragment().show(getSupportFragmentManager(),"new Question");
             }
         });
+
+        questionList.setOnItemClickListener( new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                QuestionOrReply question_clicked = questionAdapter.getItem(position);
+                showQuestionInfo( question_clicked );
+            }
+        });
     }
 
     @Override
     public void onOKPressed(String description) {
         questions.add(new Question(description,user));
         questionAdapter.notifyDataSetChanged();
+    }
+
+    private void showQuestionInfo(QuestionOrReply question_clicked){
+        Intent new_intent = new Intent(this, QuestionInfoActivity.class);
+        new_intent.putExtra("UID", user.getUid());
+        new_intent.putExtra("QID",question_clicked.getID()); //TODO
+        startActivity(new_intent);
     }
 }

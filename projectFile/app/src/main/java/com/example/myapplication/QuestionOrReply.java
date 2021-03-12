@@ -7,4 +7,5 @@ public interface QuestionOrReply {
     public User getPublisher();
     public Date getTime();
     public String getText();
+    public int getID();
 }

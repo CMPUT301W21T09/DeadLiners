@@ -17,7 +17,6 @@ public class Experiment {
     //public User owner;
     //public Array<User> participants;
     private ArrayList<Question> questions;
-    
 
     public Experiment(String name, String description, String category, String region, String minimum_trails){
         this.expName = name;
