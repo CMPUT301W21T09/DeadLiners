@@ -2,7 +2,7 @@ package com.example.myapplication;
 
 import java.sql.Date;
 
-public class Reply {
+public class Reply implements QuestionOrReply {
 
     private String description;
     private User publisher;
@@ -25,4 +25,6 @@ public class Reply {
     public Date getTime() {
         return time;
     }
+
+    public String getText(){ return String.format("Reply  by %s", publisher.getUsername() ); }
 }

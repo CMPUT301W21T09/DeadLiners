@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -15,9 +16,9 @@ public class QuestionListActivity extends AppCompatActivity
         implements AddQAFragment.OnAddFragmentInteractionListener
 {
 
-    private ArrayList<Question> questions; // TODO should use the array in an experiment
+    private ArrayList<QuestionOrReply> questions; // TODO should use the array in an experiment
     private ListView questionList;
-    private ArrayAdapter<Question> questionAdapter;
+    private ArrayAdapter<QuestionOrReply> questionAdapter;
     private User user;
 
     @Override
@@ -25,10 +26,12 @@ public class QuestionListActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.questionlist);
 
+        Intent intent = getIntent(); // TODO how to use getExtra to handle User and Experiment?
         // TODO delete test area
         user = new User("sb");
         Question q1 = new Question("description 1",user);
         Question q2 = new Question("description 2",user);
+        questions = new ArrayList<>();
         questions.add(q1);
         questions.add(q2);
         // TODO delete test area
@@ -45,7 +48,6 @@ public class QuestionListActivity extends AppCompatActivity
             }
         });
     }
-
 
     @Override
     public void onOKPressed(String description) {

@@ -16,6 +16,7 @@ public class Experiment {
     //public barcode;
     //public User owner;
     //public Array<User> participants;
+    private ArrayList<Question> questions;
     
 
     public Experiment(String name, String description, String category, String region, String minimum_trails){
@@ -25,6 +26,7 @@ public class Experiment {
         this.region = region;
         this.minimum_trails = minimum_trails;
         this.published = true;
+        this.questions = new ArrayList<Question>();
     }
     public String getExpName(){return this.expName;}
     public void setExpName(String name){this.expName = name;}
@@ -70,4 +72,8 @@ public class Experiment {
     public void addLocation(){}
 
     public void addIgnoreLocation(){}
+
+    public ArrayList<Question> getQuestions() {
+        return questions;
+    }
 }

@@ -5,7 +5,8 @@ import android.location.Location;
 import java.sql.Date;
 import java.util.ArrayList;
 
-public class Question extends Reply {
+public class Question extends Reply implements QuestionOrReply
+{
     private ArrayList<Reply> replies;
 
     public Question(String description, User publisher) {

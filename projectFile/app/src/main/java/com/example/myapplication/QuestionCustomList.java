@@ -13,11 +13,11 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-public class QuestionCustomList extends ArrayAdapter<Question> {
-    private ArrayList<Question> questions;
+public class QuestionCustomList extends ArrayAdapter<QuestionOrReply> {
+    private ArrayList<QuestionOrReply> questions;
     private Context context;
 
-    public QuestionCustomList(@NonNull Context context, ArrayList<Question> questions) {
+    public QuestionCustomList(@NonNull Context context, ArrayList<QuestionOrReply> questions) {
         super(context, 0, questions);
         this.questions = questions;
         this.context = context;
@@ -30,13 +30,12 @@ public class QuestionCustomList extends ArrayAdapter<Question> {
             view = LayoutInflater.from(context).inflate(R.layout.simple_one_line_content,parent,false);
         }
 
-        Question question = questions.get(position);
+        QuestionOrReply QA = questions.get(position);
 
         TextView textView = view.findViewById(R.id.StringTextView);
         //textView.setText(String.format("Question %d by %s",
          //       position,question.getUser().get ));
-        textView.setText(String.format("Question %d by %s",
-                       position,"user_name TODO" ));
+        textView.setText( QA.getText() );
         return view;
     }
 }
