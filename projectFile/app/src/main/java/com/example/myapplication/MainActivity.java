@@ -98,6 +98,11 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
         }
     }
 
+    public void GoSearchExperiment(View view) {
+        Intent intent = new Intent().setClass(this, SearchExperimentActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     public void onOkPressed(Experiment newExperiment) {
         String expName = newExperiment.getExpName();
