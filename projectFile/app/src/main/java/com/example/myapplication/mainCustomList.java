@@ -38,9 +38,12 @@ public class mainCustomList extends ArrayAdapter<Experiment> {
         TextView description = convertView.findViewById(R.id.description_text);
         TextView trails = convertView.findViewById(R.id.NumberOfTrials_Text);
 
-        experimentName.setText(experiment.getExpName());
-        description.setText(experiment.getDescription());
-        trails.setText(experiment.getMinimum_trails());
+        if (experiment.getPublished().equals("published")) {
+            experimentName.setText(experiment.getExpName());
+            description.setText(experiment.getDescription());
+            trails.setText(experiment.getMinimum_trails());
+        }
+
 
         return convertView;
     }
