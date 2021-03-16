@@ -25,7 +25,11 @@ public class AddExperimentFragment extends DialogFragment {
     private Button binomial;
     private Button intCount;
     private Button measurement;
+    private String uid;
 
+    AddExperimentFragment(String uid){
+        this.uid = uid;
+    }
     public interface OnFragmentInteractionListener {
         void onOkPressed(Experiment newExperiment);
 
@@ -96,7 +100,7 @@ public class AddExperimentFragment extends DialogFragment {
                         String expCategory = category.getText().toString();
                         String expRegion = region.getText().toString();
                         String expNumOfTrails = numOfTrails.getText().toString();
-                        listener.onOkPressed(new Experiment(expName, experimentDescription,expCategory,expRegion,expNumOfTrails));
+                        listener.onOkPressed(new Experiment(expName, experimentDescription,expCategory,expRegion,expNumOfTrails,uid));
                     }}).create();
     }
 }
