@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
     public ArrayList<User> userArrayList = new ArrayList<User>();
     public ArrayList<String> uidList = new ArrayList<String>();
     String uid;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance() ;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference userCollectionReference = db.collection("Users");
     @Override
     protected void onCreate(Bundle savedInstanceState) {

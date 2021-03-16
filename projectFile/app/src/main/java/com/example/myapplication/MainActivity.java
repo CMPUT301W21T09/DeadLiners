@@ -1,12 +1,13 @@
 package com.example.myapplication;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,9 +15,11 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -24,8 +27,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
-import java.security.PrivateKey;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements AddExperimentFragment.OnFragmentInteractionListener{
@@ -39,9 +42,8 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
     private final String TAG = "Sample";
     private ImageButton button_user;
     private ImageButton button_add;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance() ;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference experimentCollectionReference = db.collection("Experiments");
-    CollectionReference UserCollectionReference = db.collection("Users");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
         button_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AddExperimentFragment().show(getSupportFragmentManager(), "ADD_EXPERIMENT");
+                new AddExperimentFragment(uid).show(getSupportFragmentManager(), "ADD_EXPERIMENT");
             }
         });
 
@@ -68,9 +70,16 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final Experiment experiment = (Experiment) mainScrollView.getItemAtPosition(position);
-                Intent intent = new Intent(MainActivity.this, experimentInfo.class);
-                intent.putExtra("experiment",experiment);
-                startActivity(intent);
+                String owner = experiment.getOwner();
+                if (owner.equals(uid)) {
+                    Intent intent = new Intent(MainActivity.this, experimentInfo_owner.class);
+                    intent.putExtra("experiment",experiment);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(MainActivity.this, experimentInfo_user.class);
+                    intent.putExtra("experiment",experiment);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -84,7 +93,8 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
                     String description = (String) doc.getData().get("description");
                     String minimumTrails = (String) doc.getData().get("minimum_trails");
                     String region = (String) doc.getData().get("region");
-                    experimentsArrayList.add(new Experiment(expName, description,category,region,minimumTrails));
+                    String uid = (String) doc.getData().get("Owner");
+                    experimentsArrayList.add(new Experiment(expName, description,category,region,minimumTrails,uid));
                 }
                 experimentsArrayAdapter.notifyDataSetChanged();
             }
@@ -115,12 +125,17 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
 
     @Override
     public void onOkPressed(Experiment newExperiment) {
+        newExperiment.setOwner(uid);
         String expName = newExperiment.getExpName();
+        HashMap<String,String> expStatus = new HashMap<>();
+        HashMap<String,String> expOwner = new HashMap<>();
         HashMap<String,String> expCategory = new HashMap<>();
         HashMap<String,String> expDes = new HashMap<>();
         HashMap<String,String> expMinimumTrail = new HashMap<>();
         HashMap<String,String> expRegion = new HashMap<>();
 
+        expStatus.put("Status",newExperiment.getPublished());
+        expOwner.put("Owner",uid);
         expCategory.put("category", newExperiment.getCategory());
         expDes.put("description", newExperiment.getDescription());
         expMinimumTrail.put("minimum_trails", newExperiment.getMinimum_trails());
@@ -131,6 +146,9 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
                 .set(expCategory);
         experimentCollectionReference
                 .document(expName)
+                .set(expOwner, SetOptions.merge());
+        experimentCollectionReference
+                .document(expName)
                 .set(expDes, SetOptions.merge());
         experimentCollectionReference
                 .document(expName)
@@ -138,5 +156,8 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
         experimentCollectionReference
                 .document(expName)
                 .set(expRegion, SetOptions.merge());
+        experimentCollectionReference
+                .document(expName)
+                .set(expStatus,SetOptions.merge());
     }
 }

@@ -8,8 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class experimentInfo extends AppCompatActivity {
+public class experimentInfo_user extends AppCompatActivity {
     private Experiment experiment;
+
 
     private Button qrCode;
     private Button subscribe;
@@ -49,7 +50,7 @@ public class experimentInfo extends AppCompatActivity {
 
         experimentName.setText(experiment.getExpName());
         description.setText(experiment.getDescription());
-        //owner.setText(experiment.getOwnerName);
+        owner.setText(experiment.getOwner());
         category.setText(experiment.getCategory());
         region.setText(experiment.getRegion());
         status.setText(experiment.getPublished());
