@@ -1,15 +1,26 @@
 package com.example.myapplication;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.zxing.WriterException;
+
+import androidmads.library.qrgenearator.QRGContents;
+import androidmads.library.qrgenearator.QRGEncoder;
 
 public class experimentInfo_owner extends AppCompatActivity {
     private Experiment experiment;
@@ -31,6 +42,9 @@ public class experimentInfo_owner extends AppCompatActivity {
     private TextView category;
     private TextView region;
     private TextView status;
+
+    Bitmap bitmap;
+    QRGEncoder qrgEncoder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +98,27 @@ public class experimentInfo_owner extends AppCompatActivity {
                         .document(experiment.getExpName())
                         .delete();
                 finish();
+            }
+        });
+
+        qrCode.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            @Override
+            public void onClick(View v) {
+
+
+                qrgEncoder = new QRGEncoder("test", null, QRGContents.Type.TEXT, 350);
+                try {
+                    bitmap = qrgEncoder.encodeAsBitmap();
+
+                } catch (
+                        WriterException e) {
+                    Log.e("Tag", e.toString());
+                }
+
+                QRFragment qrFragment = QRFragment.newInstance(bitmap);
+                qrFragment.show(getSupportFragmentManager(),"qrfrag");
+
             }
         });
 
