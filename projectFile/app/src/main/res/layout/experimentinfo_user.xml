@@ -6,6 +6,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Button
+        android:id="@+id/Back"
+        android:layout_width="171dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="52dp"
+        android:text="Back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/View_Trials" />
+
     <TextView
         android:id="@+id/Status"
         android:layout_width="146dp"
@@ -167,9 +181,12 @@
         android:layout_height="49dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginEnd="27dp"
+        android:layout_marginRight="27dp"
         android:layout_marginBottom="24dp"
         android:text="Question Forum"
         app:layout_constraintBottom_toTopOf="@+id/View_Trials"
+        app:layout_constraintEnd_toStartOf="@+id/Add_Trial"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -178,26 +195,27 @@
         android:layout_height="49dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="55dp"
+        android:layout_marginEnd="27dp"
+        android:layout_marginRight="27dp"
+        android:layout_marginBottom="52dp"
         android:text="View Trials"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/Add_Trials"
+        app:layout_constraintEnd_toStartOf="@+id/Back"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/Add_Trials"
+        android:id="@+id/Add_Trial"
         android:layout_width="171dp"
         android:layout_height="49dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="55dp"
-        android:text="Add Trials"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="24dp"
+        android:text="Add Trial"
+        app:layout_constraintBottom_toTopOf="@+id/Back"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/View_Trials" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
