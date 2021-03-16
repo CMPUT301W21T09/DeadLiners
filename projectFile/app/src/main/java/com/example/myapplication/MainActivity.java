@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -60,6 +61,16 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
             @Override
             public void onClick(View v) {
                 new AddExperimentFragment().show(getSupportFragmentManager(), "ADD_EXPERIMENT");
+            }
+        });
+
+        mainScrollView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                final Experiment experiment = (Experiment) mainScrollView.getItemAtPosition(position);
+                Intent intent = new Intent(MainActivity.this,experimentInfo.class);
+                intent.putExtra("experiment",experiment);
+                startActivity(intent);
             }
         });
 

@@ -167,10 +167,15 @@
         android:layout_height="49dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginTop="39dp"
+        android:layout_marginEnd="37dp"
+        android:layout_marginRight="37dp"
         android:layout_marginBottom="24dp"
         android:text="Question Forum"
         app:layout_constraintBottom_toTopOf="@+id/View_Trials"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/Add_Trial"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Geo_Location" />
 
     <Button
         android:id="@+id/View_Trials"
@@ -178,26 +183,36 @@
         android:layout_height="49dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="55dp"
+        android:layout_marginTop="24dp"
         android:text="View Trials"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/Add_Trials"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Question_Forum" />
 
     <Button
-        android:id="@+id/Add_Trials"
+        android:id="@+id/Add_Trial"
         android:layout_width="171dp"
         android:layout_height="49dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginTop="39dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="55dp"
-        android:text="Add Trials"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="24dp"
+        android:text="Add Trial"
+        app:layout_constraintBottom_toTopOf="@+id/Back"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/View_Trials" />
+        app:layout_constraintTop_toBottomOf="@+id/Geo_enable" />
+
+    <Button
+        android:id="@+id/Back"
+        android:layout_width="171dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="37dp"
+        android:layout_marginLeft="37dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:text="Back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/View_Trials"
+        app:layout_constraintTop_toBottomOf="@+id/Add_Trial" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
