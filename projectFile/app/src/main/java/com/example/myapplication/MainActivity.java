@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -63,6 +64,16 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
             }
         });
 
+        mainScrollView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                final Experiment experiment = (Experiment) mainScrollView.getItemAtPosition(position);
+                Intent intent = new Intent(MainActivity.this, experimentInfo.class);
+                intent.putExtra("experiment",experiment);
+                startActivity(intent);
+            }
+        });
+
         experimentCollectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -79,7 +90,6 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
             }
         });
     }
-
     public void GoProfile(View view) {
         Intent intent = new Intent().setClass(MainActivity.this, LoginActivity.class);
         startActivityForResult(intent, 0);

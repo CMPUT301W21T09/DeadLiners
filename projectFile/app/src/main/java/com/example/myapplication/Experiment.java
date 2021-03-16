@@ -2,15 +2,16 @@ package com.example.myapplication;
 
 import android.location.Location;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Experiment {
+public class Experiment implements Serializable {
     private String expName;
     private String description;
     private String category;
     private String region;
     private String minimum_trails;
-    public boolean published;
+    public String published;
     public ArrayList<Location> locations;
     public ArrayList<Location> ignores;
     //public barcode;
@@ -24,9 +25,20 @@ public class Experiment {
         this.category = category;
         this.region = region;
         this.minimum_trails = minimum_trails;
-        this.published = true;
+        this.published = "True";
     }
 
+    public String getPublished() {
+        return published;
+    }
+
+    public void setPublishedToTrue() {
+        this.published = "True";
+    }
+
+    public void setPublishedToFalse() {
+        this.published = "False";
+    }
     public Experiment(String name) {
         this.expName = name;
     }
