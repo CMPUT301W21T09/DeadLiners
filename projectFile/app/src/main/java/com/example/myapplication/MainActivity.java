@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-public class MainActivity extends AppCompatActivity implements AddExperimentFragment.OnFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity implements AddExperimentFragment.OnFragmentInteractionListener, AddSearchFragment.OnFragmentInteractionListener{
     public ArrayList<Experiment> experimentsArrayList;
     public ArrayAdapter<Experiment> experimentsArrayAdapter;
     private ListView mainScrollView;
@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
     private final String TAG = "Sample";
     private ImageButton button_user;
     private ImageButton button_add;
+    private ImageButton button_search;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference experimentCollectionReference = db.collection("Experiments");
 
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
         // setup buttons and listview
         button_add = findViewById(R.id.imageButton_add);
         button_user = findViewById(R.id.imageButton_user);
+        button_search = findViewById(R.id.imageButton_search);
 
         mainScrollView = findViewById(R.id.mainScrollView);
 
@@ -63,6 +65,13 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
             @Override
             public void onClick(View v) {
                 new AddExperimentFragment(uid).show(getSupportFragmentManager(), "ADD_EXPERIMENT");
+            }
+        });
+
+        button_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AddSearchFragment(uid).show(getSupportFragmentManager(),"SEARCH");
             }
         });
 
@@ -122,6 +131,8 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
         Intent intent = new Intent().setClass(this, SearchExperimentActivity.class);
         startActivity(intent);
     }
+
+
 
     @Override
     public void onOkPressed(Experiment newExperiment) {
