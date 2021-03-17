@@ -76,8 +76,8 @@
 
     <TextView
         android:id="@+id/Email"
-        android:layout_width="166"
-        android:layout_height="46"
+        android:layout_width="166dp"
+        android:layout_height="46dp"
         android:layout_marginStart="76dp"
         android:layout_marginLeft="76dp"
         android:layout_marginTop="28dp"
@@ -87,8 +87,8 @@
 
     <TextView
         android:id="@+id/PhoneNumber"
-        android:layout_width="166"
-        android:layout_height="46"
+        android:layout_width="166dp"
+        android:layout_height="46dp"
         android:layout_marginStart="76dp"
         android:layout_marginLeft="76dp"
         android:layout_marginTop="28dp"
@@ -98,8 +98,8 @@
 
     <TextView
         android:id="@+id/Address"
-        android:layout_width="166"
-        android:layout_height="46"
+        android:layout_width="166dp"
+        android:layout_height="46dp"
         android:layout_marginStart="76dp"
         android:layout_marginLeft="76dp"
         android:layout_marginTop="28dp"
