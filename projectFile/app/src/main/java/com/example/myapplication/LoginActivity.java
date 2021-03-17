@@ -40,13 +40,15 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        ArrayList<String> list = new ArrayList<String>();
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d("DOC", document.getId() + " => " + document.getData());
                                 //Toast.makeText(LoginActivity.this,document.getId() + "=> " + document.getData(),Toast.LENGTH_SHORT).show();
-                                uidList.add(document.getId());
+                                list.add(document.getId());
                                 //Toast.makeText(LoginActivity.this, uidList.size(),Toast.LENGTH_SHORT).show();
                             }
+                            Toast.makeText(LoginActivity.this, "This is how many uid we have: "+list.size(),Toast.LENGTH_SHORT).show();
                         } else {
                             Log.d("DOC", "Error getting documents: ", task.getException());
                         }
