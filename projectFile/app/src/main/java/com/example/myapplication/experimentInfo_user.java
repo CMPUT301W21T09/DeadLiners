@@ -91,5 +91,18 @@ public class experimentInfo_user extends AppCompatActivity {
                 qrFragment.show(getSupportFragmentManager(),"qrfrag");
             }
         });
+
+        Button questionButton = findViewById(R.id.Question_Forum);
+        questionButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) { showQuestionInfo(); }
+        });
     }
+
+    void showQuestionInfo()
+    {
+        Intent intent = new Intent(this, QuestionListActivity.class);
+        //intent.putExtra("experiment",experiment);
+        startActivity(intent);
+    }
+
 }

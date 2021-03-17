@@ -18,15 +18,14 @@ public class ReplyInfoActivity extends AppCompatActivity {
         setContentView(R.layout.questioninfo);
 
         Intent intent = getIntent();
-        //replyID = intent.getExtra...
-        // TODO find reply by id on firebase
+        reply = (Reply) intent.getSerializableExtra("reply");
 
         description = findViewById(R.id.reply_content) ;
         publisher = findViewById(R.id.reply_publisher_content);
         time = findViewById(R.id.reply_time_content);
 
         description.setText(reply.getDescription());
-        publisher.setText(reply.getPublisher().getUsername());
-        time.setText(reply.getText().toString());
+        publisher.setText(reply.getPublisher());
+        time.setText(reply.getTime().toString());
     }
 }

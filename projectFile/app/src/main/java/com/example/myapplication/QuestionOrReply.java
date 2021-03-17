@@ -1,11 +1,12 @@
 package com.example.myapplication;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public interface QuestionOrReply {
+public interface QuestionOrReply extends Serializable {
     public String getDescription();
-    public User getPublisher();
+    public String getPublisher();
     public Date getTime();
-    public String getText();
+    public String getText(int position);
     public int getID();
 }

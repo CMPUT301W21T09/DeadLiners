@@ -17,10 +17,11 @@ import java.util.ArrayList;
 public class QuestionInfoActivity extends AppCompatActivity
         implements AddQAFragment.OnAddFragmentInteractionListener
 {
-    private ArrayList<QuestionOrReply> replies; // TODO should use the array in an experiment
+    private Question question;
+    private ArrayList<QuestionOrReply> replies;
     private ListView replyList;
     private ArrayAdapter<QuestionOrReply> replyAdapter;
-    private User user;
+    private String user_uid;
     private TextView description;
     private TextView username;
 
@@ -30,12 +31,23 @@ public class QuestionInfoActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.questioninfo);
 
-        Intent intent = getIntent(); // TODO find user and question by id on firebase
+        Intent intent = getIntent();
+        /*
+        question = (Question) intent.getSerializableExtra("question");
 
         description = findViewById(R.id.descriptionContent);
         username = findViewById(R.id.ownerNameTextView);
+
+
+        user_uid = "test_user";
+        Question r1 = new Question("reply A",user_uid);
+        Question r2 = new Question("reply B",user_uid);
+        replies = new ArrayList<>();
+        replies.add(r1);
+        replies.add(r2);
+
         replyList = findViewById(R.id.replyList);
-        replyAdapter = new QuestionCustomList(this, replies);
+        replyAdapter = new QACustomList(this, replies);
         replyList.setAdapter(replyAdapter);
 
         FloatingActionButton addExpButton = findViewById(R.id.add_question_button);
@@ -52,18 +64,17 @@ public class QuestionInfoActivity extends AppCompatActivity
                 showReplyInfo( reply_clicked );
             }
         });
-
+*/
     }
 
     public void onOKPressed(String description) {
-        replies.add(new Reply(description,user));
+        replies.add(new Reply(description,user_uid));
         replyAdapter.notifyDataSetChanged();
     }
 
     private void showReplyInfo(QuestionOrReply reply_clicked){
         Intent new_intent = new Intent(this, ReplyInfoActivity.class);
-        new_intent.putExtra("UID", user.getUid());
-        new_intent.putExtra("RID",reply_clicked.getID()); //TODO
+        new_intent.putExtra("Reply", reply_clicked);
         startActivity(new_intent);
     }
 }

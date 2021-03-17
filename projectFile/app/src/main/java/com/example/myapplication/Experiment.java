@@ -97,7 +97,5 @@ public class Experiment implements Serializable {
 
     public void addIgnoreLocation(){}
 
-    public ArrayList<Question> getQuestions() {
-        return questions;
-    }
+    public ArrayList<Question> getQuestions() {return questions;}
 }
