@@ -24,6 +24,7 @@ public class AddSearchFragment extends DialogFragment {
     AddSearchFragment(String uid){
         this.uid = uid;
     }
+
     public interface OnFragmentInteractionListener {
         void onOkPressed(Experiment newExperiment);
 
@@ -47,8 +48,6 @@ public class AddSearchFragment extends DialogFragment {
 
         userSearch = (Button) view.findViewById(R.id.button_user);
         expSearch = (Button) view.findViewById(R.id.button_exp);
-        Button intCount = (Button) view.findViewById(R.id.IntCount);
-        Button measurement = (Button) view.findViewById(R.id.Measure);
 
         userSearch.setOnClickListener(new View.OnClickListener() {
             @Override

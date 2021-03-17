@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
     private final String TAG = "Sample";
     private ImageButton button_user;
     private ImageButton button_add;
+    private ImageButton button_search;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference experimentCollectionReference = db.collection("Experiments");
 
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
         // setup buttons and listview
         button_add = findViewById(R.id.imageButton_add);
         button_user = findViewById(R.id.imageButton_user);
+        button_search = findViewById(R.id.imageButton_search);
 
         mainScrollView = findViewById(R.id.mainScrollView);
 
@@ -68,6 +70,13 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
             @Override
             public void onClick(View v) {
                 new AddExperimentFragment(uid).show(getSupportFragmentManager(), "ADD_EXPERIMENT");
+            }
+        });
+
+        button_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AddSearchFragment(uid).show(getSupportFragmentManager(),"SEARCH");
             }
         });
 
@@ -105,11 +114,13 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
             }
         });
     }
+
     public void GoProfile(View view) {
         Intent intent = new Intent().setClass(MainActivity.this, LoginActivity.class);
         intent.putExtra("login",login);
         startActivityForResult(intent, 0);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -122,11 +133,6 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
                 login = true;
             }
         }
-    }
-
-    public void GoSearchExperiment(View view) {
-        Intent intent = new Intent().setClass(this, SearchExperimentActivity.class);
-        startActivity(intent);
     }
 
     @Override
