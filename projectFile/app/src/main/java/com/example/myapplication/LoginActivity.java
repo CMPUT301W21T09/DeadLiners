@@ -30,12 +30,15 @@ import java.util.HashMap;
 public class LoginActivity extends AppCompatActivity {
     public ArrayList<User> userArrayList = new ArrayList<User>();
     public ArrayList<String> uidList = new ArrayList<String>();
+    public Boolean login;
     String uid;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference userCollectionReference = db.collection("Users");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //userArrayList = new ArrayList<User>();
+        Bundle bundle = getIntent().getExtras();
+        login = bundle.getBoolean("login");
         userCollectionReference.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -90,7 +93,11 @@ public class LoginActivity extends AppCompatActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                if(login == false){
+                    Toast.makeText(LoginActivity.this, "You have not login, please login first.",Toast.LENGTH_SHORT).show();
+                }else{
+                    finish();
+                }
             }
         });
     }

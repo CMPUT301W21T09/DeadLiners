@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
     private ListView mainScrollView;
 
     mainCustomList customList;
-    private Boolean login = false;
+    public Boolean login = false;
     private String uid;
     private final String TAG = "Sample";
     private ImageButton button_user;
@@ -47,6 +47,11 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if( login == false ){
+            Intent intent = new Intent().setClass(MainActivity.this, LoginActivity.class);
+            intent.putExtra("login",login);
+            startActivityForResult(intent, 0);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // setup buttons and listview
@@ -102,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
     }
     public void GoProfile(View view) {
         Intent intent = new Intent().setClass(MainActivity.this, LoginActivity.class);
+        intent.putExtra("login",login);
         startActivityForResult(intent, 0);
     }
     @Override
