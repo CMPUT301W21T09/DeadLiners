@@ -2,30 +2,55 @@ package com.example.myapplication;
 
 import android.location.Location;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Experiment {
+public class Experiment implements Serializable {
     private String expName;
     private String description;
     private String category;
     private String region;
     private String minimum_trails;
-    public boolean published;
+    public String published;
     public ArrayList<Location> locations;
     public ArrayList<Location> ignores;
     //public barcode;
-    //public User owner;
+    public String owner;
     //public Array<User> participants;
     private ArrayList<Question> questions;
 
-    public Experiment(String name, String description, String category, String region, String minimum_trails){
+    public Experiment(String name, String description, String category, String region, String minimum_trails,String uid){
         this.expName = name;
         this.description = description;
         this.category = category;
         this.region = region;
         this.minimum_trails = minimum_trails;
-        this.published = true;
+        this.published = "published";
+        this.owner = uid;
         this.questions = new ArrayList<Question>();
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public String getPublished() {
+        return published;
+    }
+
+    public void setPublishedToTrue() {
+        this.published = "published";
+    }
+
+    public void setPublishedToFalse() {
+        this.published = "unpublished";
+    }
+    public Experiment(String name) {
+        this.expName = name;
     }
     public String getExpName(){return this.expName;}
     public void setExpName(String name){this.expName = name;}

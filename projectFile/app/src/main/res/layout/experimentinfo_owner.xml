@@ -191,24 +191,35 @@
         android:layout_height="49dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:layout_marginBottom="55dp"
         android:text="View Trials"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/Add_Trials"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/Add_Trials"
+        android:id="@+id/Add_Trial"
         android:layout_width="171dp"
         android:layout_height="49dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginStart="37dp"
+        android:layout_marginLeft="37dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="55dp"
+        android:layout_marginBottom="128dp"
         android:text="Add Trials"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Question_Forum" />
+
+    <Button
+        android:id="@+id/back"
+        android:layout_width="171dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="37dp"
+        android:layout_marginLeft="37dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="52dp"
+        android:text="back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/View_Trials" />
