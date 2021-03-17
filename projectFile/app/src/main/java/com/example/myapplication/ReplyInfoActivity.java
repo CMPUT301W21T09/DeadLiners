@@ -15,10 +15,10 @@ public class ReplyInfoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.questioninfo);
+        setContentView(R.layout.replyinfo);
 
         Intent intent = getIntent();
-        reply = (Reply) intent.getSerializableExtra("reply");
+        reply = (Reply) intent.getSerializableExtra("Reply");
 
         description = findViewById(R.id.reply_content) ;
         publisher = findViewById(R.id.reply_publisher_content);
@@ -27,5 +27,6 @@ public class ReplyInfoActivity extends AppCompatActivity {
         description.setText(reply.getDescription());
         publisher.setText(reply.getPublisher());
         time.setText(reply.getTime().toString());
+
     }
 }

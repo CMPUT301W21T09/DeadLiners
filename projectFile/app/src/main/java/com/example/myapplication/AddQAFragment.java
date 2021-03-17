@@ -31,12 +31,11 @@ public class AddQAFragment extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         super.onCreateDialog(savedInstanceState);
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.add_qa_fragment, null);
+        description = view.findViewById(R.id.descriptionEditText);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-
         return builder
             .setView(view)
-            .setTitle("Add Experiment")
             .setNegativeButton("Cancel", null)
             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override

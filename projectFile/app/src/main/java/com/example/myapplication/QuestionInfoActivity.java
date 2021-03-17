@@ -25,23 +25,25 @@ public class QuestionInfoActivity extends AppCompatActivity
     private TextView description;
     private TextView username;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.questioninfo);
 
         Intent intent = getIntent();
-        /*
-        question = (Question) intent.getSerializableExtra("question");
+
+        //question = (Question) intent.getSerializableExtra("question");
+
+        user_uid = "test_reply_user";
+        question = new Question("Are you ready?",user_uid);
 
         description = findViewById(R.id.descriptionContent);
+        description.setText(question.getDescription());
         username = findViewById(R.id.ownerNameTextView);
+        username.setText(user_uid);
 
-
-        user_uid = "test_user";
-        Question r1 = new Question("reply A",user_uid);
-        Question r2 = new Question("reply B",user_uid);
+        Reply r1 = new Reply("reply A",user_uid);
+        Reply r2 = new Reply("reply B",user_uid);
         replies = new ArrayList<>();
         replies.add(r1);
         replies.add(r2);
@@ -50,7 +52,7 @@ public class QuestionInfoActivity extends AppCompatActivity
         replyAdapter = new QACustomList(this, replies);
         replyList.setAdapter(replyAdapter);
 
-        FloatingActionButton addExpButton = findViewById(R.id.add_question_button);
+        FloatingActionButton addExpButton = findViewById(R.id.add_reply_button);
         addExpButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -64,9 +66,10 @@ public class QuestionInfoActivity extends AppCompatActivity
                 showReplyInfo( reply_clicked );
             }
         });
-*/
+
     }
 
+    @Override
     public void onOKPressed(String description) {
         replies.add(new Reply(description,user_uid));
         replyAdapter.notifyDataSetChanged();

@@ -2,7 +2,6 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class QuestionListActivity extends AppCompatActivity
@@ -33,7 +31,6 @@ public class QuestionListActivity extends AppCompatActivity
         Intent intent = getIntent();
         experiment = (Experiment) intent.getSerializableExtra("experiment");
 
-
         user_uid = "test_user";
 
         Question q1 = new Question("description A",user_uid);
@@ -47,7 +44,7 @@ public class QuestionListActivity extends AppCompatActivity
         questionAdapter = new QACustomList(this, questions);
         questionList.setAdapter(questionAdapter);
 
-        /*
+
         FloatingActionButton addExpButton = findViewById(R.id.add_question_button);
         addExpButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -55,7 +52,7 @@ public class QuestionListActivity extends AppCompatActivity
                 new AddQAFragment().show(getSupportFragmentManager(),"new Question");
             }
         });
-*/
+
         questionList.setOnItemClickListener( new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 QuestionOrReply question_clicked = questionAdapter.getItem(position);
@@ -73,7 +70,7 @@ public class QuestionListActivity extends AppCompatActivity
 
     private void showQuestionInfo(QuestionOrReply question_clicked) {
         Intent new_intent = new Intent(this, QuestionInfoActivity.class);
-        new_intent.putExtra("question", question_clicked);
+        //new_intent.putExtra("question", question_clicked);
         startActivity(new_intent);
     }
 }

@@ -101,7 +101,7 @@ public class experimentInfo_user extends AppCompatActivity {
     void showQuestionInfo()
     {
         Intent intent = new Intent(this, QuestionListActivity.class);
-        //intent.putExtra("experiment",experiment);
+        intent.putExtra("experiment",experiment);
         startActivity(intent);
     }
 
