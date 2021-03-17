@@ -113,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
         Intent intent = new Intent().setClass(MainActivity.this, LoginActivity.class);
         startActivityForResult(intent, 0);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
