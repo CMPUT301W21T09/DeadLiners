@@ -73,12 +73,14 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
             }
         });
 
+
         button_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new AddSearchFragment(uid).show(getSupportFragmentManager(),"SEARCH");
             }
         });
+
 
         mainScrollView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -120,6 +122,15 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
         intent.putExtra("login",login);
         startActivityForResult(intent, 0);
     }
+
+    /*
+    public void GoSearchExperiment(View view) {
+        Intent intent = new Intent().setClass(MainActivity.this, SearchExperimentActivity.class);
+        startActivity(intent);
+    }
+
+     */
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

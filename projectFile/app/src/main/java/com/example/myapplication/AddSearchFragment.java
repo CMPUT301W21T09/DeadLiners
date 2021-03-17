@@ -26,7 +26,6 @@ public class AddSearchFragment extends DialogFragment {
     }
 
     public interface OnFragmentInteractionListener {
-        void onOkPressed(Experiment newExperiment);
 
     }
 
