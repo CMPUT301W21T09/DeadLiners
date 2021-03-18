@@ -30,23 +30,28 @@ import java.util.HashMap;
 public class LoginActivity extends AppCompatActivity {
     public ArrayList<User> userArrayList = new ArrayList<User>();
     public ArrayList<String> uidList = new ArrayList<String>();
+    public Boolean login;
     String uid;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference userCollectionReference = db.collection("Users");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //userArrayList = new ArrayList<User>();
+        Bundle bundle = getIntent().getExtras();
+        login = bundle.getBoolean("login");
         userCollectionReference.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        ArrayList<String> list = new ArrayList<String>();
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d("DOC", document.getId() + " => " + document.getData());
                                 //Toast.makeText(LoginActivity.this,document.getId() + "=> " + document.getData(),Toast.LENGTH_SHORT).show();
-                                uidList.add(document.getId());
+                                list.add(document.getId());
                                 //Toast.makeText(LoginActivity.this, uidList.size(),Toast.LENGTH_SHORT).show();
                             }
+                            Toast.makeText(LoginActivity.this, "This is how many uid we have: "+list.size(),Toast.LENGTH_SHORT).show();
                         } else {
                             Log.d("DOC", "Error getting documents: ", task.getException());
                         }
@@ -88,7 +93,11 @@ public class LoginActivity extends AppCompatActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                if(login == false){
+                    Toast.makeText(LoginActivity.this, "You have not login, please login first.",Toast.LENGTH_SHORT).show();
+                }else{
+                    finish();
+                }
             }
         });
     }
