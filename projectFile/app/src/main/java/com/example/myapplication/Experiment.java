@@ -17,7 +17,6 @@ public class Experiment implements Serializable {
     //public barcode;
     public String owner;
     //public Array<User> participants;
-    private ArrayList<Question> questions;
 
     public Experiment(String name, String description, String category, String region, String minimum_trails,String uid){
         this.expName = name;
@@ -27,7 +26,6 @@ public class Experiment implements Serializable {
         this.minimum_trails = minimum_trails;
         this.published = "published";
         this.owner = uid;
-        this.questions = new ArrayList<Question>();
     }
 
     public String getOwner() {
@@ -96,6 +94,4 @@ public class Experiment implements Serializable {
     public void addLocation(){}
 
     public void addIgnoreLocation(){}
-
-    public ArrayList<Question> getQuestions() {return questions;}
 }
