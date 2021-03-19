@@ -90,10 +90,12 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
                 if (owner.equals(uid)) {
                     Intent intent = new Intent(MainActivity.this, experimentInfo_owner.class);
                     intent.putExtra("experiment",experiment);
+                    intent.putExtra("uid",uid);
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(MainActivity.this, experimentInfo_user.class);
                     intent.putExtra("experiment",experiment);
+                    intent.putExtra("uid",uid);
                     startActivity(intent);
                 }
             }

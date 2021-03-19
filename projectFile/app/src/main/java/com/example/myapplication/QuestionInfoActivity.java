@@ -50,13 +50,12 @@ public class QuestionInfoActivity extends AppCompatActivity
 
         Intent intent = getIntent();
         question = (QuestionOrReply) intent.getSerializableExtra("question");
-
-        user_uid = "test_reply_user";
+        user_uid = intent.getStringExtra("uid");
 
         description = findViewById(R.id.descriptionContent);
         description.setText(question.getDescription());
         username = findViewById(R.id.ownerNameTextView);
-        username.setText(user_uid);
+        username.setText(question.getPublisher_uid());
 
         replies = new ArrayList<>();
         replyList = findViewById(R.id.replyList);

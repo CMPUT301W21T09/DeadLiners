@@ -19,7 +19,7 @@ import androidmads.library.qrgenearator.QRGEncoder;
 
 public class experimentInfo_user extends AppCompatActivity {
     private Experiment experiment;
-
+    private String uid;
 
     private Button qrCode;
     private Button subscribe;
@@ -45,6 +45,7 @@ public class experimentInfo_user extends AppCompatActivity {
 
         Intent intent = getIntent();
         experiment = (Experiment) intent.getSerializableExtra("experiment");
+        uid = intent.getStringExtra("uid");
 
         experimentName = findViewById(R.id.experimentName);
         description = findViewById(R.id.Description);
@@ -101,6 +102,7 @@ public class experimentInfo_user extends AppCompatActivity {
     {
         Intent intent = new Intent(this, QuestionListActivity.class);
         intent.putExtra("experiment",experiment);
+        intent.putExtra("uid",uid);
         startActivity(intent);
     }
 
