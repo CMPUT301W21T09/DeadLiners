@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.app.AppComponentFactory;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
@@ -51,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
                                 list.add(document.getId());
                                 //Toast.makeText(LoginActivity.this, uidList.size(),Toast.LENGTH_SHORT).show();
                             }
-                            Toast.makeText(LoginActivity.this, "This is how many uid we have: "+list.size(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "This is how many uid we have in database: "+list.size(),Toast.LENGTH_SHORT).show();
                         } else {
                             Log.d("DOC", "Error getting documents: ", task.getException());
                         }
@@ -80,12 +81,19 @@ public class LoginActivity extends AppCompatActivity {
                 setResult(1,intent);
                 HashMap<String,String> email = new HashMap<>();
                 HashMap<String,String> username = new HashMap<>();
+                HashMap<String,String> phone = new HashMap<>();
+                HashMap<String,Location> location = new HashMap<>();
+
                 email.put("Email","Default Email");
                 username.put("Username","default Username");
+                phone.put("Phone","Default Phone number");
+                //location.put("Location",(0,0));
                 userCollectionReference.document(uid)
                         .set(email);
                 userCollectionReference.document(uid)
                         .set(username, SetOptions.merge());
+                userCollectionReference.document(uid)
+                        .set(phone, SetOptions.merge());
                 finish();
             }
         });

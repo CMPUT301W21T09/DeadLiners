@@ -118,9 +118,11 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
     }
 
     public void GoProfile(View view) {
-        Intent intent = new Intent().setClass(MainActivity.this, LoginActivity.class);
-        intent.putExtra("login",login);
-        startActivityForResult(intent, 0);
+        if(login == true){
+            Intent intent = new Intent().setClass(MainActivity.this, UserProfileActivity.class);
+            intent.putExtra("login_uid",uid);
+            startActivity(intent);
+        }
     }
 
     /*

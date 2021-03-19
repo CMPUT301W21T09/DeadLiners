@@ -63,7 +63,6 @@ public class experimentInfo_owner extends AppCompatActivity {
 
         qrCode = findViewById(R.id.QR_code);
         subscribe = findViewById(R.id.Subscribe);
-        questionForum = findViewById(R.id.Question_Forum);
         viewTrails = findViewById(R.id.View_Trials);
         addTrail = findViewById(R.id.Add_Trial);
         back = findViewById(R.id.back);
@@ -122,5 +121,13 @@ public class experimentInfo_owner extends AppCompatActivity {
             }
         });
 
+        Button questionButton = findViewById(R.id.Question_Forum);
+        questionButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(experimentInfo_owner.this, QuestionListActivity.class);
+                intent.putExtra("experiment",experiment);
+                startActivity(intent);
+            }
+        });
     }
 }
