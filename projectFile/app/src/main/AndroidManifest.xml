@@ -37,6 +37,7 @@
         <activity android:name=".ReplyInfoActivity"
             android:parentActivityName=".QuestionInfoActivity">
         </activity>
+        <activity android:name=".UserProfileActivity" />
     </application>
 
 </manifest>
