@@ -21,9 +21,11 @@ public class AddSearchFragment extends DialogFragment {
     private Button expSearch;
     private String uid;
 
+
     AddSearchFragment(String uid){
         this.uid = uid;
     }
+
     public interface OnFragmentInteractionListener {
         void onOkPressed(Experiment newExperiment);
 
