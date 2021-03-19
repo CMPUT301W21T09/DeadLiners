@@ -92,11 +92,17 @@ public class experimentInfo_user extends AppCompatActivity {
             }
         });
 
-        questionForum.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Intent intent = new Intent(experimentInfo_user.this, )
-            }
+        Button questionButton = findViewById(R.id.Question_Forum);
+        questionButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) { showQuestionInfo(); }
         });
     }
+
+    void showQuestionInfo()
+    {
+        Intent intent = new Intent(this, QuestionListActivity.class);
+        intent.putExtra("experiment",experiment);
+        startActivity(intent);
+    }
+
 }

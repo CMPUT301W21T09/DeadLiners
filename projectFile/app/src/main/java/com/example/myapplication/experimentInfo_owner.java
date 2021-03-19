@@ -122,12 +122,13 @@ public class experimentInfo_owner extends AppCompatActivity {
             }
         });
 
-        questionForum.setOnClickListener(new View.OnClickListener() {
-            @Override
+        Button questionButton = findViewById(R.id.Question_Forum);
+        questionButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-//                Intent intent = new Intent(experimentInfo_user.this, )
+                Intent intent = new Intent(experimentInfo_owner.this, QuestionListActivity.class);
+                intent.putExtra("experiment",experiment);
+                startActivity(intent);
             }
         });
-
     }
 }

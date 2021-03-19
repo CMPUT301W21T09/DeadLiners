@@ -17,7 +17,6 @@ public class Experiment implements Serializable {
     //public barcode;
     public String owner;
     //public Array<User> participants;
-    
 
     public Experiment(String name, String description, String category, String region, String minimum_trails,String uid){
         this.expName = name;
