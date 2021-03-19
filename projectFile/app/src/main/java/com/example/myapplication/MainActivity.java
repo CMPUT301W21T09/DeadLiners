@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
         if(login == true){
             Intent intent = new Intent().setClass(MainActivity.this, UserProfileActivity.class);
             intent.putExtra("login_uid",uid);
-            startActivity(intent);
+            startActivityForResult(intent, 0);;
         }
     }
 

@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -86,6 +87,9 @@ public class UserProfileActivity extends AppCompatActivity {
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent();
+                setResult(1,intent);
+
                 username[0] = String.valueOf(show_username.getText());
                 email[0] = String.valueOf(show_email.getText());
                 phone[0] = String.valueOf(show_phone.getText());
@@ -101,6 +105,8 @@ public class UserProfileActivity extends AppCompatActivity {
                         .set(username_hash, SetOptions.merge());
                 userCollectionReference.document(uid)
                         .set(phone_hash,SetOptions.merge());
+                intent.putExtra("return2", String.valueOf(show_username.getText()));
+                intent.putExtra("return1", uid);
                 finish();
             }
         });
