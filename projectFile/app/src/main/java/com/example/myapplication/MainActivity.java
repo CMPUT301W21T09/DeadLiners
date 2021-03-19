@@ -116,7 +116,8 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
                     String minimumTrails = (String) doc.getData().get("minimum_trails");
                     String region = (String) doc.getData().get("region");
                     String uid = (String) doc.getData().get("Owner");
-                    experimentsArrayList.add(new Experiment(expName, description,category,region,minimumTrails,uid));
+                    String owner = (String) doc.getData().get("OwnerName");
+                    experimentsArrayList.add(new Experiment(expName, description,category,region,minimumTrails,uid,owner));
                 }
                 experimentsArrayAdapter.notifyDataSetChanged();
             }
@@ -164,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
         HashMap<String,String> expNameField = new HashMap<>();
         HashMap<String,String> expStatus = new HashMap<>();
         HashMap<String,String> expOwner = new HashMap<>();
-//        HashMap<String,String> expOwnerName = new HashMap<>();
+        HashMap<String,String> expOwnerName = new HashMap<>();
         HashMap<String,String> expCategory = new HashMap<>();
         HashMap<String,String> expDes = new HashMap<>();
         HashMap<String,String> expMinimumTrail = new HashMap<>();
@@ -173,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
         expNameField.put("Name",expName);
         expStatus.put("Status",newExperiment.getPublished());
         expOwner.put("Owner",uid);
-//        expOwnerName.put("OwnerName", username);
+        expOwnerName.put("OwnerName", username);
         expCategory.put("category", newExperiment.getCategory());
         expDes.put("description", newExperiment.getDescription());
         expMinimumTrail.put("minimum_trails", newExperiment.getMinimum_trails());
@@ -185,6 +186,9 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
         experimentCollectionReference
                 .document(expName)
                 .set(expNameField,SetOptions.merge());
+        experimentCollectionReference
+                .document(expName)
+                .set(expOwnerName,SetOptions.merge());
         experimentCollectionReference
                 .document(expName)
                 .set(expOwner, SetOptions.merge());

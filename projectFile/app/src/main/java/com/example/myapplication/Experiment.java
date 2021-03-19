@@ -16,9 +16,10 @@ public class Experiment implements Serializable {
     public ArrayList<Location> ignores;
     //public barcode;
     public String owner;
+    public String ownerName;
     //public Array<User> participants;
 
-    public Experiment(String name, String description, String category, String region, String minimum_trails,String uid){
+    public Experiment(String name, String description, String category, String region, String minimum_trails,String uid, String ownerName){
         this.expName = name;
         this.description = description;
         this.category = category;
@@ -26,14 +27,15 @@ public class Experiment implements Serializable {
         this.minimum_trails = minimum_trails;
         this.published = "published";
         this.owner = uid;
+        this.ownerName = ownerName;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
     }
 
     public String getOwner() {
         return owner;
-    }
-
-    public void setOwner(String owner) {
-        this.owner = owner;
     }
 
     public String getPublished() {
