@@ -73,7 +73,7 @@ public class experimentInfo_owner extends AppCompatActivity {
 
         experimentName.setText(experiment.getExpName());
         description.setText(experiment.getDescription());
-        owner.setText(experiment.getOwner());
+        owner.setText(experiment.getOwnerName());
         category.setText(experiment.getCategory());
         region.setText(experiment.getRegion());
         status.setText(experiment.getPublished());
