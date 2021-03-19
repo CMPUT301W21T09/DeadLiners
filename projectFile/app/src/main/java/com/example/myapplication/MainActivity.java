@@ -152,11 +152,11 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
 
     @Override
     public void onOkPressed(Experiment newExperiment) {
-        newExperiment.setOwner(uid);
         String expName = newExperiment.getExpName();
         HashMap<String,String> expNameField = new HashMap<>();
         HashMap<String,String> expStatus = new HashMap<>();
         HashMap<String,String> expOwner = new HashMap<>();
+//        HashMap<String,String> expOwnerName = new HashMap<>();
         HashMap<String,String> expCategory = new HashMap<>();
         HashMap<String,String> expDes = new HashMap<>();
         HashMap<String,String> expMinimumTrail = new HashMap<>();
@@ -165,6 +165,7 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
         expNameField.put("Name",expName);
         expStatus.put("Status",newExperiment.getPublished());
         expOwner.put("Owner",uid);
+//        expOwnerName.put("OwnerName", username);
         expCategory.put("category", newExperiment.getCategory());
         expDes.put("description", newExperiment.getDescription());
         expMinimumTrail.put("minimum_trails", newExperiment.getMinimum_trails());
