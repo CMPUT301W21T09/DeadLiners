@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-public class MainActivity extends AppCompatActivity implements AddExperimentFragment.OnFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity implements AddExperimentFragment.OnFragmentInteractionListener, AddSearchFragment.OnFragmentInteractionListener {
     public ArrayList<Experiment> experimentsArrayList;
     public ArrayAdapter<Experiment> experimentsArrayAdapter;
     private ListView mainScrollView;
