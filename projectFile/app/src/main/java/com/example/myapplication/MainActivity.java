@@ -116,7 +116,9 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
                     String minimumTrails = (String) doc.getData().get("minimum_trails");
                     String region = (String) doc.getData().get("region");
                     String uid = (String) doc.getData().get("Owner");
-                    experimentsArrayList.add(new Experiment(expName, description,category,region,minimumTrails,uid));
+                    Experiment experiment = new Experiment(expName, description,category,region,minimumTrails,uid);
+                    experiment.setOwnerName(username);
+                    experimentsArrayList.add(experiment);
                 }
                 experimentsArrayAdapter.notifyDataSetChanged();
             }
