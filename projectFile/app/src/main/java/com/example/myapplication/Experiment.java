@@ -29,6 +29,10 @@ public class Experiment implements Serializable {
         this.owner = uid;
     }
 
+    public void setPublished(String published) {
+        this.published = published;
+    }
+
     public String getOwnerName() {
         return ownerName;
     }

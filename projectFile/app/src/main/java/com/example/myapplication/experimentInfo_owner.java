@@ -17,7 +17,10 @@ import android.widget.TextView;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.google.zxing.WriterException;
+
+import java.util.HashMap;
 
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
@@ -88,7 +91,13 @@ public class experimentInfo_owner extends AppCompatActivity {
         unPublish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                HashMap<String,String> expStatus = new HashMap<>();
+                expStatus.put("Status","unpublished");
                 experiment.setPublishedToFalse();
+                experimentCollectionReference
+                        .document(experiment.getExpName())
+                        .set(expStatus, SetOptions.merge());
+                finish();
             }
         });
 
