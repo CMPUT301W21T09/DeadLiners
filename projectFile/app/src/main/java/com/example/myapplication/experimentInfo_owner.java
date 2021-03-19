@@ -122,5 +122,12 @@ public class experimentInfo_owner extends AppCompatActivity {
             }
         });
 
+        questionForum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Intent intent = new Intent(experimentInfo_user.this, )
+            }
+        });
+
     }
 }

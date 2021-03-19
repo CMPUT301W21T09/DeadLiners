@@ -91,5 +91,12 @@ public class experimentInfo_user extends AppCompatActivity {
                 qrFragment.show(getSupportFragmentManager(),"qrfrag");
             }
         });
+
+        questionForum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Intent intent = new Intent(experimentInfo_user.this, )
+            }
+        });
     }
 }
