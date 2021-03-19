@@ -32,6 +32,8 @@ public class SearchExperimentActivity extends AppCompatActivity {
     private ArrayAdapter<Experiment> expSearchAdapter;
     private ArrayList<Experiment> expSearchDataList;
 
+    public String currentUid;
+
     private ArrayList<Experiment> results;
 
     private SearchExpCustomList customList;
@@ -46,6 +48,9 @@ public class SearchExperimentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_experiment);
+
+        Intent intent = getIntent();
+        currentUid = intent.getStringExtra("uid");
 
         expSearchList = findViewById(R.id.experiment_list);
         searchExperimentButton = findViewById(R.id.search_experiment_button);
@@ -80,12 +85,16 @@ public class SearchExperimentActivity extends AppCompatActivity {
                             for(QueryDocumentSnapshot doc: value) {
                                 String expName = (String) doc.getData().get("Name");
                                 if(expName.toUpperCase().contains(inputName.toUpperCase())) {
+                                    String name = doc.getId();
                                     String category = (String) doc.getData().get("category");
                                     String description = (String) doc.getData().get("description");
                                     String minimumTrails = (String) doc.getData().get("minimum_trails");
                                     String region = (String) doc.getData().get("region");
                                     String uid = (String) doc.getData().get("Owner");
-                                    expSearchDataList.add(new Experiment(expName, description,category,region,minimumTrails,uid));
+                                    String ownerName = (String) doc.getData().get("OwnerName");
+                                    Experiment experiment = new Experiment(name, description,category,region,minimumTrails,uid);
+                                    experiment.setOwnerName(ownerName);
+                                    expSearchDataList.add(experiment);
                                 }
                             }
                             expSearchAdapter.notifyDataSetChanged();
@@ -98,13 +107,16 @@ public class SearchExperimentActivity extends AppCompatActivity {
                         public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                             expSearchDataList.clear();
                             for(QueryDocumentSnapshot doc: value) {
-                                String expName = (String) doc.getData().get("Name");
+                                String name = doc.getId();
                                 String category = (String) doc.getData().get("category");
                                 String description = (String) doc.getData().get("description");
                                 String minimumTrails = (String) doc.getData().get("minimum_trails");
                                 String region = (String) doc.getData().get("region");
                                 String uid = (String) doc.getData().get("Owner");
-                                expSearchDataList.add(new Experiment(expName, description,category,region,minimumTrails,uid));
+                                String ownerName = (String) doc.getData().get("OwnerName");
+                                Experiment experiment = new Experiment(name, description,category,region,minimumTrails,uid);
+                                experiment.setOwnerName(ownerName);
+                                expSearchDataList.add(experiment);
                             }
                             expSearchAdapter.notifyDataSetChanged();
                         }
@@ -119,9 +131,17 @@ public class SearchExperimentActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final Experiment experiment = (Experiment) expSearchList.getItemAtPosition(position);
                 String owner = experiment.getOwner();
-                Intent intent = new Intent(SearchExperimentActivity.this, experimentInfo_user.class);
-                intent.putExtra("experiment",experiment);
-                startActivity(intent);
+                if (owner.equals(currentUid)) {
+                    Intent intent = new Intent(SearchExperimentActivity.this, experimentInfo_owner.class);
+                    intent.putExtra("experiment",experiment);
+                    intent.putExtra("uid",currentUid);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(SearchExperimentActivity.this, experimentInfo_user.class);
+                    intent.putExtra("experiment",experiment);
+                    intent.putExtra("uid",currentUid);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -131,13 +151,16 @@ public class SearchExperimentActivity extends AppCompatActivity {
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 expSearchDataList.clear();
                 for(QueryDocumentSnapshot doc: value) {
-                    String expName = (String) doc.getData().get("Name");
+                    String name = doc.getId();
                     String category = (String) doc.getData().get("category");
                     String description = (String) doc.getData().get("description");
                     String minimumTrails = (String) doc.getData().get("minimum_trails");
                     String region = (String) doc.getData().get("region");
                     String uid = (String) doc.getData().get("Owner");
-                    expSearchDataList.add(new Experiment(expName, description,category,region,minimumTrails,uid));
+                    String ownerName = (String) doc.getData().get("OwnerName");
+                    Experiment experiment = new Experiment(name, description,category,region,minimumTrails,uid);
+                    experiment.setOwnerName(ownerName);
+                    expSearchDataList.add(experiment);
                 }
                 expSearchAdapter.notifyDataSetChanged();
             }

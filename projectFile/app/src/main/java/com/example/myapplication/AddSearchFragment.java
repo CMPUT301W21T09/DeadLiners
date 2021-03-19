@@ -63,6 +63,7 @@ public class AddSearchFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent().setClass(getActivity(), SearchExperimentActivity.class);
+                intent.putExtra("uid",uid);
                 startActivity(intent);
             }
         });
