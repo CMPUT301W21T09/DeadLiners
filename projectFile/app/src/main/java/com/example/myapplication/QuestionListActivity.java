@@ -49,9 +49,7 @@ public class QuestionListActivity extends AppCompatActivity
 
         Intent intent = getIntent();
         experiment = (Experiment) intent.getSerializableExtra("experiment");
-
-
-        user_uid = "test_user";
+        user_uid = intent.getStringExtra("uid");
 
         questions = new ArrayList<>();
 
@@ -130,6 +128,7 @@ public class QuestionListActivity extends AppCompatActivity
     private void showQuestionInfo(QuestionOrReply question_clicked) {
         Intent new_intent = new Intent(this, QuestionInfoActivity.class);
         new_intent.putExtra("question", question_clicked);
+        new_intent.putExtra("uid",user_uid);
         startActivity(new_intent);
     }
 }

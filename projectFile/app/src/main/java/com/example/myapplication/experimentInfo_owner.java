@@ -26,6 +26,7 @@ public class experimentInfo_owner extends AppCompatActivity {
     private Experiment experiment;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference experimentCollectionReference = db.collection("Experiments");
+    private String uid;
 
     private Button qrCode;
     private Button subscribe;
@@ -53,6 +54,7 @@ public class experimentInfo_owner extends AppCompatActivity {
 
         Intent intent = getIntent();
         experiment = (Experiment) intent.getSerializableExtra("experiment");
+        uid = intent.getStringExtra("uid");
 
         experimentName = findViewById(R.id.experimentName);
         description = findViewById(R.id.Description);
@@ -123,11 +125,15 @@ public class experimentInfo_owner extends AppCompatActivity {
 
         Button questionButton = findViewById(R.id.Question_Forum);
         questionButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(experimentInfo_owner.this, QuestionListActivity.class);
-                intent.putExtra("experiment",experiment);
-                startActivity(intent);
-            }
+            public void onClick(View v) { showQuestionInfo(); }
         });
+    }
+
+    void showQuestionInfo()
+    {
+        Intent intent = new Intent(this, QuestionListActivity.class);
+        intent.putExtra("experiment",experiment);
+        intent.putExtra("uid",uid);
+        startActivity(intent);
     }
 }
