@@ -144,7 +144,7 @@
         android:layout_marginLeft="76dp"
         android:layout_marginTop="32dp"
         android:text="TextView"
-        android:textSize="16sp"
+        android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/textView10"
         app:layout_constraintTop_toTopOf="parent" />
 

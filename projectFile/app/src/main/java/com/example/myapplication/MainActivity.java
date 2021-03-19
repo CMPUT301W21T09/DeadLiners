@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
     mainCustomList customList;
     public Boolean login = false;
     private String uid;
+    private String username;
     private final String TAG = "Sample";
     private ImageButton button_user;
     private ImageButton button_add;
@@ -48,11 +49,14 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // go to login page
         if( login == false ){
             Intent intent = new Intent().setClass(MainActivity.this, LoginActivity.class);
             intent.putExtra("login",login);
             startActivityForResult(intent, 0);
         }
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // setup buttons and listview
@@ -117,6 +121,8 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
         });
     }
 
+
+    // go to profile activity
     public void GoProfile(View view) {
         if(login == true){
             Intent intent = new Intent().setClass(MainActivity.this, UserProfileActivity.class);
@@ -133,16 +139,18 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
 
      */
 
-
+    // pass the uid between main activity and profile activity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 0){
             if(resultCode == 1){
                 Bundle bundle = data.getExtras();
-                String back = bundle.getString("return");
-                Toast.makeText(MainActivity.this,"Welcome "+ back,Toast.LENGTH_SHORT).show();
-                uid = back;
+                String back1 = bundle.getString("return1");
+                String back2 = bundle.getString("return2");
+                Toast.makeText(MainActivity.this,"Welcome "+ back2,Toast.LENGTH_SHORT).show();
+                uid = back1;
+                username = back2;
                 login = true;
             }
         }

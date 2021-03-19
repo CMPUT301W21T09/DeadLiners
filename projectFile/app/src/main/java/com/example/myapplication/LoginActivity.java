@@ -1,10 +1,14 @@
 package com.example.myapplication;
 
 import android.app.AppComponentFactory;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -27,77 +32,99 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class LoginActivity extends AppCompatActivity {
-    public ArrayList<User> userArrayList = new ArrayList<User>();
     public ArrayList<String> uidList = new ArrayList<String>();
     public Boolean login;
     String uid;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference userCollectionReference = db.collection("Users");
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //userArrayList = new ArrayList<User>();
         Bundle bundle = getIntent().getExtras();
         login = bundle.getBoolean("login");
-        userCollectionReference.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        ArrayList<String> list = new ArrayList<String>();
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d("DOC", document.getId() + " => " + document.getData());
-                                //Toast.makeText(LoginActivity.this,document.getId() + "=> " + document.getData(),Toast.LENGTH_SHORT).show();
-                                list.add(document.getId());
-                                //Toast.makeText(LoginActivity.this, uidList.size(),Toast.LENGTH_SHORT).show();
-                            }
-                            Toast.makeText(LoginActivity.this, "This is how many uid we have in database: "+list.size(),Toast.LENGTH_SHORT).show();
-                        } else {
-                            Log.d("DOC", "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
         super.onCreate(savedInstanceState);
         setContentView(R.layout.log_in_activity);
         Button OK = (Button)findViewById(R.id.login);
-        EditText user = (EditText)findViewById(R.id.uid);
-        for (int i=0; i < uidList.size(); i++){
-            Toast.makeText(LoginActivity.this, uidList.get(i),Toast.LENGTH_SHORT).show();
+        TextView user = (TextView)findViewById(R.id.uid);
+
+        // Save uuid as a unique uid
+        SharedPreferences preference = this.getSharedPreferences("identity",Context.MODE_PRIVATE);
+        String identity;
+        identity = preference.getString("identity",null);
+        if (identity == null) {
+            identity = java.util.UUID.randomUUID().toString();
+            user.setText(identity);
+            preference.edit().putString("identity", identity).apply();
+
         }
-        if(uidList.isEmpty()){
-            user.setText("u001");
-        }else{
-            String str = null;
-            str = String.format("u%03d",uidList.size()+1);
-            user.setText(str);
-        }
+
+
+        //set the username text
+        user.setText(identity);
+        uid = identity;
+        final String[] username = new String[1];
+        final Boolean[] is_new = {true};
+        TextView username_view = (TextView)findViewById(R.id.login_username);
+        userCollectionReference.document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d("DOC", "DocumentSnapshot data: " + document.getData());
+                        username_view.setText(document.getString("Username"));
+                        username[0] = document.getString("Username");
+                        is_new[0] = false;
+                    } else {
+                        Log.d("DOC", "No such document");
+                    }
+                } else {
+                    Log.d("DOC", "get failed with ", task.getException());
+                }
+            }
+        });
+
+        // login button
         OK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
                 uid = user.getText().toString();
-                intent.putExtra("return", uid);
+                intent.putExtra("return1", uid);
                 setResult(1,intent);
-                HashMap<String,String> email = new HashMap<>();
-                HashMap<String,String> username = new HashMap<>();
-                HashMap<String,String> phone = new HashMap<>();
-                HashMap<String,Location> location = new HashMap<>();
 
-                email.put("Email","Default Email");
-                username.put("Username","default Username");
-                phone.put("Phone","Default Phone number");
-                //location.put("Location",(0,0));
-                userCollectionReference.document(uid)
-                        .set(email);
-                userCollectionReference.document(uid)
-                        .set(username, SetOptions.merge());
-                userCollectionReference.document(uid)
-                        .set(phone, SetOptions.merge());
-                finish();
+
+                if(is_new[0] == true) {
+                    HashMap<String, String> email = new HashMap<>();
+                    HashMap<String, String> username = new HashMap<>();
+                    HashMap<String, String> phone = new HashMap<>();
+                    HashMap<String, Location> location = new HashMap<>();
+
+                    email.put("Email", "Default Email");
+                    username.put("Username", "Default Username");
+                    phone.put("Phone", "Default Phone number");
+                    //location.put("Location",(0,0));
+                    userCollectionReference.document(uid)
+                            .set(email);
+                    userCollectionReference.document(uid)
+                            .set(username, SetOptions.merge());
+                    userCollectionReference.document(uid)
+                            .set(phone, SetOptions.merge());
+                    intent.putExtra("return2", "Defalt Username");
+                    finish();
+                }else{
+                    intent.putExtra("return2", username[0]);
+                    finish();
+                }
             }
         });
         Button cancel = (Button)findViewById(R.id.cancel1);
+
+        //cancel button
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,5 +135,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
 }
