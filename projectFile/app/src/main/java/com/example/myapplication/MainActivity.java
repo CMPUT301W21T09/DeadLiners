@@ -117,7 +117,9 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
                     String region = (String) doc.getData().get("region");
                     String uid = (String) doc.getData().get("Owner");
                     String ownerName = (String) doc.getData().get("OwnerName");
+                    String status = (String) doc.getData().get("Status");
                     Experiment experiment = new Experiment(expName, description,category,region,minimumTrails,uid);
+                    experiment.setPublished(status);
                     experiment.setOwnerName(ownerName);
                     experimentsArrayList.add(experiment);
                 }
