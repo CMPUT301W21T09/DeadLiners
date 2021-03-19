@@ -68,7 +68,7 @@ public class AddSearchFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
-                .setTitle("Add Experiment")
+                .setTitle("SEARCH")
                 .setNegativeButton("Cancel", null).create();
     }
 }

@@ -31,13 +31,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-public class MainActivity extends AppCompatActivity implements AddExperimentFragment.OnFragmentInteractionListener, AddSearchFragment.OnFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity implements AddExperimentFragment.OnFragmentInteractionListener, AddSearchFragment.OnFragmentInteractionListener {
     public ArrayList<Experiment> experimentsArrayList;
     public ArrayAdapter<Experiment> experimentsArrayAdapter;
     private ListView mainScrollView;
 
     mainCustomList customList;
-    private Boolean login = false;
+    public Boolean login = false;
     private String uid;
     private final String TAG = "Sample";
     private ImageButton button_user;
@@ -48,6 +48,11 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if( login == false ){
+            Intent intent = new Intent().setClass(MainActivity.this, LoginActivity.class);
+            intent.putExtra("login",login);
+            startActivityForResult(intent, 0);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // setup buttons and listview
@@ -68,12 +73,14 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
             }
         });
 
+
         button_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new AddSearchFragment(uid).show(getSupportFragmentManager(),"SEARCH");
             }
         });
+
 
         mainScrollView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -109,10 +116,23 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
             }
         });
     }
+
     public void GoProfile(View view) {
-        Intent intent = new Intent().setClass(MainActivity.this, LoginActivity.class);
-        startActivityForResult(intent, 0);
+        if(login == true){
+            Intent intent = new Intent().setClass(MainActivity.this, UserProfileActivity.class);
+            intent.putExtra("login_uid",uid);
+            startActivity(intent);
+        }
     }
+
+    /*
+    public void GoSearchExperiment(View view) {
+        Intent intent = new Intent().setClass(MainActivity.this, SearchExperimentActivity.class);
+        startActivity(intent);
+    }
+
+     */
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -127,13 +147,6 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
             }
         }
     }
-
-    public void GoSearchExperiment(View view) {
-        Intent intent = new Intent().setClass(this, SearchExperimentActivity.class);
-        startActivity(intent);
-    }
-
-
 
     @Override
     public void onOkPressed(Experiment newExperiment) {

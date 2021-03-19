@@ -55,7 +55,6 @@ public class experimentInfo_user extends AppCompatActivity {
 
         qrCode = findViewById(R.id.QR_code);
         subscribe = findViewById(R.id.Subscribe);
-        questionForum = findViewById(R.id.Question_Forum);
         viewTrails = findViewById(R.id.View_Trials);
         addTrail = findViewById(R.id.Add_Trial);
         back = findViewById(R.id.Back);
@@ -91,5 +90,18 @@ public class experimentInfo_user extends AppCompatActivity {
                 qrFragment.show(getSupportFragmentManager(),"qrfrag");
             }
         });
+
+        Button questionButton = findViewById(R.id.Question_Forum);
+        questionButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) { showQuestionInfo(); }
+        });
     }
+
+    void showQuestionInfo()
+    {
+        Intent intent = new Intent(this, QuestionListActivity.class);
+        intent.putExtra("experiment",experiment);
+        startActivity(intent);
+    }
+
 }
