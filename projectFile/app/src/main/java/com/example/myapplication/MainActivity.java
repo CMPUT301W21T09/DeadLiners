@@ -116,8 +116,7 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
                     String minimumTrails = (String) doc.getData().get("minimum_trails");
                     String region = (String) doc.getData().get("region");
                     String uid = (String) doc.getData().get("Owner");
-                    String owner = (String) doc.getData().get("OwnerName");
-                    experimentsArrayList.add(new Experiment(expName, description,category,region,minimumTrails,uid,owner));
+                    experimentsArrayList.add(new Experiment(expName, description,category,region,minimumTrails,uid));
                 }
                 experimentsArrayAdapter.notifyDataSetChanged();
             }
@@ -161,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
 
     @Override
     public void onOkPressed(Experiment newExperiment) {
+        newExperiment.setOwnerName(username);
         String expName = newExperiment.getExpName();
         HashMap<String,String> expNameField = new HashMap<>();
         HashMap<String,String> expStatus = new HashMap<>();
@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
         expNameField.put("Name",expName);
         expStatus.put("Status",newExperiment.getPublished());
         expOwner.put("Owner",uid);
-        expOwnerName.put("OwnerName", username);
+        expOwnerName.put("OwnerName", newExperiment.getOwnerName());
         expCategory.put("category", newExperiment.getCategory());
         expDes.put("description", newExperiment.getDescription());
         expMinimumTrail.put("minimum_trails", newExperiment.getMinimum_trails());
