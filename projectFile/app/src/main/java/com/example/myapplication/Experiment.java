@@ -19,7 +19,7 @@ public class Experiment implements Serializable {
     public String ownerName;
     //public Array<User> participants;
 
-    public Experiment(String name, String description, String category, String region, String minimum_trails,String uid, String ownerName){
+    public Experiment(String name, String description, String category, String region, String minimum_trails,String uid){
         this.expName = name;
         this.description = description;
         this.category = category;
@@ -27,7 +27,6 @@ public class Experiment implements Serializable {
         this.minimum_trails = minimum_trails;
         this.published = "published";
         this.owner = uid;
-        this.ownerName = ownerName;
     }
 
     public String getOwnerName() {
@@ -38,6 +37,9 @@ public class Experiment implements Serializable {
         return owner;
     }
 
+    public void setOwnerName(String userName){
+        this.ownerName = userName;
+    }
     public String getPublished() {
         return published;
     }
