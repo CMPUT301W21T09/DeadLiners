@@ -73,7 +73,10 @@ public class SearchUserActivity extends AppCompatActivity {
                                 if(userName.toUpperCase().contains(inputName.toUpperCase())) {
                                     String email = (String) doc.getData().get("Email");
                                     String phone = (String) doc.getData().get("Phone");
+                                    /*
                                     userSearchDataList.add(new User(userName, email, phone));
+
+                                     */
                                 }
                             }
                             userSearchAdapter.notifyDataSetChanged();
@@ -89,7 +92,10 @@ public class SearchUserActivity extends AppCompatActivity {
                                 String userName  = (String) doc.getData().get("Username");
                                 String email = (String) doc.getData().get("Email");
                                 String phone = (String) doc.getData().get("Phone");
+                                /*
                                 userSearchDataList.add(new User(userName, email, phone));
+
+                                 */
                             }
                             userSearchAdapter.notifyDataSetChanged();
                         }
@@ -99,7 +105,7 @@ public class SearchUserActivity extends AppCompatActivity {
             }
         });
 
-
+        /*
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -113,5 +119,7 @@ public class SearchUserActivity extends AppCompatActivity {
                 userSearchAdapter.notifyDataSetChanged();
             }
         });
+
+         */
     }
 }
