@@ -32,10 +32,10 @@
             android:parentActivityName=".MainActivity">
         </activity>
         <activity android:name=".QuestionInfoActivity"
-            android:parentActivityName=".QuestionListActivity">
+            android:parentActivityName=".MainActivity">
         </activity>
         <activity android:name=".ReplyInfoActivity"
-            android:parentActivityName=".QuestionInfoActivity">
+            android:parentActivityName=".MainActivity">
         </activity>
         <activity android:name=".UserProfileActivity" />
     </application>
