@@ -152,6 +152,7 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
     public void onOkPressed(Experiment newExperiment) {
         newExperiment.setOwner(uid);
         String expName = newExperiment.getExpName();
+        HashMap<String,String> expNameField = new HashMap<>();
         HashMap<String,String> expStatus = new HashMap<>();
         HashMap<String,String> expOwner = new HashMap<>();
         HashMap<String,String> expCategory = new HashMap<>();
@@ -159,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
         HashMap<String,String> expMinimumTrail = new HashMap<>();
         HashMap<String,String> expRegion = new HashMap<>();
 
+        expNameField.put("Name",expName);
         expStatus.put("Status",newExperiment.getPublished());
         expOwner.put("Owner",uid);
         expCategory.put("category", newExperiment.getCategory());
@@ -169,6 +171,9 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
         experimentCollectionReference
                 .document(expName)
                 .set(expCategory);
+        experimentCollectionReference
+                .document(expName)
+                .set(expNameField,SetOptions.merge());
         experimentCollectionReference
                 .document(expName)
                 .set(expOwner, SetOptions.merge());
