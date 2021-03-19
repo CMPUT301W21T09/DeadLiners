@@ -135,14 +135,6 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
         }
     }
 
-    /*
-    public void GoSearchExperiment(View view) {
-        Intent intent = new Intent().setClass(MainActivity.this, SearchExperimentActivity.class);
-        startActivity(intent);
-    }
-
-     */
-
     // pass the uid between main activity and profile activity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

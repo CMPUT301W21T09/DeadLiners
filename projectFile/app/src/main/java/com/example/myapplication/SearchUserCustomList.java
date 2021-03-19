@@ -12,13 +12,13 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-public class SearchUserCustomList extends ArrayAdapter<User> {
-    private ArrayList<User> users;
+public class SearchUserCustomList extends ArrayAdapter<String> {
+    private ArrayList<String> userName;
     private Context context;
 
-    public SearchUserCustomList(Context context, ArrayList<User> users){
-        super(context,0, users);
-        this.users = users;
+    public SearchUserCustomList(Context context, ArrayList<String> userName){
+        super(context,0, userName);
+        this.userName = userName;
         this.context = context;
     }
 
@@ -33,11 +33,11 @@ public class SearchUserCustomList extends ArrayAdapter<User> {
             view = LayoutInflater.from(context).inflate(R.layout.search_user_content, parent,false);
         }
 
-        User user = users.get(position);
+        String name = userName.get(position);
 
-        TextView username = view.findViewById(R.id.user_name_text);
+        TextView nameText = view.findViewById(R.id.user_name_text);
 
-        username.setText(user.getUsername());
+        nameText.setText(name);
 
         return view;
 
