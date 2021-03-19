@@ -29,10 +29,14 @@ public class UserProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //get the uid from main activity
         Bundle bundle = getIntent().getExtras();
         uid = bundle.getString("login_uid");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_profile_layout);
+
+        //set the TextViews
         uid_show = (TextView)findViewById(R.id.profile_uid);
         uid_show.setText(uid);
         EditText show_username = (EditText) findViewById(R.id.profile_username);
@@ -41,6 +45,9 @@ public class UserProfileActivity extends AppCompatActivity {
         final String[] username = new String[1];
         final String[] email = new String[1];
         final String[] phone = new String[1];
+
+
+        //get the profile information from firebase
         userCollectionReference.document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -62,6 +69,9 @@ public class UserProfileActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+        //set the back button
         Button back = (Button)findViewById(R.id.profile_back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +79,9 @@ public class UserProfileActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+
+        //set the edit button and update the information to firebase
         Button edit = (Button)findViewById(R.id.profile_edit);
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
