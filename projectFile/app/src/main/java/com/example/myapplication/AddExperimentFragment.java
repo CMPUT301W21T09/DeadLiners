@@ -32,7 +32,6 @@ public class AddExperimentFragment extends DialogFragment {
     }
     public interface OnFragmentInteractionListener {
         void onOkPressed(Experiment newExperiment);
-
     }
 
     @Override
