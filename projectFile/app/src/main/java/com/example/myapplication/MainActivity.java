@@ -90,20 +90,18 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final Experiment experiment = (Experiment) mainScrollView.getItemAtPosition(position);
-                if (experiment.getPublished() == "published") {
-                    String owner = experiment.getOwner();
-                    if (owner.equals(uid)) {
-                        Intent intent = new Intent(MainActivity.this, experimentInfo_owner.class);
-                        intent.putExtra("experiment", experiment);
-                        intent.putExtra("uid", uid);
-                        startActivity(intent);
-                    } else {
-                        Intent intent = new Intent(MainActivity.this, experimentInfo_user.class);
-                        intent.putExtra("experiment", experiment);
-                        intent.putExtra("uid", uid);
-                        startActivity(intent);
-                    }
-                } 
+                String owner = experiment.getOwner();
+                if (owner.equals(uid)) {
+                    Intent intent = new Intent(MainActivity.this, experimentInfo_owner.class);
+                    intent.putExtra("experiment",experiment);
+                    intent.putExtra("uid",uid);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(MainActivity.this, experimentInfo_user.class);
+                    intent.putExtra("experiment",experiment);
+                    intent.putExtra("uid",uid);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -119,12 +117,7 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
                     String region = (String) doc.getData().get("region");
                     String uid = (String) doc.getData().get("Owner");
                     String ownerName = (String) doc.getData().get("OwnerName");
-                    String status = (String) doc.getData().get("Status") ;
                     Experiment experiment = new Experiment(expName, description,category,region,minimumTrails,uid);
-                    assert status != null;
-                    if (status.equals("unpublished")){
-                        experiment.setPublishedToFalse();
-                    }
                     experiment.setOwnerName(ownerName);
                     experimentsArrayList.add(experiment);
                 }
