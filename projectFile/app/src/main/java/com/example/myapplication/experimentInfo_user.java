@@ -19,7 +19,7 @@ import androidmads.library.qrgenearator.QRGEncoder;
 
 public class experimentInfo_user extends AppCompatActivity {
     private Experiment experiment;
-
+    private String uid;
 
     private Button qrCode;
     private Button subscribe;
@@ -45,6 +45,7 @@ public class experimentInfo_user extends AppCompatActivity {
 
         Intent intent = getIntent();
         experiment = (Experiment) intent.getSerializableExtra("experiment");
+        uid = intent.getStringExtra("uid");
 
         experimentName = findViewById(R.id.experimentName);
         description = findViewById(R.id.Description);
@@ -55,14 +56,13 @@ public class experimentInfo_user extends AppCompatActivity {
 
         qrCode = findViewById(R.id.QR_code);
         subscribe = findViewById(R.id.Subscribe);
-        questionForum = findViewById(R.id.Question_Forum);
         viewTrails = findViewById(R.id.View_Trials);
         addTrail = findViewById(R.id.Add_Trial);
         back = findViewById(R.id.Back);
 
         experimentName.setText(experiment.getExpName());
         description.setText(experiment.getDescription());
-        owner.setText(experiment.getOwner());
+        owner.setText(experiment.getOwnerName());
         category.setText(experiment.getCategory());
         region.setText(experiment.getRegion());
         status.setText(experiment.getPublished());
@@ -91,5 +91,19 @@ public class experimentInfo_user extends AppCompatActivity {
                 qrFragment.show(getSupportFragmentManager(),"qrfrag");
             }
         });
+
+        Button questionButton = findViewById(R.id.Question_Forum);
+        questionButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) { showQuestionInfo(); }
+        });
     }
+
+    void showQuestionInfo()
+    {
+        Intent intent = new Intent(this, QuestionListActivity.class);
+        intent.putExtra("experiment",experiment);
+        intent.putExtra("uid",uid);
+        startActivity(intent);
+    }
+
 }
