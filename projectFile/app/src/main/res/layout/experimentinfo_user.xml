@@ -158,9 +158,9 @@
         android:layout_marginStart="100dp"
         android:layout_marginLeft="100dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="136dp"
-        android:layout_marginRight="136dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/button"
         app:layout_constraintStart_toEndOf="@+id/Geo_Location"
         app:layout_constraintTop_toBottomOf="@+id/Status" />
 
@@ -217,5 +217,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/View_Trials" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:text="See map"
+        app:layout_constraintStart_toEndOf="@+id/Geo_enable"
+        app:layout_constraintTop_toTopOf="@+id/Geo_enable" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
