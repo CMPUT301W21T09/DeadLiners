@@ -18,6 +18,7 @@ public class Experiment implements Serializable {
     public String owner;
     public String ownerName;
     //public Array<User> participants;
+    public int geoState = 0;
 
     public Experiment(String name, String description, String category, String region, String minimum_trails,String uid){
         this.expName = name;
@@ -50,6 +51,14 @@ public class Experiment implements Serializable {
 
     public void setPublishedToTrue() {
         this.published = "published";
+    }
+
+    public int getGeoState() {
+        return geoState;
+    }
+
+    public void setGeoState(int geoState) {
+        this.geoState = geoState;
     }
 
     public void setPublishedToFalse() {
