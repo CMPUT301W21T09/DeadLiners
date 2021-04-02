@@ -9,6 +9,7 @@ import androidx.appcompat.widget.ActivityChooserView;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,6 +27,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -49,17 +51,20 @@ import java.util.HashMap;
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
 
+import static java.lang.System.currentTimeMillis;
+
 public class experimentInfo_owner extends AppCompatActivity {
     private static final String TAG = "experiment";
     private Experiment experiment;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference experimentCollectionReference = db.collection("Experiments");
     CollectionReference countCollectionReference = db.collection("CountDataset");
+    CollectionReference binomialCollectionReference = db.collection("BinomialDataSet");
+    CollectionReference intCountCollectionReference = db.collection("IntCountDataset");
+    CollectionReference measurementCollectionReference = db.collection("MeasurementDataset");
     private String uid;
     private String count ;
-    private int intCount;
-    private int passCount;
-    private int failCount;
+
 
     private Button qrCode;
     private Button subscribe;
@@ -146,19 +151,85 @@ public class experimentInfo_owner extends AppCompatActivity {
                     HashMap<String, String> countData = new HashMap<>();
                     countData.put("count",(Integer.parseInt(count) + 1) +"");
                     countRef.set(countData,SetOptions.merge());
+                    Toast.makeText(experimentInfo_owner.this,"Increment the count by 1!",Toast.LENGTH_SHORT).show();
                     finish();
                 }
                 else if (experiment.getCategory().equals("binomial") && (experiment.getPublished().equals("open"))){
                     // record how many pass and fail
-                    finish();
+                    final EditText editText = new EditText(experimentInfo_owner.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(experimentInfo_owner.this).setTitle("How many pass you got?").setView(editText)
+                            .setPositiveButton("Add trails", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    String passCount = editText.getText().toString();
+                                    String failCount = (Integer.parseInt(experiment.getMinimum_trails()) - Integer.parseInt(passCount))+"";
+
+                                    String currentTime = String.format("%d",currentTimeMillis());
+                                    String uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
+
+                                    HashMap<String, String> data = new HashMap<>();
+                                    data.put("expName",expName);
+                                    data.put("experimenter",uid);
+                                    data.put("pass",passCount);
+                                    data.put("fail",failCount);
+
+                                    binomialCollectionReference
+                                            .document(uniqueTrailId)
+                                            .set(data);
+
+                                }
+                            });
+                    builder.create().show();
                 }
                 else if (experiment.getCategory().equals("intCount") && (experiment.getPublished().equals("open"))){
                     // record a integer
-                    finish();
+                    final EditText editText = new EditText(experimentInfo_owner.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(experimentInfo_owner.this).setTitle("How many counts you got?").setView(editText)
+                            .setPositiveButton("Add trails", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    String intCount = editText.getText().toString();
+
+                                    String currentTime = String.format("%d",currentTimeMillis());
+                                    String uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
+
+                                    HashMap<String, String> data = new HashMap<>();
+                                    data.put("expName",expName);
+                                    data.put("experimenter",uid);
+                                    data.put("intCount",intCount);
+
+                                    intCountCollectionReference
+                                            .document(uniqueTrailId)
+                                            .set(data);
+
+                                }
+                            });
+                    builder.create().show();
                 }
                 else if (experiment.getCategory().equals("measurement") && (experiment.getPublished().equals("open"))){
                     // record a double
-                    finish();
+                    final EditText editText = new EditText(experimentInfo_owner.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(experimentInfo_owner.this).setTitle("What is the measurement you got?").setView(editText)
+                            .setPositiveButton("Add trails", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    String measurement = editText.getText().toString();
+
+                                    String currentTime = String.format("%d",currentTimeMillis());
+                                    String uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
+
+                                    HashMap<String, String> data = new HashMap<>();
+                                    data.put("expName",expName);
+                                    data.put("experimenter",uid);
+                                    data.put("measurement",measurement);
+
+                                    measurementCollectionReference
+                                            .document(uniqueTrailId)
+                                            .set(data);
+
+                                }
+                            });
+                    builder.create().show();
                 } else {
                     Toast.makeText(experimentInfo_owner.this,"This experiment is ended",Toast.LENGTH_SHORT).show();
                 }
