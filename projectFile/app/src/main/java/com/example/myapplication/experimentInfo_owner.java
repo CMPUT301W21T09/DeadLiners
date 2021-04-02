@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,8 +31,16 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.zxing.WriterException;
 
@@ -41,10 +50,16 @@ import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
 
 public class experimentInfo_owner extends AppCompatActivity {
+    private static final String TAG = "experiment";
     private Experiment experiment;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference experimentCollectionReference = db.collection("Experiments");
+    CollectionReference countCollectionReference = db.collection("CountDataset");
     private String uid;
+    private String count ;
+    private int intCount;
+    private int passCount;
+    private int failCount;
 
     private Button qrCode;
     private Button subscribe;
@@ -105,6 +120,51 @@ public class experimentInfo_owner extends AppCompatActivity {
         region.setText(experiment.getRegion());
         status.setText(experiment.getPublished());
 
+        String expName = experiment.getExpName();
+        DocumentReference countRef = countCollectionReference.document(expName);
+        countRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        count = document.getString("count");
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+
+        addTrail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (experiment.getCategory().equals("count") && (experiment.getPublished().equals("open"))){
+                    HashMap<String, String> countData = new HashMap<>();
+                    countData.put("count",(Integer.parseInt(count) + 1) +"");
+                    countRef.set(countData,SetOptions.merge());
+                    finish();
+                }
+                else if (experiment.getCategory().equals("binomial") && (experiment.getPublished().equals("open"))){
+                    // record how many pass and fail
+                    finish();
+                }
+                else if (experiment.getCategory().equals("intCount") && (experiment.getPublished().equals("open"))){
+                    // record a integer
+                    finish();
+                }
+                else if (experiment.getCategory().equals("measurement") && (experiment.getPublished().equals("open"))){
+                    // record a double
+                    finish();
+                } else {
+                    Toast.makeText(experimentInfo_owner.this,"This experiment is ended",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,25 +185,27 @@ public class experimentInfo_owner extends AppCompatActivity {
             }
         });
 
-        unPublish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HashMap<String, String> expStatus = new HashMap<>();
-                expStatus.put("Status", "unpublished");
-                experiment.setPublishedToFalse();
-                experimentCollectionReference
-                        .document(experiment.getExpName())
-                        .set(expStatus, SetOptions.merge());
-                finish();
-            }
-        });
-
         end.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 experimentCollectionReference
                         .document(experiment.getExpName())
                         .delete();
+                countRef
+                        .delete();
+                finish();
+            }
+        });
+
+        unPublish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HashMap<String, String> expStatus = new HashMap<>();
+                expStatus.put("Status", "end");
+                experiment.setPublishedToFalse();
+                experimentCollectionReference
+                        .document(experiment.getExpName())
+                        .set(expStatus, SetOptions.merge());
                 finish();
             }
         });

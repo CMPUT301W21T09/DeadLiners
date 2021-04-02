@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,15 +12,33 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.google.zxing.WriterException;
+
+import java.util.HashMap;
 
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
 
 public class experimentInfo_user extends AppCompatActivity {
+    private static final String TAG = "experiment";
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private Experiment experiment;
     private String uid;
+    CollectionReference countCollectionReference = db.collection("CountDataset");
+    private String count ;
+    private int intCount;
+    private int passCount;
+    private int failCount;
 
     private Button qrCode;
     private Button subscribe;
@@ -66,6 +85,51 @@ public class experimentInfo_user extends AppCompatActivity {
         category.setText(experiment.getCategory());
         region.setText(experiment.getRegion());
         status.setText(experiment.getPublished());
+
+        String expName = experiment.getExpName();
+        DocumentReference countRef = countCollectionReference.document(expName);
+        countRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        count = document.getString("count");
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+
+        addTrail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (experiment.getCategory().equals("count") && (experiment.getPublished().equals("open"))){
+                    HashMap<String, String> countData = new HashMap<>();
+                    countData.put("count",(Integer.parseInt(count) + 1) +"");
+                    countRef.set(countData,SetOptions.merge());
+                    finish();
+                }
+                else if (experiment.getCategory().equals("binomial") && (experiment.getPublished().equals("open"))){
+                    // record how many pass and fail
+                    finish();
+                }
+                else if (experiment.getCategory().equals("intCount") && (experiment.getPublished().equals("open"))){
+                    // record a integer
+                    finish();
+                }
+                else if (experiment.getCategory().equals("measurement") && (experiment.getPublished().equals("open"))){
+                    // record a double
+                    finish();
+                } else {
+                    Toast.makeText(experimentInfo_user.this,"This experiment is ended",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
