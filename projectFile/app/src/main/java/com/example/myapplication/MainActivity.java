@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
     private ImageButton button_search;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference experimentCollectionReference = db.collection("Experiments");
-
+    CollectionReference countCollectionReference = db.collection("CountDataset");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // go to login page
@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
                     String ownerName = (String) doc.getData().get("OwnerName");
                     String status = (String) doc.getData().get("Status");
                     Experiment experiment = new Experiment(expName, description,category,region,minimumTrails,uid);
-                    experiment.setPublished(status);
+                    experiment.setStatus(status);
                     experiment.setOwnerName(ownerName);
                     experimentsArrayList.add(experiment);
                 }
@@ -203,5 +203,14 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
         experimentCollectionReference
                 .document(expName)
                 .set(expStatus,SetOptions.merge());
+
+        if (newExperiment.getCategory().equals("count")){
+            HashMap<String,String> countData = new HashMap<>();
+            countData.put("count","0");
+            countCollectionReference
+                    .document(expName)
+                    .set(countData);
+        }
     }
+
 }

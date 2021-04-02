@@ -11,7 +11,7 @@ public class Experiment implements Serializable {
     private String category;
     private String region;
     private String minimum_trails;
-    public String published;
+    public String status;
     public ArrayList<Location> locations;
     public ArrayList<Location> ignores;
     //public barcode;
@@ -26,12 +26,12 @@ public class Experiment implements Serializable {
         this.category = category;
         this.region = region;
         this.minimum_trails = minimum_trails;
-        this.published = "published";
+        this.status = "open";
         this.owner = uid;
     }
 
-    public void setPublished(String published) {
-        this.published = published;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getOwnerName() {
@@ -46,11 +46,7 @@ public class Experiment implements Serializable {
         this.ownerName = userName;
     }
     public String getPublished() {
-        return published;
-    }
-
-    public void setPublishedToTrue() {
-        this.published = "published";
+        return status;
     }
 
     public int getGeoState() {
@@ -62,7 +58,7 @@ public class Experiment implements Serializable {
     }
 
     public void setPublishedToFalse() {
-        this.published = "unpublished";
+        this.status = "end";
     }
     public Experiment(String name) {
         this.expName = name;
