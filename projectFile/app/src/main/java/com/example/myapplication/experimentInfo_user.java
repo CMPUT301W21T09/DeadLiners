@@ -39,7 +39,6 @@ public class experimentInfo_user extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private Experiment experiment;
     private String uid;
-    CollectionReference experimentCollectionReference = db.collection("Experiments");
     CollectionReference countCollectionReference = db.collection("CountDataset");
     CollectionReference binomialCollectionReference = db.collection("BinomialDataSet");
     CollectionReference intCountCollectionReference = db.collection("IntCountDataset");
@@ -96,33 +95,29 @@ public class experimentInfo_user extends AppCompatActivity {
         status.setText(experiment.getPublished());
 
         String expName = experiment.getExpName();
-        DocumentReference countRef = countCollectionReference.document(expName);
-        countRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                        count = document.getString("count");
-                    } else {
-                        Log.d(TAG, "No such document");
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-        });
 
         addTrail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (experiment.getCategory().equals("count") && (experiment.getPublished().equals("open"))){
-                    HashMap<String, String> countData = new HashMap<>();
-                    countData.put("count",(Integer.parseInt(count) + 1) +"");
-                    countRef.set(countData,SetOptions.merge());
+                    String currentTime = String.format("%d",currentTimeMillis());
+                    String uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
+
+                    HashMap<String, String> data = new HashMap<>();
+                    data.put("expName",expName);
+                    data.put("experimenter",uid);
+                    data.put("time",currentTime);
+                    HashMap<String,Boolean> ignore = new HashMap<>();
+                    ignore.put("ignore",false);
+
+                    countCollectionReference
+                            .document(uniqueTrailId)
+                            .set(data);
+                    countCollectionReference
+                            .document(uniqueTrailId)
+                            .set(ignore,SetOptions.merge());
+
                     Toast.makeText(experimentInfo_user.this,"Increment the count by 1!",Toast.LENGTH_SHORT).show();
-                    finish();
                 }
                 else if (experiment.getCategory().equals("binomial") && (experiment.getPublished().equals("open"))){
                     // record how many pass and fail
@@ -134,12 +129,22 @@ public class experimentInfo_user extends AppCompatActivity {
                                     String uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
 
                                     HashMap<String, String> data = new HashMap<>();
+                                    HashMap<String, Boolean> passOrFail = new HashMap<>();
+                                    passOrFail.put("pass",true);
                                     data.put("expName",expName);
                                     data.put("experimenter",uid);
-                                    data.put("pass","1");
+                                    data.put("time",currentTime);
+                                    HashMap<String,Boolean> ignore = new HashMap<>();
+                                    ignore.put("ignore",false);
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(data);
+                                    binomialCollectionReference
+                                            .document(uniqueTrailId)
+                                            .set(passOrFail,SetOptions.merge());
+                                    binomialCollectionReference
+                                            .document(uniqueTrailId)
+                                            .set(ignore,SetOptions.merge());
 
                                 }
                             })
@@ -150,12 +155,23 @@ public class experimentInfo_user extends AppCompatActivity {
                                     String uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
 
                                     HashMap<String, String> data = new HashMap<>();
+                                    HashMap<String, Boolean> passOrFail = new HashMap<>();
+                                    passOrFail.put("pass",false);
                                     data.put("expName",expName);
                                     data.put("experimenter",uid);
-                                    data.put("fail","1");
+                                    data.put("time",currentTime);
+                                    HashMap<String,Boolean> ignore = new HashMap<>();
+                                    ignore.put("ignore",false);
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(data);
+                                    binomialCollectionReference
+                                            .document(uniqueTrailId)
+                                            .set(passOrFail,SetOptions.merge());
+                                    binomialCollectionReference
+                                            .document(uniqueTrailId)
+                                            .set(ignore,SetOptions.merge());
+
                                 }
                             });
                     builder.create().show();
@@ -176,10 +192,17 @@ public class experimentInfo_user extends AppCompatActivity {
                                     data.put("expName",expName);
                                     data.put("experimenter",uid);
                                     data.put("intCount",intCount);
+                                    data.put("time",currentTime);
+                                    HashMap<String,Boolean> ignore = new HashMap<>();
+                                    ignore.put("ignore",false);
+
 
                                     intCountCollectionReference
                                             .document(uniqueTrailId)
                                             .set(data);
+                                    intCountCollectionReference
+                                            .document(uniqueTrailId)
+                                            .set(ignore,SetOptions.merge());
 
                                 }
                             });
@@ -201,11 +224,16 @@ public class experimentInfo_user extends AppCompatActivity {
                                     data.put("expName",expName);
                                     data.put("experimenter",uid);
                                     data.put("measurement",measurement);
+                                    data.put("time",currentTime);
+                                    HashMap<String,Boolean> ignore = new HashMap<>();
+                                    ignore.put("ignore",false);
 
                                     measurementCollectionReference
                                             .document(uniqueTrailId)
                                             .set(data);
-
+                                    measurementCollectionReference
+                                            .document(uniqueTrailId)
+                                            .set(ignore,SetOptions.merge());
                                 }
                             });
                     builder.create().show();
