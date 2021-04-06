@@ -27,6 +27,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.google.zxing.WriterException;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
 import androidmads.library.qrgenearator.QRGContents;
@@ -113,6 +115,7 @@ public class experimentInfo_user extends AppCompatActivity {
             public void onClick(View v) {
                 if (experiment.getCategory().equals("count") && (experiment.getPublished().equals("open"))){
                     String currentTime = String.format("%d",currentTimeMillis());
+                    currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.parseLong(currentTime)));
                     String uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
 
                     HashMap<String, String> data = new HashMap<>();
@@ -138,6 +141,7 @@ public class experimentInfo_user extends AppCompatActivity {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     String currentTime = String.format("%d",currentTimeMillis());
+                                    currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.parseLong(currentTime)));
                                     String uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
 
                                     HashMap<String, String> data = new HashMap<>();
@@ -171,6 +175,7 @@ public class experimentInfo_user extends AppCompatActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     String currentTime = String.format("%d",currentTimeMillis());
+                                    currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.parseLong(currentTime)));
                                     String uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
 
                                     HashMap<String, String> data = new HashMap<>();
@@ -212,6 +217,7 @@ public class experimentInfo_user extends AppCompatActivity {
                                     String intCount = editText.getText().toString();
 
                                     String currentTime = String.format("%d",currentTimeMillis());
+                                    currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.parseLong(currentTime)));
                                     String uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
 
                                     HashMap<String, String> data = new HashMap<>();
@@ -244,6 +250,7 @@ public class experimentInfo_user extends AppCompatActivity {
                                     String measurement = editText.getText().toString();
 
                                     String currentTime = String.format("%d",currentTimeMillis());
+                                    currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.parseLong(currentTime)));
                                     String uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
 
                                     HashMap<String, String> data = new HashMap<>();

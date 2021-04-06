@@ -204,13 +204,6 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
                 .document(expName)
                 .set(expStatus,SetOptions.merge());
 
-        if (newExperiment.getCategory().equals("count")){
-            HashMap<String,String> countData = new HashMap<>();
-            countData.put("count","0");
-            countCollectionReference
-                    .document(expName)
-                    .set(countData);
-        }
     }
 
 }
