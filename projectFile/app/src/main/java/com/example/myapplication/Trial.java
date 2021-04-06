@@ -1,23 +1,25 @@
 package com.example.myapplication;
 
 import java.sql.Date;
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
 
 public class Trial {
     private String expName;
     private String experimenter;
-    private Date time;
+    private String time;
+    private Boolean ignore;
     private String value;
 
-    public Trial(String experimenter, String expName, Date time, String value) {
+    public Trial(String experimenter, String expName, String time, String value, Boolean ignore) {
         this.experimenter = experimenter;
         this.expName = expName;
         this.value = value;
+        this.ignore = ignore;
         this.time = time;
     }
 
 
-    public Date getTime() {
+    public String getTime() {
         return time;
     }
 
@@ -27,6 +29,10 @@ public class Trial {
 
     public String getValue() {
         return value;
+    }
+
+    public Boolean getIgnore() {
+        return ignore;
     }
 
     public String getExperimenter() {

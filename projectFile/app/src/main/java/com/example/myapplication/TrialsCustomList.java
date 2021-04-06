@@ -15,7 +15,6 @@ import java.util.Date;
 
 public class TrialsCustomList extends ArrayAdapter<Trial> {
     private ArrayList<Trial> trial;
-    private ArrayList<String> time;
     private Context context;
 
     public TrialsCustomList(Context context, ArrayList<Trial> trial){
@@ -36,7 +35,7 @@ public class TrialsCustomList extends ArrayAdapter<Trial> {
         }
 
         Trial current_trial = trial.get(position);
-        Date time = current_trial.getTime();
+        String time = current_trial.getTime();
         String experimenter = current_trial.getExperimenter();
 
         TextView text = view.findViewById(R.id.trials_text);
