@@ -90,9 +90,10 @@ public class SearchExperimentActivity extends AppCompatActivity {
                                     String description = (String) doc.getData().get("description");
                                     String minimumTrails = (String) doc.getData().get("minimum_trails");
                                     String region = (String) doc.getData().get("region");
+                                    String status = (String) doc.getData().get("Status");
                                     String uid = (String) doc.getData().get("Owner");
                                     String ownerName = (String) doc.getData().get("OwnerName");
-                                    Experiment experiment = new Experiment(name, description,category,region,minimumTrails,uid);
+                                    Experiment experiment = new Experiment(name, description,category,region,minimumTrails,uid, status);
                                     experiment.setOwnerName(ownerName);
                                     expSearchDataList.add(experiment);
                                 }
@@ -113,8 +114,9 @@ public class SearchExperimentActivity extends AppCompatActivity {
                                 String minimumTrails = (String) doc.getData().get("minimum_trails");
                                 String region = (String) doc.getData().get("region");
                                 String uid = (String) doc.getData().get("Owner");
+                                String status = (String) doc.getData().get("Status");
                                 String ownerName = (String) doc.getData().get("OwnerName");
-                                Experiment experiment = new Experiment(name, description,category,region,minimumTrails,uid);
+                                Experiment experiment = new Experiment(name, description,category,region,minimumTrails,uid, status);
                                 experiment.setOwnerName(ownerName);
                                 expSearchDataList.add(experiment);
                             }
@@ -158,7 +160,8 @@ public class SearchExperimentActivity extends AppCompatActivity {
                     String region = (String) doc.getData().get("region");
                     String uid = (String) doc.getData().get("Owner");
                     String ownerName = (String) doc.getData().get("OwnerName");
-                    Experiment experiment = new Experiment(name, description,category,region,minimumTrails,uid);
+                    String status = (String) doc.getData().get("Status");
+                    Experiment experiment = new Experiment(name, description,category,region,minimumTrails,uid, status);
                     experiment.setOwnerName(ownerName);
                     expSearchDataList.add(experiment);
                 }
