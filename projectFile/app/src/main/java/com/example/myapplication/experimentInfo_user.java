@@ -126,27 +126,36 @@ public class experimentInfo_user extends AppCompatActivity {
                 }
                 else if (experiment.getCategory().equals("binomial") && (experiment.getPublished().equals("open"))){
                     // record how many pass and fail
-                    final EditText editText = new EditText(experimentInfo_user.this);
-                    AlertDialog.Builder builder = new AlertDialog.Builder(experimentInfo_user.this).setTitle("How many pass you got?").setView(editText)
-                            .setPositiveButton("Add trails", new DialogInterface.OnClickListener() {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(experimentInfo_user.this).setTitle("Pass or Fail?")
+                            .setPositiveButton("Pass", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    String passCount = editText.getText().toString();
-                                    String failCount = (Integer.parseInt(experiment.getMinimum_trails()) - Integer.parseInt(passCount))+"";
-
                                     String currentTime = String.format("%d",currentTimeMillis());
                                     String uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
 
                                     HashMap<String, String> data = new HashMap<>();
                                     data.put("expName",expName);
                                     data.put("experimenter",uid);
-                                    data.put("pass",passCount);
-                                    data.put("fail",failCount);
-
+                                    data.put("pass","1");
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(data);
 
+                                }
+                            })
+                            .setNegativeButton("Fail", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    String currentTime = String.format("%d",currentTimeMillis());
+                                    String uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
+
+                                    HashMap<String, String> data = new HashMap<>();
+                                    data.put("expName",expName);
+                                    data.put("experimenter",uid);
+                                    data.put("fail","1");
+                                    binomialCollectionReference
+                                            .document(uniqueTrailId)
+                                            .set(data);
                                 }
                             });
                     builder.create().show();
