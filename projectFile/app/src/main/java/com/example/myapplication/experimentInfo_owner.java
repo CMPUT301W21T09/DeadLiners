@@ -127,6 +127,18 @@ public class experimentInfo_owner extends AppCompatActivity {
 
         String expName = experiment.getExpName();
 
+        viewTrails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(experimentInfo_owner.this, TrialsActivity.class);
+                intent.putExtra("exp_category",experiment.getCategory());
+                intent.putExtra("exp_name", experiment.getExpName());
+                intent.putExtra("uid", uid);
+                intent.putExtra("owner", experiment.getOwner());
+                startActivity(intent);
+            }
+        });
+
         addTrail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,8 +172,12 @@ public class experimentInfo_owner extends AppCompatActivity {
                                     String uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
 
                                     HashMap<String, String> data = new HashMap<>();
+                                    /*
                                     HashMap<String, Boolean> passOrFail = new HashMap<>();
                                     passOrFail.put("pass",true);
+
+                                     */
+                                    data.put("value", "pass");
                                     data.put("expName",expName);
                                     data.put("experimenter",uid);
                                     data.put("time",currentTime);
@@ -170,9 +186,12 @@ public class experimentInfo_owner extends AppCompatActivity {
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(data);
+                                    /*
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(passOrFail,SetOptions.merge());
+
+                                     */
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(ignore,SetOptions.merge());
@@ -186,8 +205,12 @@ public class experimentInfo_owner extends AppCompatActivity {
                                     String uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
 
                                     HashMap<String, String> data = new HashMap<>();
+                                    /*
                                     HashMap<String, Boolean> passOrFail = new HashMap<>();
                                     passOrFail.put("pass",false);
+
+                                     */
+                                    data.put("value","fail");
                                     data.put("expName",expName);
                                     data.put("experimenter",uid);
                                     data.put("time",currentTime);
@@ -196,9 +219,12 @@ public class experimentInfo_owner extends AppCompatActivity {
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(data);
+                                    /*
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(passOrFail,SetOptions.merge());
+
+                                     */
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(ignore,SetOptions.merge());
@@ -222,7 +248,7 @@ public class experimentInfo_owner extends AppCompatActivity {
                                     HashMap<String, String> data = new HashMap<>();
                                     data.put("expName",expName);
                                     data.put("experimenter",uid);
-                                    data.put("intCount",intCount);
+                                    data.put("value",intCount);
                                     data.put("time",currentTime);
                                     HashMap<String,Boolean> ignore = new HashMap<>();
                                     ignore.put("ignore",false);
@@ -254,7 +280,7 @@ public class experimentInfo_owner extends AppCompatActivity {
                                     HashMap<String, String> data = new HashMap<>();
                                     data.put("expName",expName);
                                     data.put("experimenter",uid);
-                                    data.put("measurement",measurement);
+                                    data.put("value",measurement);
                                     data.put("time",currentTime);
                                     HashMap<String,Boolean> ignore = new HashMap<>();
                                     ignore.put("ignore",false);
