@@ -134,6 +134,9 @@ public class experimentInfo_user extends AppCompatActivity {
         addTrail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (experiment.getGeoState().equals("1")) {
+                    Toast.makeText(experimentInfo_user.this,"This experiment requires your Geo-Location!",Toast.LENGTH_SHORT).show();
+                }
                 if (experiment.getCategory().equals("count") && (experiment.getPublished().equals("open"))){
                     String currentTime = String.format("%d",currentTimeMillis());
                     currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.parseLong(currentTime)));
