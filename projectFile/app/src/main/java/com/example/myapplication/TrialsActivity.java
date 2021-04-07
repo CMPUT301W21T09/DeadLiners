@@ -166,6 +166,16 @@ public class TrialsActivity extends AppCompatActivity {
             }
         });
 
+        plot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TrialsActivity.this, PlotActivity.class);
+                intent.putExtra("exp_category", exp_category);
+                intent.putExtra("exp_name", exp_name);
+                startActivity(intent);
+            }
+        });
+
     }
 
 }
