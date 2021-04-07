@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,6 +57,7 @@ public class experimentInfo_user extends AppCompatActivity {
     private Button viewTrails;
     private Button addTrail;
     private Button back;
+    private Switch aSwitch;
 
     private TextView experimentName;
     private TextView description;
@@ -95,8 +97,18 @@ public class experimentInfo_user extends AppCompatActivity {
         category.setText(experiment.getCategory());
         region.setText(experiment.getRegion());
         status.setText(experiment.getPublished());
+        aSwitch = findViewById(R.id.Geo_enable);
 
         String expName = experiment.getExpName();
+
+        if (experiment.getGeoState().equals("1")) {
+            aSwitch.setChecked(true);
+        } else {
+            aSwitch.setChecked(false);
+        }
+
+        aSwitch.setClickable(false);
+
 
         viewTrails.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,6 +125,9 @@ public class experimentInfo_user extends AppCompatActivity {
         addTrail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (experiment.getGeoState().equals("1")) {
+                    Toast.makeText(experimentInfo_user.this,"This experiment requires your Geo-Location!",Toast.LENGTH_SHORT).show();
+                }
                 if (experiment.getCategory().equals("count") && (experiment.getPublished().equals("open"))){
                     String currentTime = String.format("%d",currentTimeMillis());
                     currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.parseLong(currentTime)));
@@ -145,11 +160,11 @@ public class experimentInfo_user extends AppCompatActivity {
                                     String uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
 
                                     HashMap<String, String> data = new HashMap<>();
-                                    /*
+
                                     HashMap<String, Boolean> passOrFail = new HashMap<>();
                                     passOrFail.put("pass",true);
 
-                                     */
+
                                     data.put("value", "pass");
                                     data.put("expName",expName);
                                     data.put("experimenter",uid);
@@ -159,12 +174,12 @@ public class experimentInfo_user extends AppCompatActivity {
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(data);
-                                    /*
+
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(passOrFail,SetOptions.merge());
 
-                                     */
+
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(ignore,SetOptions.merge());
@@ -179,11 +194,11 @@ public class experimentInfo_user extends AppCompatActivity {
                                     String uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
 
                                     HashMap<String, String> data = new HashMap<>();
-                                    /*
+
                                     HashMap<String, Boolean> passOrFail = new HashMap<>();
                                     passOrFail.put("pass",false);
 
-                                     */
+
                                     data.put("value", "fail");
                                     data.put("expName",expName);
                                     data.put("experimenter",uid);
@@ -193,12 +208,12 @@ public class experimentInfo_user extends AppCompatActivity {
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(data);
-                                    /*
+
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(passOrFail,SetOptions.merge());
 
-                                     */
+
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(ignore,SetOptions.merge());
