@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,6 +57,7 @@ public class experimentInfo_user extends AppCompatActivity {
     private Button viewTrails;
     private Button addTrail;
     private Button back;
+    private Switch aSwitch;
 
     private TextView experimentName;
     private TextView description;
@@ -95,8 +97,27 @@ public class experimentInfo_user extends AppCompatActivity {
         category.setText(experiment.getCategory());
         region.setText(experiment.getRegion());
         status.setText(experiment.getPublished());
+        aSwitch = findViewById(R.id.Geo_enable);
 
         String expName = experiment.getExpName();
+
+        if (experiment.getGeoState().equals("1")) {
+            aSwitch.setChecked(true);
+        } else {
+            aSwitch.setChecked(false);
+        }
+
+        aSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(experimentInfo_user.this,"You cannot edit the experiment!",Toast.LENGTH_SHORT).show();
+                if (experiment.getGeoState().equals("1")) {
+                    aSwitch.setChecked(true);
+                } else {
+                    aSwitch.setChecked(false);
+                }
+            }
+        });
 
         viewTrails.setOnClickListener(new View.OnClickListener() {
             @Override

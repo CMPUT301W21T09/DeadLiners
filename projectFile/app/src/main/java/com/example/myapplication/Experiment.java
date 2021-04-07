@@ -18,7 +18,7 @@ public class Experiment implements Serializable {
     public String owner;
     public String ownerName;
     //public Array<User> participants;
-    public int geoState = 0;
+    public String geoState = "0";
 
     public Experiment(String name, String description, String category, String region, String minimum_trails,String uid, String status) {
         this.expName = name;
@@ -40,6 +40,8 @@ public class Experiment implements Serializable {
         this.owner = uid;
     }
 
+
+
     public void setStatus(String status) {
         this.status = status;
     }
@@ -59,11 +61,11 @@ public class Experiment implements Serializable {
         return status;
     }
 
-    public int getGeoState() {
+    public String getGeoState() {
         return geoState;
     }
 
-    public void setGeoState(int geoState) {
+    public void setGeoState(String geoState) {
         this.geoState = geoState;
     }
 

@@ -114,7 +114,7 @@ public class experimentInfo_owner extends AppCompatActivity {
         end = findViewById(R.id.End);
         aSwitch = findViewById(R.id.Geo_enable);
 
-        if (experiment.getGeoState() == 1) {
+        if (experiment.getGeoState().equals("1")) {
             aSwitch.setChecked(true);
         } else {
             aSwitch.setChecked(false);
@@ -320,10 +320,20 @@ public class experimentInfo_owner extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     // The toggle is enabled
-                    experiment.setGeoState(1);
+                    experiment.setGeoState("1");
+                    HashMap<String,String> geoState = new HashMap<>();
+                    geoState.put("GeoState", "1");
+                    experimentCollectionReference
+                            .document(expName)
+                            .set(geoState,SetOptions.merge());
                 } else {
                     // The toggle is disabled
-                    experiment.setGeoState(0);
+                    experiment.setGeoState("0");
+                    HashMap<String,String> geoState = new HashMap<>();
+                    geoState.put("GeoState", "0");
+                    experimentCollectionReference
+                            .document(expName)
+                            .set(geoState,SetOptions.merge());
                 }
             }
         });

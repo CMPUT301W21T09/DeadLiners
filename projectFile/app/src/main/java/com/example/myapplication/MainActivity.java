@@ -118,9 +118,11 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
                     String uid = (String) doc.getData().get("Owner");
                     String ownerName = (String) doc.getData().get("OwnerName");
                     String status = (String) doc.getData().get("Status");
+                    String geoEnable = (String) doc.getData().get("GeoState");
                     Experiment experiment = new Experiment(expName, description,category,region,minimumTrails,uid);
                     experiment.setStatus(status);
                     experiment.setOwnerName(ownerName);
+                    experiment.setGeoState(geoEnable);
                     experimentsArrayList.add(experiment);
                 }
                 experimentsArrayAdapter.notifyDataSetChanged();
@@ -169,6 +171,7 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
         HashMap<String,String> expDes = new HashMap<>();
         HashMap<String,String> expMinimumTrail = new HashMap<>();
         HashMap<String,String> expRegion = new HashMap<>();
+        HashMap<String,String> geoState = new HashMap<>();
 
         expNameField.put("Name",expName);
         expStatus.put("Status",newExperiment.getPublished());
@@ -178,6 +181,7 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
         expDes.put("description", newExperiment.getDescription());
         expMinimumTrail.put("minimum_trails", newExperiment.getMinimum_trails());
         expRegion.put("region", newExperiment.getRegion());
+        geoState.put("GeoState", "0");
 
         experimentCollectionReference
                 .document(expName)
@@ -203,6 +207,10 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
         experimentCollectionReference
                 .document(expName)
                 .set(expStatus,SetOptions.merge());
+        experimentCollectionReference
+                .document(expName)
+                .set(geoState,SetOptions.merge());
+
 
     }
 
