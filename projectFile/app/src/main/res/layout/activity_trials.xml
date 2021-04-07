@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/back_button"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Back" />
+
+        <Button
+            android:id="@+id/statistics_button"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:textSize="13dp"
+            android:text="Statistics" />
+
+        <Button
+            android:id="@+id/histogram_button"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:textSize="13dp"
+            android:text="Histogram" />
+
+        <Button
+            android:id="@+id/plot_button"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Plot" />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/trials_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </ListView>
+
+</LinearLayout>

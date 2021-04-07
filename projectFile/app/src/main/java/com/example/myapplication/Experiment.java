@@ -20,6 +20,16 @@ public class Experiment implements Serializable {
     //public Array<User> participants;
     public int geoState = 0;
 
+    public Experiment(String name, String description, String category, String region, String minimum_trails,String uid, String status) {
+        this.expName = name;
+        this.description = description;
+        this.category = category;
+        this.region = region;
+        this.minimum_trails = minimum_trails;
+        this.status = status;
+        this.owner = uid;
+    }
+
     public Experiment(String name, String description, String category, String region, String minimum_trails,String uid){
         this.expName = name;
         this.description = description;
