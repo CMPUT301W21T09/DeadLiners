@@ -34,6 +34,17 @@ public class Experiment implements Serializable {
         }
     }
 
+    public Experiment(String name, String description,String category,String region,String minimumTrails, String uid, String geostate, String status) {
+        this.expName = name;
+        this.description = description;
+        this.category = category;
+        this.region = region;
+        this.minimum_trails = minimumTrails;
+        this.status = status;
+        this.geoState = geostate;
+        this.owner = uid;
+    }
+
     public Experiment(String name, String description, String category, String region, String minimum_trails,String uid){
         this.expName = name;
         this.description = description;
