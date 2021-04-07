@@ -6,6 +6,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Button
+        android:id="@+id/Required"
+        android:layout_width="203dp"
+        android:layout_height="37dp"
+        android:text="Required"
+        app:layout_constraintEnd_toStartOf="@+id/NotRequired"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/GeoLocation" />
+
+    <Button
+        android:id="@+id/NotRequired"
+        android:layout_width="203dp"
+        android:layout_height="37dp"
+        android:text="NotRequired"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Required"
+        app:layout_constraintTop_toBottomOf="@+id/GeoLocation" />
+
+    <EditText
+        android:id="@+id/GeoLocation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Location: Choose one"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Number_Of_Trails_editText" />
+
     <EditText
         android:id="@+id/Region_editText"
         android:layout_width="0dp"

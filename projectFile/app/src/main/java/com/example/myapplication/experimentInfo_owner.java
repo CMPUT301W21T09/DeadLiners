@@ -181,13 +181,13 @@ public class experimentInfo_owner extends AppCompatActivity {
                                     HashMap<String, Boolean> passOrFail = new HashMap<>();
                                     passOrFail.put("pass",true);
 
-
                                     data.put("value", "pass");
                                     data.put("expName",expName);
                                     data.put("experimenter",uid);
                                     data.put("time",currentTime);
                                     HashMap<String,Boolean> ignore = new HashMap<>();
                                     ignore.put("ignore",false);
+
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(data);
@@ -195,7 +195,6 @@ public class experimentInfo_owner extends AppCompatActivity {
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(passOrFail,SetOptions.merge());
-
 
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
@@ -211,7 +210,7 @@ public class experimentInfo_owner extends AppCompatActivity {
                                     String uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
 
                                     HashMap<String, String> data = new HashMap<>();
-                                    
+
                                     HashMap<String, Boolean> passOrFail = new HashMap<>();
                                     passOrFail.put("pass",false);
 
@@ -315,28 +314,7 @@ public class experimentInfo_owner extends AppCompatActivity {
             }
         });
 
-        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    // The toggle is enabled
-                    experiment.setGeoState("1");
-                    HashMap<String,String> geoState = new HashMap<>();
-                    geoState.put("GeoState", "1");
-                    experimentCollectionReference
-                            .document(expName)
-                            .set(geoState,SetOptions.merge());
-                } else {
-                    // The toggle is disabled
-                    experiment.setGeoState("0");
-                    HashMap<String,String> geoState = new HashMap<>();
-                    geoState.put("GeoState", "0");
-                    experimentCollectionReference
-                            .document(expName)
-                            .set(geoState,SetOptions.merge());
-                }
-            }
-        });
+        aSwitch.setClickable(false);
 
         end.setOnClickListener(new View.OnClickListener() {
             @Override

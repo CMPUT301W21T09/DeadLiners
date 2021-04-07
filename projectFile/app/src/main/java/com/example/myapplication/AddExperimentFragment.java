@@ -20,6 +20,7 @@ public class AddExperimentFragment extends DialogFragment {
     private EditText category;
     private EditText region;
     private EditText numOfTrails;
+    private EditText location;
     private OnFragmentInteractionListener listener;
     private Button count;
     private Button binomial;
@@ -54,11 +55,14 @@ public class AddExperimentFragment extends DialogFragment {
         category = view.findViewById(R.id.category_editText);
         region = view.findViewById(R.id.Region_editText);
         numOfTrails = view.findViewById(R.id.Number_Of_Trails_editText);
+        location = view.findViewById(R.id.GeoLocation);
 
         Button count = (Button) view.findViewById(R.id.Count);
         Button binomial = (Button) view.findViewById(R.id.Binomial);
         Button intCount = (Button) view.findViewById(R.id.IntCount);
         Button measurement = (Button) view.findViewById(R.id.Measure);
+        Button required = (Button) view.findViewById(R.id.Required);
+        Button NotRequired = (Button) view.findViewById(R.id.NotRequired);
 
         count.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,7 +88,18 @@ public class AddExperimentFragment extends DialogFragment {
                 category.setText("measurement");
             }
         });
-
+        required.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                location.setText("required");
+            }
+        });
+        NotRequired.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                location.setText("not required");
+            }
+        });
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
@@ -99,7 +114,8 @@ public class AddExperimentFragment extends DialogFragment {
                         String expCategory = category.getText().toString();
                         String expRegion = region.getText().toString();
                         String expNumOfTrails = numOfTrails.getText().toString();
-                        listener.onOkPressed(new Experiment(expName, experimentDescription,expCategory,expRegion,expNumOfTrails,uid));
+                        String Location = location.getText().toString();
+                        listener.onOkPressed(new Experiment(expName, experimentDescription,expCategory,expRegion,expNumOfTrails,uid,Location));
                     }}).create();
     }
 }

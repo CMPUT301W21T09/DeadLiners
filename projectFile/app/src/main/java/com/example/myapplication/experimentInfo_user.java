@@ -107,17 +107,8 @@ public class experimentInfo_user extends AppCompatActivity {
             aSwitch.setChecked(false);
         }
 
-        aSwitch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(experimentInfo_user.this,"You cannot edit the experiment!",Toast.LENGTH_SHORT).show();
-                if (experiment.getGeoState().equals("1")) {
-                    aSwitch.setChecked(true);
-                } else {
-                    aSwitch.setChecked(false);
-                }
-            }
-        });
+        aSwitch.setClickable(false);
+
 
         viewTrails.setOnClickListener(new View.OnClickListener() {
             @Override

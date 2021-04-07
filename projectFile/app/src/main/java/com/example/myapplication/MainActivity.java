@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
         expDes.put("description", newExperiment.getDescription());
         expMinimumTrail.put("minimum_trails", newExperiment.getMinimum_trails());
         expRegion.put("region", newExperiment.getRegion());
-        geoState.put("GeoState", "0");
+        geoState.put("GeoState", newExperiment.getGeoState());
 
         experimentCollectionReference
                 .document(expName)
