@@ -144,5 +144,16 @@ public class TrialsActivity extends AppCompatActivity {
             }
         });
 
+        statistics.setOnClickListener(new AdapterView.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TrialsActivity.this, StatisticsActivity.class);
+                intent.putExtra("exp_name", exp_name);
+                intent.putExtra("exp_category", exp_category);
+                startActivity(intent);
+            }
+        });
+
     }
+
 }
