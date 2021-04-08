@@ -98,7 +98,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/subscribe2"
+        android:id="@+id/Subscribe"
         android:layout_width="128dp"
         android:layout_height="42dp"
         android:layout_marginEnd="32dp"
@@ -227,15 +227,5 @@
         android:text="See map"
         app:layout_constraintStart_toEndOf="@+id/Geo_enable"
         app:layout_constraintTop_toTopOf="@+id/Geo_enable" />
-
-    <Button
-        android:id="@+id/barcode2"
-        android:layout_width="128dp"
-        android:layout_height="42dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
-        android:text="barcode"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/subscribe2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
