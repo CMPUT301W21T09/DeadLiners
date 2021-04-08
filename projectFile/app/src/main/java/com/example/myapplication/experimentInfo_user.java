@@ -46,14 +46,12 @@ public class experimentInfo_user extends AppCompatActivity {
     CollectionReference binomialCollectionReference = db.collection("BinomialDataSet");
     CollectionReference intCountCollectionReference = db.collection("IntCountDataset");
     CollectionReference measurementCollectionReference = db.collection("MeasurementDataset");
-    private String count ;
-    private int intCount;
-    private int passCount;
-    private int failCount;
+    private String choose;
+    private String data;
 
     private Button qrCode;
     private Button subscribe;
-    private Button questionForum;
+    private Button barCode;
     private Button viewTrails;
     private Button addTrail;
     private Button back;
@@ -85,8 +83,9 @@ public class experimentInfo_user extends AppCompatActivity {
         region = findViewById(R.id.Region);
         status = findViewById(R.id.Status);
 
+        barCode = findViewById(R.id.barcode2);
         qrCode = findViewById(R.id.QR_code);
-        subscribe = findViewById(R.id.Subscribe);
+        subscribe = findViewById(R.id.subscribe);
         viewTrails = findViewById(R.id.View_Trials);
         addTrail = findViewById(R.id.Add_Trial);
         back = findViewById(R.id.Back);
@@ -288,6 +287,50 @@ public class experimentInfo_user extends AppCompatActivity {
                 } else {
                     Toast.makeText(experimentInfo_user.this,"This experiment is ended",Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        barCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String expName = experiment.getExpName();
+                String category = experiment.getCategory();
+                if (category.equals("binomial") || category.equals("count")){
+                    data = expName + " | " + category;
+                    if (category.equals("binomial")){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(experimentInfo_user.this).setTitle("Pass or Fail?")
+                                .setPositiveButton("Pass", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        choose = "1";
+                                        data = data + " | " + choose;
+                                        Intent intent = new Intent(experimentInfo_user.this, barcodeView.class);
+                                        intent.putExtra("exp",data);
+                                        startActivity(intent);
+                                    }
+                                })
+                                .setNegativeButton("Fail", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        choose = "0";
+                                        data = data + " | " + choose;
+                                        Intent intent = new Intent(experimentInfo_user.this, barcodeView.class);
+                                        intent.putExtra("exp",data);
+                                        startActivity(intent);
+                                    }
+                                });
+                        builder.create().show();
+                    }
+                    if (category.equals("count")){
+                        data = data + " | 1";
+                        Intent intent = new Intent(experimentInfo_user.this, barcodeView.class);
+                        intent.putExtra("exp",data);
+                        startActivity(intent);
+                    }
+                } else {
+                    Toast.makeText(experimentInfo_user.this, "This type of experiment currently does not support generate the barCode", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
