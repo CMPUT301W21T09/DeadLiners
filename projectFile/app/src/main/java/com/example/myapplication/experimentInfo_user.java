@@ -32,8 +32,8 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
-//import androidmads.library.qrgenearator.QRGContents;
-//import androidmads.library.qrgenearator.QRGEncoder;
+import androidmads.library.qrgenearator.QRGContents;
+import androidmads.library.qrgenearator.QRGEncoder;
 
 import static java.lang.System.currentTimeMillis;
 
@@ -52,12 +52,11 @@ public class experimentInfo_user extends AppCompatActivity {
     private int failCount;
 
     private Button qrCode;
-    private Button barCode;
+    private Button subscribe;
     private Button questionForum;
     private Button viewTrails;
     private Button addTrail;
     private Button back;
-    private Button subscribe;
     private Switch aSwitch;
 
     private TextView experimentName;
@@ -68,7 +67,7 @@ public class experimentInfo_user extends AppCompatActivity {
     private TextView status;
 
     Bitmap bitmap;
-//    QRGEncoder qrgEncoder;
+    QRGEncoder qrgEncoder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,8 +86,7 @@ public class experimentInfo_user extends AppCompatActivity {
         status = findViewById(R.id.Status);
 
         qrCode = findViewById(R.id.QR_code);
-        barCode = findViewById(R.id.barcode2);
-        subscribe = findViewById(R.id.subscribe2);
+        subscribe = findViewById(R.id.Subscribe);
         viewTrails = findViewById(R.id.View_Trials);
         addTrail = findViewById(R.id.Add_Trial);
         back = findViewById(R.id.Back);
@@ -293,15 +291,6 @@ public class experimentInfo_user extends AppCompatActivity {
             }
         });
 
-        barCode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(experimentInfo_user.this, barcodeView.class);
-                intent.putExtra("expName",experiment.getExpName());
-                startActivity(intent);
-            }
-        });
-
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -309,23 +298,23 @@ public class experimentInfo_user extends AppCompatActivity {
             }
         });
 
-//        qrCode.setOnClickListener(new View.OnClickListener() {
-//            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-//            @Override
-//            public void onClick(View v) {
-//                qrgEncoder = new QRGEncoder("test", null, QRGContents.Type.TEXT, 350);
-//                try {
-//                    bitmap = qrgEncoder.encodeAsBitmap();
-//
-//                } catch (
-//                        WriterException e) {
-//                    Log.e("Tag", e.toString());
-//                }
-//
-//                QRFragment qrFragment = QRFragment.newInstance(bitmap);
-//                qrFragment.show(getSupportFragmentManager(),"qrfrag");
-//            }
-//        });
+        qrCode.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            @Override
+            public void onClick(View v) {
+                qrgEncoder = new QRGEncoder("test", null, QRGContents.Type.TEXT, 350);
+                try {
+                    bitmap = qrgEncoder.encodeAsBitmap();
+
+                } catch (
+                        WriterException e) {
+                    Log.e("Tag", e.toString());
+                }
+
+                QRFragment qrFragment = QRFragment.newInstance(bitmap);
+                qrFragment.show(getSupportFragmentManager(),"qrfrag");
+            }
+        });
 
         Button questionButton = findViewById(R.id.Question_Forum);
         questionButton.setOnClickListener(new View.OnClickListener() {

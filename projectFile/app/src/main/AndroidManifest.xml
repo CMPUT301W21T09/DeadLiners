@@ -19,11 +19,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
-
-        <activity
-            android:name=".barcodeView"
-            android:label="@string/title_activity_barcode_view"
-            android:theme="@style/Theme.MyApplication.NoActionBar"></activity>
         <activity android:name=".ScannerActivity"></activity>
         <activity android:name=".PlotActivity" />
         <activity android:name=".BarActivity" />

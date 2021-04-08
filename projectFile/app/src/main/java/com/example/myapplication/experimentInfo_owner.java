@@ -50,11 +50,8 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
-//import androidmads.library.qrgenearator.QRGContents;
-//import androidmads.library.qrgenearator.QRGEncoder;
-
-//import androidmads.library.qrgenearator.QRGContents;
-//import androidmads.library.qrgenearator.QRGEncoder;
+import androidmads.library.qrgenearator.QRGContents;
+import androidmads.library.qrgenearator.QRGEncoder;
 
 import static java.lang.System.currentTimeMillis;
 
@@ -68,8 +65,7 @@ public class experimentInfo_owner extends AppCompatActivity {
     CollectionReference intCountCollectionReference = db.collection("IntCountDataset");
     CollectionReference measurementCollectionReference = db.collection("MeasurementDataset");
     private String uid;
-    private String choose;
-    private String data;
+    private String count ;
 
 
     private Button qrCode;
@@ -80,7 +76,6 @@ public class experimentInfo_owner extends AppCompatActivity {
     private Button back;
     private Button unPublish;
     private Button end;
-    private Button barCode;
 
     private TextView experimentName;
     private TextView description;
@@ -92,7 +87,7 @@ public class experimentInfo_owner extends AppCompatActivity {
     private LocationManager locationManager;
     private LocationListener locationListener;
     Bitmap bitmap;
-//    QRGEncoder qrgEncoder;
+    QRGEncoder qrgEncoder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,8 +106,7 @@ public class experimentInfo_owner extends AppCompatActivity {
         status = findViewById(R.id.Status);
 
         qrCode = findViewById(R.id.QR_code);
-        barCode = findViewById(R.id.barcode);
-        subscribe = findViewById(R.id.subscribe);
+        subscribe = findViewById(R.id.Subscribe);
         viewTrails = findViewById(R.id.View_Trials);
         addTrail = findViewById(R.id.Add_Trial);
         back = findViewById(R.id.back);
@@ -313,50 +307,6 @@ public class experimentInfo_owner extends AppCompatActivity {
             }
         });
 
-        barCode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String expName = experiment.getExpName();
-                String category = experiment.getCategory();
-                if (category.equals("binomial") || category.equals("count")){
-                    data = expName + " | " + category;
-                    if (category.equals("binomial")){
-                        AlertDialog.Builder builder = new AlertDialog.Builder(experimentInfo_owner.this).setTitle("Pass or Fail?")
-                                .setPositiveButton("Pass", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        choose = "1";
-                                        data = data + " | " + choose;
-                                        Intent intent = new Intent(experimentInfo_owner.this, barcodeView.class);
-                                        intent.putExtra("exp",data);
-                                        startActivity(intent);
-                                    }
-                                })
-                                .setNegativeButton("Fail", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        choose = "0";
-                                        data = data + " | " + choose;
-                                        Intent intent = new Intent(experimentInfo_owner.this, barcodeView.class);
-                                        intent.putExtra("exp",data);
-                                        startActivity(intent);
-                                    }
-                                });
-                        builder.create().show();
-                    }
-                    if (category.equals("count")){
-                        data = data + " | 1";
-                        Intent intent = new Intent(experimentInfo_owner.this, barcodeView.class);
-                        intent.putExtra("exp",data);
-                        startActivity(intent);
-                    }
-                } else {
-                    Toast.makeText(experimentInfo_owner.this, "This type of experiment currently does not support generate the barCode", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
-
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -389,25 +339,25 @@ public class experimentInfo_owner extends AppCompatActivity {
             }
         });
 
-//        qrCode.setOnClickListener(new View.OnClickListener() {
-//            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-//            @Override
-//            public void onClick(View v) {
-//
-//
-//                qrgEncoder = new QRGEncoder("test", null, QRGContents.Type.TEXT, 350);
-//                try {
-//                    bitmap = qrgEncoder.encodeAsBitmap();
-//
-//                } catch (
-//                        WriterException e) {
-//                    Log.e("Tag", e.toString());
-//                }
-//
-//                QRFragment qrFragment = QRFragment.newInstance(bitmap);
-//                qrFragment.show(getSupportFragmentManager(), "qrfrag");
-//            }
-//        });
+        qrCode.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            @Override
+            public void onClick(View v) {
+
+
+                qrgEncoder = new QRGEncoder("test", null, QRGContents.Type.TEXT, 350);
+                try {
+                    bitmap = qrgEncoder.encodeAsBitmap();
+
+                } catch (
+                        WriterException e) {
+                    Log.e("Tag", e.toString());
+                }
+
+                QRFragment qrFragment = QRFragment.newInstance(bitmap);
+                qrFragment.show(getSupportFragmentManager(), "qrfrag");
+            }
+        });
 
         Button questionButton = findViewById(R.id.Question_Forum);
         questionButton.setOnClickListener(new View.OnClickListener() {
