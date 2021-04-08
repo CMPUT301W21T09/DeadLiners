@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
         HashMap<String,String> geoState = new HashMap<>();
 
         expNameField.put("Name",expName);
-        expStatus.put("Status",newExperiment.getPublished());
+        expStatus.put("Status","open");
         expOwner.put("Owner",uid);
         expOwnerName.put("OwnerName", newExperiment.getOwnerName());
         expCategory.put("category", newExperiment.getCategory());
