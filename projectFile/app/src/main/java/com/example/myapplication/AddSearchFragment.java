@@ -21,11 +21,13 @@ public class AddSearchFragment extends DialogFragment {
     private Button expSearch;
     private String uid;
 
+
     AddSearchFragment(String uid){
         this.uid = uid;
     }
 
     public interface OnFragmentInteractionListener {
+        void onOkPressed(Experiment newExperiment);
 
     }
 
@@ -47,6 +49,8 @@ public class AddSearchFragment extends DialogFragment {
 
         userSearch = (Button) view.findViewById(R.id.button_user);
         expSearch = (Button) view.findViewById(R.id.button_exp);
+        Button intCount = (Button) view.findViewById(R.id.IntCount);
+        Button measurement = (Button) view.findViewById(R.id.Measure);
 
         userSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +63,7 @@ public class AddSearchFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent().setClass(getActivity(), SearchExperimentActivity.class);
+                intent.putExtra("uid",uid);
                 startActivity(intent);
             }
         });
@@ -66,7 +71,7 @@ public class AddSearchFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
-                .setTitle("Add Experiment")
+                .setTitle("SEARCH")
                 .setNegativeButton("Cancel", null).create();
     }
 }

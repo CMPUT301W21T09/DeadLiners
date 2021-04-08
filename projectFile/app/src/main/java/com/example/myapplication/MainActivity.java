@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-public class MainActivity extends AppCompatActivity implements AddExperimentFragment.OnFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity implements AddExperimentFragment.OnFragmentInteractionListener, AddSearchFragment.OnFragmentInteractionListener {
     public ArrayList<Experiment> experimentsArrayList;
     public ArrayAdapter<Experiment> experimentsArrayAdapter;
     private ListView mainScrollView;
@@ -43,10 +43,11 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
     private final String TAG = "Sample";
     private ImageButton button_user;
     private ImageButton button_add;
+    private ImageButton button_scan;
     private ImageButton button_search;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference experimentCollectionReference = db.collection("Experiments");
-
+    CollectionReference countCollectionReference = db.collection("CountDataset");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // go to login page
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
         button_add = findViewById(R.id.imageButton_add);
         button_user = findViewById(R.id.imageButton_user);
         button_search = findViewById(R.id.imageButton_search);
+        button_scan = findViewById(R.id.camera);
 
         mainScrollView = findViewById(R.id.mainScrollView);
 
@@ -74,6 +76,13 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
             @Override
             public void onClick(View v) {
                 new AddExperimentFragment(uid).show(getSupportFragmentManager(), "ADD_EXPERIMENT");
+            }
+        });
+
+        button_scan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), ScannerActivity.class));
             }
         });
 
@@ -94,10 +103,12 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
                 if (owner.equals(uid)) {
                     Intent intent = new Intent(MainActivity.this, experimentInfo_owner.class);
                     intent.putExtra("experiment",experiment);
+                    intent.putExtra("uid",uid);
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(MainActivity.this, experimentInfo_user.class);
                     intent.putExtra("experiment",experiment);
+                    intent.putExtra("uid",uid);
                     startActivity(intent);
                 }
             }
@@ -114,11 +125,20 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
                     String minimumTrails = (String) doc.getData().get("minimum_trails");
                     String region = (String) doc.getData().get("region");
                     String uid = (String) doc.getData().get("Owner");
-                    experimentsArrayList.add(new Experiment(expName, description,category,region,minimumTrails,uid));
+                    String ownerName = (String) doc.getData().get("OwnerName");
+                    String status = (String) doc.getData().get("Status");
+                    String geoEnable = (String) doc.getData().get("GeoState");
+                    Experiment experiment = new Experiment(expName, description,category,region,minimumTrails,uid);
+                    experiment.setStatus(status);
+                    experiment.setOwnerName(ownerName);
+                    experiment.setGeoState(geoEnable);
+                    experimentsArrayList.add(experiment);
                 }
                 experimentsArrayAdapter.notifyDataSetChanged();
             }
         });
+
+
     }
 
 
@@ -130,14 +150,6 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
             startActivityForResult(intent, 0);;
         }
     }
-
-    /*
-    public void GoSearchExperiment(View view) {
-        Intent intent = new Intent().setClass(MainActivity.this, SearchExperimentActivity.class);
-        startActivity(intent);
-    }
-
-     */
 
     // pass the uid between main activity and profile activity
     @Override
@@ -156,27 +168,41 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
         }
     }
 
+
+
     @Override
     public void onOkPressed(Experiment newExperiment) {
-        newExperiment.setOwner(uid);
+        newExperiment.setOwnerName(username);
         String expName = newExperiment.getExpName();
+        HashMap<String,String> expNameField = new HashMap<>();
         HashMap<String,String> expStatus = new HashMap<>();
         HashMap<String,String> expOwner = new HashMap<>();
+        HashMap<String,String> expOwnerName = new HashMap<>();
         HashMap<String,String> expCategory = new HashMap<>();
         HashMap<String,String> expDes = new HashMap<>();
         HashMap<String,String> expMinimumTrail = new HashMap<>();
         HashMap<String,String> expRegion = new HashMap<>();
+        HashMap<String,String> geoState = new HashMap<>();
 
+        expNameField.put("Name",expName);
         expStatus.put("Status",newExperiment.getPublished());
         expOwner.put("Owner",uid);
+        expOwnerName.put("OwnerName", newExperiment.getOwnerName());
         expCategory.put("category", newExperiment.getCategory());
         expDes.put("description", newExperiment.getDescription());
         expMinimumTrail.put("minimum_trails", newExperiment.getMinimum_trails());
         expRegion.put("region", newExperiment.getRegion());
+        geoState.put("GeoState", newExperiment.getGeoState());
 
         experimentCollectionReference
                 .document(expName)
                 .set(expCategory);
+        experimentCollectionReference
+                .document(expName)
+                .set(expNameField,SetOptions.merge());
+        experimentCollectionReference
+                .document(expName)
+                .set(expOwnerName,SetOptions.merge());
         experimentCollectionReference
                 .document(expName)
                 .set(expOwner, SetOptions.merge());
@@ -192,5 +218,11 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
         experimentCollectionReference
                 .document(expName)
                 .set(expStatus,SetOptions.merge());
+        experimentCollectionReference
+                .document(expName)
+                .set(geoState,SetOptions.merge());
+
+
     }
+
 }

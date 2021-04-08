@@ -11,12 +11,39 @@ public class Experiment implements Serializable {
     private String category;
     private String region;
     private String minimum_trails;
-    public String published;
+    public String status;
     public ArrayList<Location> locations;
     public ArrayList<Location> ignores;
     //public barcode;
     public String owner;
+    public String ownerName;
     //public Array<User> participants;
+    public String geoState;
+
+    public Experiment(String name, String description, String category, String region, String minimum_trails,String uid, String geoState) {
+        this.expName = name;
+        this.description = description;
+        this.category = category;
+        this.region = region;
+        this.minimum_trails = minimum_trails;
+        this.owner = uid;
+        if (geoState.equals("required")) {
+            this.geoState = "1";
+        } else {
+            this.geoState = "0";
+        }
+    }
+
+    public Experiment(String name, String description,String category,String region,String minimumTrails, String uid, String geostate, String status) {
+        this.expName = name;
+        this.description = description;
+        this.category = category;
+        this.region = region;
+        this.minimum_trails = minimumTrails;
+        this.status = status;
+        this.geoState = geostate;
+        this.owner = uid;
+    }
 
     public Experiment(String name, String description, String category, String region, String minimum_trails,String uid){
         this.expName = name;
@@ -24,28 +51,41 @@ public class Experiment implements Serializable {
         this.category = category;
         this.region = region;
         this.minimum_trails = minimum_trails;
-        this.published = "published";
+        this.status = "open";
         this.owner = uid;
+    }
+
+
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
     }
 
     public String getOwner() {
         return owner;
     }
 
-    public void setOwner(String owner) {
-        this.owner = owner;
+    public void setOwnerName(String userName){
+        this.ownerName = userName;
     }
-
     public String getPublished() {
-        return published;
+        return status;
     }
 
-    public void setPublishedToTrue() {
-        this.published = "published";
+    public String getGeoState() {
+        return geoState;
+    }
+
+    public void setGeoState(String geoState) {
+        this.geoState = geoState;
     }
 
     public void setPublishedToFalse() {
-        this.published = "unpublished";
+        this.status = "end";
     }
     public Experiment(String name) {
         this.expName = name;
