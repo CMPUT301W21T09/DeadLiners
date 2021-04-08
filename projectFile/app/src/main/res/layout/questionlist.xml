@@ -23,21 +23,6 @@
         android:clickable="true"
         android:focusable="true"
         android:scrollbarTrackVertical="@android:drawable/ic_menu_add"
-        android:src="@android:drawable/ic_input_add"
-        tools:ignore="MissingConstraints"></com.google.android.material.floatingactionbutton.FloatingActionButton>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/questionlist_back_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|start"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:background="@android:drawable/ic_input_add"
-        android:clickable="true"
-        android:focusable="true"
-        android:scrollbarTrackVertical="@android:drawable/ic_menu_revert"
-        android:src="@android:drawable/ic_menu_revert"
         tools:ignore="MissingConstraints"></com.google.android.material.floatingactionbutton.FloatingActionButton>
 
 </FrameLayout>

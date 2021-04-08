@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -33,7 +32,7 @@ public class QuestionListActivity extends AppCompatActivity
         implements AddQAFragment.OnAddFragmentInteractionListener
 {
 
-    private ArrayList<QuestionOrReply> questions;
+    private ArrayList<QuestionOrReply> questions; // TODO should use the array in an experiment
     private ListView questionList;
     private ArrayAdapter<QuestionOrReply> questionAdapter;
     private String user_uid;
@@ -52,13 +51,14 @@ public class QuestionListActivity extends AppCompatActivity
         experiment = (Experiment) intent.getSerializableExtra("experiment");
         user_uid = intent.getStringExtra("uid");
 
-        questions=new ArrayList<>();
-        questionAdapter = new QACustomList(this, questions);
+        questions = new ArrayList<>();
+
         questionList = findViewById(R.id.questionList);
+        questionAdapter = new QACustomList(this, questions);
         questionList.setAdapter(questionAdapter);
 
-        db=FirebaseFirestore.getInstance();
-        questionReference=db.collection("Questions");
+        db = FirebaseFirestore.getInstance();
+        questionReference = db.collection("Questions");
 
         FloatingActionButton addExpButton = findViewById(R.id.add_question_button);
         addExpButton.setOnClickListener(new View.OnClickListener(){
@@ -91,13 +91,6 @@ public class QuestionListActivity extends AppCompatActivity
                 questionAdapter.notifyDataSetChanged();
             }
         });
-
-        FloatingActionButton back = findViewById(R.id.questionlist_back_button);
-        back.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){ finish(); }
-        });
-
     }
 
     @Override
