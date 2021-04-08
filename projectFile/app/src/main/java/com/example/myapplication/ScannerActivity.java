@@ -106,7 +106,7 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
 
             collectionReference
                     .document(uniqueTrailId)
-                    .set(data);
+                    .set(input);
             collectionReference
                     .document(uniqueTrailId)
                     .set(ignore, SetOptions.merge());
@@ -135,7 +135,7 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
             ignore.put("ignore",false);
             collectionReference
                     .document(uniqueTrailId)
-                    .set(data);
+                    .set(input);
 
             collectionReference
                     .document(uniqueTrailId)
@@ -146,6 +146,7 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
                     .document(uniqueTrailId)
                     .set(ignore,SetOptions.merge());
         }
+
         /*
         dbref.push().setValue(data)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -157,6 +158,8 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
                 });
 
          */
+
+
     }
 
     @Override
