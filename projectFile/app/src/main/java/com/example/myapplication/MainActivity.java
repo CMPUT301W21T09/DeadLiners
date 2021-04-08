@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
     private final String TAG = "Sample";
     private ImageButton button_user;
     private ImageButton button_add;
+    private ImageButton button_scan;
     private ImageButton button_search;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference experimentCollectionReference = db.collection("Experiments");
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
         button_add = findViewById(R.id.imageButton_add);
         button_user = findViewById(R.id.imageButton_user);
         button_search = findViewById(R.id.imageButton_search);
+        button_scan = findViewById(R.id.camera);
 
         mainScrollView = findViewById(R.id.mainScrollView);
 
@@ -74,6 +76,13 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
             @Override
             public void onClick(View v) {
                 new AddExperimentFragment(uid).show(getSupportFragmentManager(), "ADD_EXPERIMENT");
+            }
+        });
+
+        button_scan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), ScannerActivity.class));
             }
         });
 
@@ -128,6 +137,8 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
                 experimentsArrayAdapter.notifyDataSetChanged();
             }
         });
+
+
     }
 
 
