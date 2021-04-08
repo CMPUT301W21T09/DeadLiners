@@ -23,8 +23,8 @@
 
     <ImageView
         android:id="@+id/barcodeImage"
-        android:layout_width="352dp"
-        android:layout_height="52dp"
+        android:layout_width="414dp"
+        android:layout_height="85dp"
         android:layout_marginStart="65dp"
         android:layout_marginLeft="65dp"
         android:layout_marginTop="60dp"
