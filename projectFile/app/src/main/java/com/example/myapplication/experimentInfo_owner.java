@@ -316,8 +316,13 @@ public class experimentInfo_owner extends AppCompatActivity {
                 String expName = experiment.getExpName();
                 String category = experiment.getCategory();
                 if (category.equals("binomial") || category.equals("count")){
+                    if (category.equals("count")){
+                        category = "1";
+                    } else {
+                        category = "2";
+                    }
                     data = expName + "|" + category;
-                    if (category.equals("binomial")){
+                    if (category.equals("2")){
                         AlertDialog.Builder builder = new AlertDialog.Builder(experimentInfo_owner.this).setTitle("Pass or Fail?")
                                 .setPositiveButton("Pass", new DialogInterface.OnClickListener() {
                                     @Override
@@ -341,7 +346,7 @@ public class experimentInfo_owner extends AppCompatActivity {
                                 });
                         builder.create().show();
                     }
-                    if (category.equals("count")){
+                    if (category.equals("1")){
                         data = data + "|1";
                         Intent intent = new Intent(experimentInfo_owner.this, barcodeView.class);
                         intent.putExtra("exp",data);
