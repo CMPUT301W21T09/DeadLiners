@@ -56,7 +56,7 @@
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="48dp"
         android:text="ExperimentName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -67,32 +67,29 @@
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginEnd="28dp"
-        android:layout_marginRight="28dp"
+        android:layout_marginTop="68dp"
         android:text="Description"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Unpublish" />
-
-    <Button
-        android:id="@+id/Unpublish"
-        android:layout_width="171dp"
-        android:layout_height="34dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="34dp"
-        android:layout_marginEnd="224dp"
-        android:layout_marginRight="224dp"
-        android:text="End"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/experimentName" />
 
     <Button
+        android:id="@+id/Unpublish"
+        android:layout_width="171dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="224dp"
+        android:layout_marginRight="224dp"
+        android:text="End"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Subscribe" />
+
+    <Button
         android:id="@+id/QR_code"
         android:layout_width="128dp"
-        android:layout_height="34dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="28dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
         android:text="QR_code"
@@ -100,9 +97,9 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/subscribe2"
+        android:id="@+id/Subscribe"
         android:layout_width="128dp"
-        android:layout_height="34dp"
+        android:layout_height="42dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
         android:text="Subscribe"
@@ -231,15 +228,12 @@
     <Button
         android:id="@+id/End"
         android:layout_width="171dp"
-        android:layout_height="34dp"
-        android:layout_marginStart="37dp"
-        android:layout_marginLeft="37dp"
+        android:layout_height="46dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:text="Unpublish"
-        app:layout_constraintBottom_toTopOf="@+id/Description"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/Unpublish" />
+        app:layout_constraintTop_toBottomOf="@+id/Subscribe" />
 
     <Button
         android:id="@+id/button2"
@@ -251,15 +245,5 @@
         android:text="See map"
         app:layout_constraintStart_toEndOf="@+id/Geo_enable"
         app:layout_constraintTop_toTopOf="@+id/Geo_enable" />
-
-    <Button
-        android:id="@+id/barcode"
-        android:layout_width="128dp"
-        android:layout_height="34dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
-        android:text="barcode"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/subscribe2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
