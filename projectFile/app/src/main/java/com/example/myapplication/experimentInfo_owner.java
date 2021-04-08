@@ -50,11 +50,9 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
-//import androidmads.library.qrgenearator.QRGContents;
-//import androidmads.library.qrgenearator.QRGEncoder;
+import androidmads.library.qrgenearator.QRGContents;
+import androidmads.library.qrgenearator.QRGEncoder;
 
-//import androidmads.library.qrgenearator.QRGContents;
-//import androidmads.library.qrgenearator.QRGEncoder;
 
 import static java.lang.System.currentTimeMillis;
 
@@ -92,7 +90,7 @@ public class experimentInfo_owner extends AppCompatActivity {
     private LocationManager locationManager;
     private LocationListener locationListener;
     Bitmap bitmap;
-//    QRGEncoder qrgEncoder;
+    QRGEncoder qrgEncoder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -389,25 +387,25 @@ public class experimentInfo_owner extends AppCompatActivity {
             }
         });
 
-//        qrCode.setOnClickListener(new View.OnClickListener() {
-//            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-//            @Override
-//            public void onClick(View v) {
-//
-//
-//                qrgEncoder = new QRGEncoder("test", null, QRGContents.Type.TEXT, 350);
-//                try {
-//                    bitmap = qrgEncoder.encodeAsBitmap();
-//
-//                } catch (
-//                        WriterException e) {
-//                    Log.e("Tag", e.toString());
-//                }
-//
-//                QRFragment qrFragment = QRFragment.newInstance(bitmap);
-//                qrFragment.show(getSupportFragmentManager(), "qrfrag");
-//            }
-//        });
+        qrCode.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            @Override
+            public void onClick(View v) {
+
+
+                qrgEncoder = new QRGEncoder("test", null, QRGContents.Type.TEXT, 350);
+                try {
+                    bitmap = qrgEncoder.encodeAsBitmap();
+
+                } catch (
+                        WriterException e) {
+                    Log.e("Tag", e.toString());
+                }
+
+                QRFragment qrFragment = QRFragment.newInstance(bitmap);
+                qrFragment.show(getSupportFragmentManager(), "qrfrag");
+            }
+        });
 
         Button questionButton = findViewById(R.id.Question_Forum);
         questionButton.setOnClickListener(new View.OnClickListener() {
