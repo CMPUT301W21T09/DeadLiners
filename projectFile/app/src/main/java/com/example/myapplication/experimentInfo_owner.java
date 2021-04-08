@@ -65,17 +65,18 @@ public class experimentInfo_owner extends AppCompatActivity {
     CollectionReference intCountCollectionReference = db.collection("IntCountDataset");
     CollectionReference measurementCollectionReference = db.collection("MeasurementDataset");
     private String uid;
-    private String count ;
+    private String choose;
+    private String data;
 
 
     private Button qrCode;
     private Button subscribe;
-    private Button questionForum;
     private Button viewTrails;
     private Button addTrail;
     private Button back;
     private Button unPublish;
     private Button end;
+    private Button barCode;
 
     private TextView experimentName;
     private TextView description;
@@ -106,13 +107,14 @@ public class experimentInfo_owner extends AppCompatActivity {
         status = findViewById(R.id.Status);
 
         qrCode = findViewById(R.id.QR_code);
-        subscribe = findViewById(R.id.Subscribe);
+        subscribe = findViewById(R.id.subscribe);
         viewTrails = findViewById(R.id.View_Trials);
         addTrail = findViewById(R.id.Add_Trial);
         back = findViewById(R.id.back);
         unPublish = findViewById(R.id.Unpublish);
         end = findViewById(R.id.End);
         aSwitch = findViewById(R.id.Geo_enable);
+        barCode = findViewById(R.id.barcode);
 
         if (experiment.getGeoState().equals("1")) {
             aSwitch.setChecked(true);
@@ -304,6 +306,50 @@ public class experimentInfo_owner extends AppCompatActivity {
                 } else {
                     Toast.makeText(experimentInfo_owner.this,"This experiment is ended",Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        barCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String expName = experiment.getExpName();
+                String category = experiment.getCategory();
+                if (category.equals("binomial") || category.equals("count")){
+                    data = expName + " | " + category;
+                    if (category.equals("binomial")){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(experimentInfo_owner.this).setTitle("Pass or Fail?")
+                                .setPositiveButton("Pass", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        choose = "1";
+                                        data = data + " | " + choose;
+                                        Intent intent = new Intent(experimentInfo_owner.this, barcodeView.class);
+                                        intent.putExtra("exp",data);
+                                        startActivity(intent);
+                                    }
+                                })
+                                .setNegativeButton("Fail", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        choose = "0";
+                                        data = data + " | " + choose;
+                                        Intent intent = new Intent(experimentInfo_owner.this, barcodeView.class);
+                                        intent.putExtra("exp",data);
+                                        startActivity(intent);
+                                    }
+                                });
+                        builder.create().show();
+                    }
+                    if (category.equals("count")){
+                        data = data + " | 1";
+                        Intent intent = new Intent(experimentInfo_owner.this, barcodeView.class);
+                        intent.putExtra("exp",data);
+                        startActivity(intent);
+                    }
+                } else {
+                    Toast.makeText(experimentInfo_owner.this, "This type of experiment currently does not support generate the barCode", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
