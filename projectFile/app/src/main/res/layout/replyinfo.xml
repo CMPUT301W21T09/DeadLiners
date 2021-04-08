@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/replyinfo_back_place"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -15,7 +16,7 @@
         <TextView
             android:id="@+id/reply_descriptionTextView"
             android:layout_width="match_parent"
-            android:layout_height="115dp"
+            android:layout_height="75dp"
             android:text="Reply:"
             android:textColor="#673AB7"
             android:textSize="30sp" />
@@ -25,27 +26,21 @@
             android:layout_width="match_parent"
             android:layout_height="200dp" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/reply_publisher"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Publisher:"
+            android:textColor="#673AB7"
+            android:textSize="30sp" />
 
-            <TextView
-                android:id="@+id/reply_publisher"
-                android:layout_width="66dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Publisher:"
-                android:textColor="#673AB7"
-                android:textSize="30sp" />
-
-            <TextView
-                android:id="@+id/reply_publisher_content"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:textSize="30sp" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/reply_publisher_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="30sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -69,10 +64,18 @@
                 android:textSize="30sp" />
         </LinearLayout>
 
-        <Button
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/replyinfo_back"
             android:layout_width="match_parent"
-            android:layout_height="65dp"
-            android:text="Goback" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:background="@android:drawable/ic_input_add"
+            android:clickable="true"
+            android:focusable="true"
+            android:scrollbarTrackVertical="@android:drawable/ic_menu_revert"
+            android:src="@android:drawable/ic_menu_revert"
+            tools:ignore="MissingConstraints"></com.google.android.material.floatingactionbutton.FloatingActionButton>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
