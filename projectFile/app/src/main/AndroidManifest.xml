@@ -18,7 +18,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
-        <activity android:name=".StatisticsActivity"></activity>
+        <activity android:name=".PlotActivity"></activity>
+        <activity android:name=".BarActivity" />
+        <activity android:name=".StatisticsActivity" />
         <activity android:name=".trialsInfo_nonuser" />
         <activity android:name=".trialsInfo_user" />
         <activity android:name=".trialsInfo_owner" />

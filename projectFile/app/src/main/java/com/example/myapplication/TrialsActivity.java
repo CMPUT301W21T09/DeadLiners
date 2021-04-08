@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
@@ -150,6 +151,27 @@ public class TrialsActivity extends AppCompatActivity {
                 Intent intent = new Intent(TrialsActivity.this, StatisticsActivity.class);
                 intent.putExtra("exp_name", exp_name);
                 intent.putExtra("exp_category", exp_category);
+                startActivity(intent);
+            }
+        });
+
+        histogram.setOnClickListener(new AdapterView.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TrialsActivity.this, BarActivity.class);
+                intent.putExtra("exp_category", exp_category);
+                intent.putExtra("exp_name", exp_name);
+                startActivity(intent);
+
+            }
+        });
+
+        plot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TrialsActivity.this, PlotActivity.class);
+                intent.putExtra("exp_category", exp_category);
+                intent.putExtra("exp_name", exp_name);
                 startActivity(intent);
             }
         });

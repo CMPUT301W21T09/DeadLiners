@@ -114,7 +114,7 @@ public class experimentInfo_owner extends AppCompatActivity {
         end = findViewById(R.id.End);
         aSwitch = findViewById(R.id.Geo_enable);
 
-        if (experiment.getGeoState() == 1) {
+        if (experiment.getGeoState().equals("1")) {
             aSwitch.setChecked(true);
         } else {
             aSwitch.setChecked(false);
@@ -177,26 +177,25 @@ public class experimentInfo_owner extends AppCompatActivity {
                                     String uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
 
                                     HashMap<String, String> data = new HashMap<>();
-                                    /*
+
                                     HashMap<String, Boolean> passOrFail = new HashMap<>();
                                     passOrFail.put("pass",true);
 
-                                     */
                                     data.put("value", "pass");
                                     data.put("expName",expName);
                                     data.put("experimenter",uid);
                                     data.put("time",currentTime);
                                     HashMap<String,Boolean> ignore = new HashMap<>();
                                     ignore.put("ignore",false);
+
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(data);
-                                    /*
+
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(passOrFail,SetOptions.merge());
 
-                                     */
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(ignore,SetOptions.merge());
@@ -211,11 +210,11 @@ public class experimentInfo_owner extends AppCompatActivity {
                                     String uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
 
                                     HashMap<String, String> data = new HashMap<>();
-                                    /*
+
                                     HashMap<String, Boolean> passOrFail = new HashMap<>();
                                     passOrFail.put("pass",false);
 
-                                     */
+
                                     data.put("value","fail");
                                     data.put("expName",expName);
                                     data.put("experimenter",uid);
@@ -225,12 +224,12 @@ public class experimentInfo_owner extends AppCompatActivity {
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(data);
-                                    /*
+
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(passOrFail,SetOptions.merge());
 
-                                     */
+
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(ignore,SetOptions.merge());
@@ -315,18 +314,7 @@ public class experimentInfo_owner extends AppCompatActivity {
             }
         });
 
-        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    // The toggle is enabled
-                    experiment.setGeoState(1);
-                } else {
-                    // The toggle is disabled
-                    experiment.setGeoState(0);
-                }
-            }
-        });
+        aSwitch.setClickable(false);
 
         end.setOnClickListener(new View.OnClickListener() {
             @Override
