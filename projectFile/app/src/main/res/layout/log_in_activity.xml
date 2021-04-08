@@ -52,14 +52,25 @@
         android:id="@+id/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginLeft="160dp"
         android:background="@drawable/setbar_bg"
-        android:text="start"
+        android:text="Login or sign up"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cancel1"
+        app:layout_constraintHorizontal_bias="0.478"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4"
-        app:layout_constraintVertical_bias="0.17" />
+        app:layout_constraintVertical_bias="0.089" />
+
+    <Button
+        android:id="@+id/cancel1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="64dp"
+        android:layout_marginRight="64dp"
+        android:background="@drawable/setbar_bg"
+        android:text="CANCEL"
+        app:layout_constraintBottom_toBottomOf="@+id/login"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/textView"
@@ -87,12 +98,12 @@
 
     <TextView
         android:id="@+id/textView4"
-        android:layout_width="275dp"
-        android:layout_height="69dp"
+        android:layout_width="284dp"
+        android:layout_height="62dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="4dp"
-        android:text="*If you are first here system will assign you a new unique device id, and defalt your personal infomation also remember your device. If you want to change your personal infomation, you can edit your profile in the app."
+        android:text='*If you are first time to sign up, there should be a new unique uid which will be assigned for your device. Also, the username should be "Defalt". Remember to edit your profile when you login.'
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@+id/imageButton"
         app:layout_constraintTop_toBottomOf="@+id/imageButton" />

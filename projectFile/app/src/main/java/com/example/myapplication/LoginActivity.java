@@ -122,7 +122,19 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+        Button cancel = (Button)findViewById(R.id.cancel1);
 
+        //cancel button
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(login == false){
+                    Toast.makeText(LoginActivity.this, "You have not login, please login first.",Toast.LENGTH_SHORT).show();
+                }else{
+                    finish();
+                }
+            }
+        });
 
     }
 }

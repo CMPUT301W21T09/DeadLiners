@@ -52,11 +52,12 @@ public class experimentInfo_user extends AppCompatActivity {
     private int failCount;
 
     private Button qrCode;
-    private Button subscribe;
+    private Button barCode;
     private Button questionForum;
     private Button viewTrails;
     private Button addTrail;
     private Button back;
+    private Button subscribe;
     private Switch aSwitch;
 
     private TextView experimentName;
@@ -86,7 +87,8 @@ public class experimentInfo_user extends AppCompatActivity {
         status = findViewById(R.id.Status);
 
         qrCode = findViewById(R.id.QR_code);
-        subscribe = findViewById(R.id.Subscribe);
+        barCode = findViewById(R.id.barcode2);
+        subscribe = findViewById(R.id.subscribe2);
         viewTrails = findViewById(R.id.View_Trials);
         addTrail = findViewById(R.id.Add_Trial);
         back = findViewById(R.id.Back);
@@ -288,6 +290,15 @@ public class experimentInfo_user extends AppCompatActivity {
                 } else {
                     Toast.makeText(experimentInfo_user.this,"This experiment is ended",Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        barCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(experimentInfo_user.this, barcodeView.class);
+                intent.putExtra("expName",experiment.getExpName());
+                startActivity(intent);
             }
         });
 

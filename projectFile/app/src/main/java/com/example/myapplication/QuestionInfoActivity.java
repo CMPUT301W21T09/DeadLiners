@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -96,11 +95,6 @@ public class QuestionInfoActivity extends AppCompatActivity
                 }
                 replyAdapter.notifyDataSetChanged();
             }
-        });
-        FloatingActionButton back=findViewById(R.id.questioninfo_back_button);
-        back.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){ finish(); }
         });
     }
 

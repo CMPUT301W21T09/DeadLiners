@@ -2,8 +2,6 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,7 +11,6 @@ public class ReplyInfoActivity extends AppCompatActivity {
     private TextView description;
     private TextView publisher;
     private TextView time;
-    Button back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,12 +28,5 @@ public class ReplyInfoActivity extends AppCompatActivity {
         publisher.setText(reply.getPublisher_uid());
         time.setText(reply.getTime().toString());
 
-        back=findViewById(R.id.replyinfo_back);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
     }
 }
