@@ -180,9 +180,6 @@ public class experimentInfo_owner extends AppCompatActivity {
 
                                     HashMap<String, String> data = new HashMap<>();
 
-                                    HashMap<String, Boolean> passOrFail = new HashMap<>();
-                                    passOrFail.put("pass",true);
-
                                     data.put("value", "pass");
                                     data.put("expName",expName);
                                     data.put("experimenter",uid);
@@ -193,10 +190,6 @@ public class experimentInfo_owner extends AppCompatActivity {
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(data);
-
-                                    binomialCollectionReference
-                                            .document(uniqueTrailId)
-                                            .set(passOrFail,SetOptions.merge());
 
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
@@ -213,9 +206,6 @@ public class experimentInfo_owner extends AppCompatActivity {
 
                                     HashMap<String, String> data = new HashMap<>();
 
-                                    HashMap<String, Boolean> passOrFail = new HashMap<>();
-                                    passOrFail.put("pass",false);
-
 
                                     data.put("value","fail");
                                     data.put("expName",expName);
@@ -226,10 +216,6 @@ public class experimentInfo_owner extends AppCompatActivity {
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(data);
-
-                                    binomialCollectionReference
-                                            .document(uniqueTrailId)
-                                            .set(passOrFail,SetOptions.merge());
 
 
                                     binomialCollectionReference
