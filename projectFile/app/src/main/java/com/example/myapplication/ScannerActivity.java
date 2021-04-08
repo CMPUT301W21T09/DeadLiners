@@ -91,7 +91,7 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
     public void handleResult(Result rawResult) {
         String data = rawResult.getText().toString();
 
-        String[] arrOfdata = data.split("|",0);
+        String[] arrOfdata = data.split("|",3);
         String expName = arrOfdata[0];
         String category = arrOfdata[1];
         String trial = arrOfdata[2];
@@ -149,6 +149,8 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
                     .document(uniqueTrailId)
                     .set(ignore,SetOptions.merge());
         }
+
+        Toast.makeText(ScannerActivity.this,"Data added!",Toast.LENGTH_SHORT).show();
         finish();
     }
 
