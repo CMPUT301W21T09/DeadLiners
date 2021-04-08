@@ -67,6 +67,8 @@ public class experimentInfo_owner extends AppCompatActivity {
     private String uid;
     private String choose;
     private String data;
+    private double latitude;
+    private double longitude;
 
 
     private Button qrCode;
@@ -87,6 +89,7 @@ public class experimentInfo_owner extends AppCompatActivity {
     private Switch aSwitch;
     private LocationManager locationManager;
     private LocationListener locationListener;
+    private LocationListener locationListener2;
     Bitmap bitmap;
     QRGEncoder qrgEncoder;
 
@@ -143,6 +146,18 @@ public class experimentInfo_owner extends AppCompatActivity {
             }
         });
 
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        locationListener2 = new LocationListener() {
+            @Override
+            public void onLocationChanged(@NonNull Location location) {
+                locationManager.removeUpdates(locationListener2);
+                //Toast.makeText(experimentInfo_owner.this, "update", Toast.LENGTH_SHORT).show();
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
+            }
+        };
+
         addTrail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -156,6 +171,12 @@ public class experimentInfo_owner extends AppCompatActivity {
                     data.put("expName",expName);
                     data.put("experimenter",uid);
                     data.put("time",currentTime);
+
+                    getLocation();
+                    HashMap<String, Double> loc = new HashMap<>();
+                    loc.put("longi", longitude);
+                    loc.put("lat", latitude);
+
                     HashMap<String,Boolean> ignore = new HashMap<>();
                     ignore.put("ignore",false);
 
@@ -165,6 +186,10 @@ public class experimentInfo_owner extends AppCompatActivity {
                     countCollectionReference
                             .document(uniqueTrailId)
                             .set(ignore,SetOptions.merge());
+                    countCollectionReference
+                            .document(uniqueTrailId)
+                            .set(loc, SetOptions.merge());
+
 
                     Toast.makeText(experimentInfo_owner.this,"Increment the count by 1!",Toast.LENGTH_SHORT).show();
                 }
@@ -187,6 +212,11 @@ public class experimentInfo_owner extends AppCompatActivity {
                                     HashMap<String,Boolean> ignore = new HashMap<>();
                                     ignore.put("ignore",false);
 
+                                    getLocation();
+                                    HashMap<String, Double> loc = new HashMap<>();
+                                    loc.put("longi", longitude);
+                                    loc.put("lat", latitude);
+
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(data);
@@ -194,6 +224,9 @@ public class experimentInfo_owner extends AppCompatActivity {
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(ignore,SetOptions.merge());
+                                    binomialCollectionReference
+                                            .document(uniqueTrailId)
+                                            .set(loc, SetOptions.merge());
 
                                 }
                             })
@@ -213,10 +246,19 @@ public class experimentInfo_owner extends AppCompatActivity {
                                     data.put("time",currentTime);
                                     HashMap<String,Boolean> ignore = new HashMap<>();
                                     ignore.put("ignore",false);
+
+                                    getLocation();
+                                    HashMap<String, Double> loc = new HashMap<>();
+                                    loc.put("longi", longitude);
+                                    loc.put("lat", latitude);
+
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(data);
 
+                                    binomialCollectionReference
+                                            .document(uniqueTrailId)
+                                            .set(loc, SetOptions.merge());
 
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
@@ -247,6 +289,11 @@ public class experimentInfo_owner extends AppCompatActivity {
                                     HashMap<String,Boolean> ignore = new HashMap<>();
                                     ignore.put("ignore",false);
 
+                                    getLocation();
+                                    HashMap<String, Double> loc = new HashMap<>();
+                                    loc.put("longi", longitude);
+                                    loc.put("lat", latitude);
+
 
                                     intCountCollectionReference
                                             .document(uniqueTrailId)
@@ -254,6 +301,10 @@ public class experimentInfo_owner extends AppCompatActivity {
                                     intCountCollectionReference
                                             .document(uniqueTrailId)
                                             .set(ignore,SetOptions.merge());
+
+                                    intCountCollectionReference
+                                            .document(uniqueTrailId)
+                                            .set(loc, SetOptions.merge());
 
                                 }
                             });
@@ -279,6 +330,15 @@ public class experimentInfo_owner extends AppCompatActivity {
                                     data.put("time",currentTime);
                                     HashMap<String,Boolean> ignore = new HashMap<>();
                                     ignore.put("ignore",false);
+
+                                    getLocation();
+                                    HashMap<String, Double> loc = new HashMap<>();
+                                    loc.put("longi", longitude);
+                                    loc.put("lat", latitude);
+
+                                    measurementCollectionReference
+                                            .document(uniqueTrailId)
+                                            .set(loc, SetOptions.merge());
 
                                     measurementCollectionReference
                                             .document(uniqueTrailId)
@@ -433,19 +493,39 @@ public class experimentInfo_owner extends AppCompatActivity {
             }
         });
 
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        //locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        locationListener = new LocationListener() {
+        /*locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(@NonNull Location location) {
                 locationManager.removeUpdates(locationListener);
                 //Toast.makeText(experimentInfo_owner.this, "update", Toast.LENGTH_SHORT).show();
                 Intent intent1 = new Intent(experimentInfo_owner.this, MapsActivity.class);
-                intent1.putExtra("lati", location.getLatitude());
-                intent1.putExtra("longi", location.getLongitude());
+
+
+                // CollectionReference experimentCollectionReference = db.collection("Experiments");
+                //    CollectionReference countCollectionReference = db.collection("CountDataset");
+                //    CollectionReference binomialCollectionReference = db.collection("BinomialDataSet");
+                //    CollectionReference intCountCollectionReference = db.collection("IntCountDataset");
+                //    CollectionReference measurementCollectionReference = db.collection("MeasurementDataset");
+                CollectionReference passCRef = null;
+
+                if (experiment.getCategory().equals("measurement")){
+                     passCRef = measurementCollectionReference;
+                }else if (experiment.getCategory().equals("intCount")){
+                    passCRef = intCountCollectionReference;
+                }else if (experiment.getCategory().equals("binomial")){
+                    passCRef = binomialCollectionReference;
+                }else if (experiment.getCategory().equals("count")){
+                    passCRef = countCollectionReference;
+                }
+
+
+                CostomeCRef costomeCRef = new CostomeCRef(passCRef);
+                intent1.putExtra("cRef", costomeCRef);
                 startActivity(intent1);
             }
-        };
+        };*/
     }
 
     ////////////
@@ -458,7 +538,22 @@ public class experimentInfo_owner extends AppCompatActivity {
     }
 
     public void showMap(View view) {
+        Intent intent1 = new Intent(experimentInfo_owner.this, MapsActivity.class);
 
+
+        // CollectionReference experimentCollectionReference = db.collection("Experiments");
+        //    CollectionReference countCollectionReference = db.collection("CountDataset");
+        //    CollectionReference binomialCollectionReference = db.collection("BinomialDataSet");
+        //    CollectionReference intCountCollectionReference = db.collection("IntCountDataset");
+        //    CollectionReference measurementCollectionReference = db.collection("MeasurementDataset");
+        String cat = experiment.getCategory();
+
+        intent1.putExtra("cType", cat);
+        startActivity(intent1);
+
+    }
+
+    public void getLocation(){
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
@@ -474,15 +569,16 @@ public class experimentInfo_owner extends AppCompatActivity {
                 }, 10);
 
                 //locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, locationListener, );
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListener);
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListener2);
 
             } else {
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListener);
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListener2);
             }
 
         }else{
             showAlert();
         }
+
     }
 
 
