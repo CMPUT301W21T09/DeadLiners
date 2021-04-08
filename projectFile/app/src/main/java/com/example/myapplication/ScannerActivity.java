@@ -124,9 +124,6 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
 
             HashMap<String, String> input = new HashMap<>();
 
-            HashMap<String, Boolean> passOrFail = new HashMap<>();
-            passOrFail.put("pass",false);
-
             if(trial.equals("1")) {
                 input.put("value","pass");
             } else if (trial.equals("0")) {
@@ -140,10 +137,6 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
             BinomialcollectionReference
                     .document(uniqueTrailId)
                     .set(input);
-
-            BinomialcollectionReference
-                    .document(uniqueTrailId)
-                    .set(passOrFail,SetOptions.merge());
 
             BinomialcollectionReference
                     .document(uniqueTrailId)
