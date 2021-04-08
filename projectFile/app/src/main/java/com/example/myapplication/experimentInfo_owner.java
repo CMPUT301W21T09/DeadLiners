@@ -289,6 +289,7 @@ public class experimentInfo_owner extends AppCompatActivity {
                                 }
                             });
                     builder.create().show();
+                    
                 } else {
                     Toast.makeText(experimentInfo_owner.this,"This experiment is ended",Toast.LENGTH_SHORT).show();
                 }
