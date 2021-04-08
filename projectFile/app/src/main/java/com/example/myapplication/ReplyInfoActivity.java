@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 public class ReplyInfoActivity extends AppCompatActivity {
     private QuestionOrReply reply;
     private TextView description;
@@ -31,12 +33,10 @@ public class ReplyInfoActivity extends AppCompatActivity {
         publisher.setText(reply.getPublisher_uid());
         time.setText(reply.getTime().toString());
 
-        back=findViewById(R.id.replyinfo_back);
-        back.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton back=findViewById(R.id.replyinfo_back);
+        back.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v) {
-                finish();
-            }
+            public void onClick(View v){ finish(); }
         });
     }
 }
