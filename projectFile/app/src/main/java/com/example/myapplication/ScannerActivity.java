@@ -84,6 +84,7 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
     @Override
     public void handleResult(Result rawResult) {
         String data = rawResult.getText().toString();
+        Toast.makeText(ScannerActivity.this, data, Toast.LENGTH_SHORT).show();
         String[] arrOfdata = data.split("|",0);
         String expName = arrOfdata[0];
         String category = arrOfdata[1];
