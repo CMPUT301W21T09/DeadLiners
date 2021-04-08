@@ -27,7 +27,6 @@ public class StatisticsActivity extends AppCompatActivity {
     TextView quartile1_text;
     TextView quartile2_text;
     TextView quartile3_text;
-    TextView attention;
 
     private String exp_name;
     private String exp_category;
@@ -49,7 +48,6 @@ public class StatisticsActivity extends AppCompatActivity {
         quartile1_text = findViewById(R.id.quartile1_content);
         quartile2_text = findViewById(R.id.quartile2_content);
         quartile3_text = findViewById(R.id.quartile3_content);
-        attention = findViewById(R.id.attention);
 
         Button back = findViewById(R.id.back_button);
 
@@ -234,15 +232,6 @@ public class StatisticsActivity extends AppCompatActivity {
                         quartile3_text.setText(String.valueOf(quartile3));
                     }
 
-                }
-                else{
-                    mean_text.setText("N/A");
-                    median_text.setText("N/A");
-                    stdev_text.setText("N/A");
-                    quartile1_text.setText("N/A");
-                    quartile2_text.setText("N/A");
-                    quartile3_text.setText("N/A");
-                    attention.setText("For Count-Based experiment, statistics are not meaningful!");
                 }
 
             }
