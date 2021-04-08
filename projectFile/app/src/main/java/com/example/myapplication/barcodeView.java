@@ -34,10 +34,10 @@ public class barcodeView extends AppCompatActivity {
 
         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
         try {
-            BitMatrix bitMatrix = multiFormatWriter.encode(expNameAndCategory, BarcodeFormat.CODE_128,414,85);
-            Bitmap bitmap = Bitmap.createBitmap(414,85,Bitmap.Config.RGB_565);
-            for (int i = 0; i < 414;i++){
-                for (int j = 0; j < 85;j++){
+            BitMatrix bitMatrix = multiFormatWriter.encode(expNameAndCategory, BarcodeFormat.CODE_128,337,92);
+            Bitmap bitmap = Bitmap.createBitmap(337,92,Bitmap.Config.RGB_565);
+            for (int i = 0; i < 337;i++){
+                for (int j = 0; j < 92;j++){
                     bitmap.setPixel(i,j,bitMatrix.get(i,j)? Color.BLACK:Color.WHITE);
                 }
             }
