@@ -9,6 +9,13 @@ public class User {
     private String phoneNumber;
     private Location address;
 
+    User(String uid, String username, String email, String phoneNumber){
+        this.uid = uid;
+        this.username = username;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+    }
+
     public User(String uid) {
         this.uid = uid;
     }
@@ -18,6 +25,7 @@ public class User {
     }
 
     public void setPhone(String number){this.phoneNumber=number;}
+    public String getPhoneNumber(){return this.phoneNumber;}
 
     public  void setUid(String uid){ this.uid = uid; }
 
