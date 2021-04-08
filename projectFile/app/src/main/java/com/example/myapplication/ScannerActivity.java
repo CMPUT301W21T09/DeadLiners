@@ -91,23 +91,23 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
     public void handleResult(Result rawResult) {
         String data = rawResult.getText().toString();
 
-        String[] arrOfdata = data.split("|",3);
+        String[] arrOfdata = data.split("\\|",3);
         String expName = arrOfdata[0];
         String category = arrOfdata[1];
         String trial = arrOfdata[2];
 
-        if(category.equals("count")) {
+        if(category.equals("1")) {
 
-            String currentTime = String.format("%d",currentTimeMillis());
+            String currentTime = String.format("%d", currentTimeMillis());
             currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.parseLong(currentTime)));
-            String uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
+            String uniqueTrailId = String.format("Trail of %s at %s", uid, currentTime);
 
             HashMap<String, String> input = new HashMap<>();
-            input.put("expName",expName);
-            input.put("experimenter",uid);
-            input.put("time",currentTime);
-            HashMap<String,Boolean> ignore = new HashMap<>();
-            ignore.put("ignore",false);
+            input.put("expName", expName);
+            input.put("experimenter", uid);
+            input.put("time", currentTime);
+            HashMap<String, Boolean> ignore = new HashMap<>();
+            ignore.put("ignore", false);
 
             CountcollectionReference
                     .document(uniqueTrailId)
@@ -116,7 +116,7 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
                     .document(uniqueTrailId)
                     .set(ignore, SetOptions.merge());
         }
-        else if(category.equals("binomial")) {
+        else if(category.equals("2")) {
 
             String currentTime = String.format("%d",currentTimeMillis());
             currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.parseLong(currentTime)));
