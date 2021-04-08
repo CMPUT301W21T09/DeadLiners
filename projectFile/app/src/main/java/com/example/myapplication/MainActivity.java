@@ -82,7 +82,9 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
         button_scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), ScannerActivity.class));
+                Intent intent = new Intent(MainActivity.this, experimentInfo_owner.class);
+                intent.putExtra("uid",uid);
+                startActivity(intent);
             }
         });
 
