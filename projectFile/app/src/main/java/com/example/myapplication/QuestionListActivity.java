@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -32,14 +33,14 @@ public class QuestionListActivity extends AppCompatActivity
         implements AddQAFragment.OnAddFragmentInteractionListener
 {
 
-    private ArrayList<QuestionOrReply> questions= new ArrayList<>();
+    private ArrayList<QuestionOrReply> questions;
     private ListView questionList;
-    private ArrayAdapter<QuestionOrReply> questionAdapter = new QACustomList(this, questions);
+    private ArrayAdapter<QuestionOrReply> questionAdapter;
     private String user_uid;
     private Experiment experiment;
 
-    FirebaseFirestore db=FirebaseFirestore.getInstance();
-    CollectionReference questionReference=db.collection("Questions");
+    FirebaseFirestore db;
+    CollectionReference questionReference;
     String TAG = "Add Question";
 
     @Override
@@ -51,8 +52,13 @@ public class QuestionListActivity extends AppCompatActivity
         experiment = (Experiment) intent.getSerializableExtra("experiment");
         user_uid = intent.getStringExtra("uid");
 
+        questions=new ArrayList<>();
+        questionAdapter = new QACustomList(this, questions);
         questionList = findViewById(R.id.questionList);
         questionList.setAdapter(questionAdapter);
+
+        db=FirebaseFirestore.getInstance();
+        questionReference=db.collection("Questions");
 
         FloatingActionButton addExpButton = findViewById(R.id.add_question_button);
         addExpButton.setOnClickListener(new View.OnClickListener(){
@@ -85,6 +91,13 @@ public class QuestionListActivity extends AppCompatActivity
                 questionAdapter.notifyDataSetChanged();
             }
         });
+
+        FloatingActionButton back = findViewById(R.id.questionlist_back_button);
+        back.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){ finish(); }
+        });
+
     }
 
     @Override
