@@ -82,7 +82,9 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
         button_scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), ScannerActivity.class));
+                Intent intent = new Intent(MainActivity.this, ScannerActivity.class);
+                intent.putExtra("uid",uid);
+                startActivity(intent);
             }
         });
 
@@ -185,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
         HashMap<String,String> geoState = new HashMap<>();
 
         expNameField.put("Name",expName);
-        expStatus.put("Status",newExperiment.getPublished());
+        expStatus.put("Status","open");
         expOwner.put("Owner",uid);
         expOwnerName.put("OwnerName", newExperiment.getOwnerName());
         expCategory.put("category", newExperiment.getCategory());
