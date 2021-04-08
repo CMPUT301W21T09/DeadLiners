@@ -32,14 +32,14 @@ public class QuestionListActivity extends AppCompatActivity
         implements AddQAFragment.OnAddFragmentInteractionListener
 {
 
-    private ArrayList<QuestionOrReply> questions; // TODO should use the array in an experiment
+    private ArrayList<QuestionOrReply> questions= new ArrayList<>();
     private ListView questionList;
-    private ArrayAdapter<QuestionOrReply> questionAdapter;
+    private ArrayAdapter<QuestionOrReply> questionAdapter = new QACustomList(this, questions);
     private String user_uid;
     private Experiment experiment;
 
-    FirebaseFirestore db;
-    CollectionReference questionReference;
+    FirebaseFirestore db=FirebaseFirestore.getInstance();
+    CollectionReference questionReference=db.collection("Questions");
     String TAG = "Add Question";
 
     @Override
@@ -51,14 +51,8 @@ public class QuestionListActivity extends AppCompatActivity
         experiment = (Experiment) intent.getSerializableExtra("experiment");
         user_uid = intent.getStringExtra("uid");
 
-        questions = new ArrayList<>();
-
         questionList = findViewById(R.id.questionList);
-        questionAdapter = new QACustomList(this, questions);
         questionList.setAdapter(questionAdapter);
-
-        db = FirebaseFirestore.getInstance();
-        questionReference = db.collection("Questions");
 
         FloatingActionButton addExpButton = findViewById(R.id.add_question_button);
         addExpButton.setOnClickListener(new View.OnClickListener(){
