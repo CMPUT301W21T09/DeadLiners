@@ -347,20 +347,51 @@ public class experimentInfo_user extends AppCompatActivity {
         });
 
         qrCode.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
-                qrgEncoder = new QRGEncoder("test", null, QRGContents.Type.TEXT, 350);
-                try {
-                    bitmap = qrgEncoder.encodeAsBitmap();
-
-                } catch (
-                        WriterException e) {
-                    Log.e("Tag", e.toString());
+                String expName = experiment.getExpName();
+                String category = experiment.getCategory();
+                if (category.equals("binomial") || category.equals("count")){
+                    if (category.equals("count")){
+                        category = "1";
+                    } else {
+                        category = "2";
+                    }
+                    data = expName + "|" + category;
+                    if (category.equals("2")){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(experimentInfo_user.this).setTitle("Pass or Fail?")
+                                .setPositiveButton("Pass", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        choose = "1";
+                                        data = data + "|" + choose;
+                                        Intent intent = new Intent(experimentInfo_user.this, qrcodeView.class);
+                                        intent.putExtra("exp",data);
+                                        startActivity(intent);
+                                    }
+                                })
+                                .setNegativeButton("Fail", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        choose = "0";
+                                        data = data + "|" + choose;
+                                        Intent intent = new Intent(experimentInfo_user.this, qrcodeView.class);
+                                        intent.putExtra("exp",data);
+                                        startActivity(intent);
+                                    }
+                                });
+                        builder.create().show();
+                    }
+                    if (category.equals("1")){
+                        data = data + "|1";
+                        Intent intent = new Intent(experimentInfo_user.this, qrcodeView.class);
+                        intent.putExtra("exp",data);
+                        startActivity(intent);
+                    }
+                } else {
+                    Toast.makeText(experimentInfo_user.this, "This type of experiment currently does not support generate the QRCode", Toast.LENGTH_SHORT).show();
                 }
 
-                QRFragment qrFragment = QRFragment.newInstance(bitmap);
-                qrFragment.show(getSupportFragmentManager(),"qrfrag");
             }
         });
 
