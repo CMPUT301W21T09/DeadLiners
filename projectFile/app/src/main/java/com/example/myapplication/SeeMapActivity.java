@@ -96,11 +96,11 @@ public class SeeMapActivity extends FragmentActivity implements OnMapReadyCallba
                     if(expName.equals(exp_name) && !ignore) {
                         Double lat  = (Double) doc.getData().get("lat");
                         Double lon  = (Double) doc.getData().get("longi");
-                        LatLng location = new LatLng(lat, lon);
-                        mMap.addMarker(new MarkerOptions().position(location).title("Marker"));
-
-                        // below line is use to move camera.
-                        mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+                        if(lat != null || lon != null) {
+                            LatLng location = new LatLng(lat, lon);
+                            mMap.addMarker(new MarkerOptions().position(location).title("Marker"));
+                            mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+                        }
                     }
                 }
             }
