@@ -6,11 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -25,6 +28,7 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
+import java.security.cert.CertificateParsingException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -44,6 +48,8 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
 
     final String TAG = "Sample";
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    final CollectionReference BinomialcollectionReference = db.collection("BinomialDataSet");;
+    final CollectionReference CountcollectionReference = db.collection("CountDataset");
 
     private String uid;
 
@@ -84,44 +90,39 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
     @Override
     public void handleResult(Result rawResult) {
         String data = rawResult.getText().toString();
-        String[] arrOfdata = data.split("|",0);
+
+        String[] arrOfdata = data.split("\\|",3);
         String expName = arrOfdata[0];
         String category = arrOfdata[1];
         String trial = arrOfdata[2];
-        final CollectionReference collectionReference;
 
-        if(category.equals("count")) {
-            collectionReference = db.collection("CountDataset");
+        if(category.equals("1")) {
 
-            String currentTime = String.format("%d",currentTimeMillis());
+            String currentTime = String.format("%d", currentTimeMillis());
             currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.parseLong(currentTime)));
-            String uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
+            String uniqueTrailId = String.format("Trail of %s at %s", uid, currentTime);
 
             HashMap<String, String> input = new HashMap<>();
-            input.put("expName",expName);
-            input.put("experimenter",uid);
-            input.put("time",currentTime);
-            HashMap<String,Boolean> ignore = new HashMap<>();
-            ignore.put("ignore",false);
+            input.put("expName", expName);
+            input.put("experimenter", uid);
+            input.put("time", currentTime);
+            HashMap<String, Boolean> ignore = new HashMap<>();
+            ignore.put("ignore", false);
 
-            collectionReference
+            CountcollectionReference
                     .document(uniqueTrailId)
                     .set(input);
-            collectionReference
+            CountcollectionReference
                     .document(uniqueTrailId)
                     .set(ignore, SetOptions.merge());
         }
-        else if(category.equals("binomial")) {
-            collectionReference = db.collection("BinomialDataSet");
+        else if(category.equals("2")) {
 
             String currentTime = String.format("%d",currentTimeMillis());
             currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.parseLong(currentTime)));
             String uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
 
             HashMap<String, String> input = new HashMap<>();
-
-            HashMap<String, Boolean> passOrFail = new HashMap<>();
-            passOrFail.put("pass",false);
 
             if(trial.equals("1")) {
                 input.put("value","pass");
@@ -133,33 +134,17 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
             input.put("time",currentTime);
             HashMap<String,Boolean> ignore = new HashMap<>();
             ignore.put("ignore",false);
-            collectionReference
+            BinomialcollectionReference
                     .document(uniqueTrailId)
                     .set(input);
 
-            collectionReference
-                    .document(uniqueTrailId)
-                    .set(passOrFail,SetOptions.merge());
-
-
-            collectionReference
+            BinomialcollectionReference
                     .document(uniqueTrailId)
                     .set(ignore,SetOptions.merge());
         }
 
-        /*
-        dbref.push().setValue(data)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(ScannerActivity.this,"Trial added successfully!",Toast.LENGTH_SHORT).show();
-                        onBackPressed();
-                    }
-                });
-
-         */
-
-
+        Toast.makeText(ScannerActivity.this,"Data added!",Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     @Override

@@ -160,10 +160,6 @@ public class experimentInfo_user extends AppCompatActivity {
 
                                     HashMap<String, String> data = new HashMap<>();
 
-                                    HashMap<String, Boolean> passOrFail = new HashMap<>();
-                                    passOrFail.put("pass",true);
-
-
                                     data.put("value", "pass");
                                     data.put("expName",expName);
                                     data.put("experimenter",uid);
@@ -173,10 +169,6 @@ public class experimentInfo_user extends AppCompatActivity {
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(data);
-
-                                    binomialCollectionReference
-                                            .document(uniqueTrailId)
-                                            .set(passOrFail,SetOptions.merge());
 
 
                                     binomialCollectionReference
@@ -194,10 +186,6 @@ public class experimentInfo_user extends AppCompatActivity {
 
                                     HashMap<String, String> data = new HashMap<>();
 
-                                    HashMap<String, Boolean> passOrFail = new HashMap<>();
-                                    passOrFail.put("pass",false);
-
-
                                     data.put("value", "fail");
                                     data.put("expName",expName);
                                     data.put("experimenter",uid);
@@ -207,10 +195,6 @@ public class experimentInfo_user extends AppCompatActivity {
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(data);
-
-                                    binomialCollectionReference
-                                            .document(uniqueTrailId)
-                                            .set(passOrFail,SetOptions.merge());
 
 
                                     binomialCollectionReference
@@ -296,14 +280,19 @@ public class experimentInfo_user extends AppCompatActivity {
                 String expName = experiment.getExpName();
                 String category = experiment.getCategory();
                 if (category.equals("binomial") || category.equals("count")){
-                    data = expName + " | " + category;
-                    if (category.equals("binomial")){
+                    if (category.equals("count")){
+                        category = "1";
+                    } else {
+                        category = "2";
+                    }
+                    data = expName + "|" + category;
+                    if (category.equals("2")){
                         AlertDialog.Builder builder = new AlertDialog.Builder(experimentInfo_user.this).setTitle("Pass or Fail?")
                                 .setPositiveButton("Pass", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         choose = "1";
-                                        data = data + " | " + choose;
+                                        data = data + "|" + choose;
                                         Intent intent = new Intent(experimentInfo_user.this, barcodeView.class);
                                         intent.putExtra("exp",data);
                                         startActivity(intent);
@@ -313,7 +302,7 @@ public class experimentInfo_user extends AppCompatActivity {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         choose = "0";
-                                        data = data + " | " + choose;
+                                        data = data + "|" + choose;
                                         Intent intent = new Intent(experimentInfo_user.this, barcodeView.class);
                                         intent.putExtra("exp",data);
                                         startActivity(intent);
@@ -321,8 +310,8 @@ public class experimentInfo_user extends AppCompatActivity {
                                 });
                         builder.create().show();
                     }
-                    if (category.equals("count")){
-                        data = data + " | 1";
+                    if (category.equals("1")){
+                        data = data + "|1";
                         Intent intent = new Intent(experimentInfo_user.this, barcodeView.class);
                         intent.putExtra("exp",data);
                         startActivity(intent);
@@ -342,20 +331,51 @@ public class experimentInfo_user extends AppCompatActivity {
         });
 
         qrCode.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
-                qrgEncoder = new QRGEncoder("test", null, QRGContents.Type.TEXT, 350);
-                try {
-                    bitmap = qrgEncoder.encodeAsBitmap();
-
-                } catch (
-                        WriterException e) {
-                    Log.e("Tag", e.toString());
+                String expName = experiment.getExpName();
+                String category = experiment.getCategory();
+                if (category.equals("binomial") || category.equals("count")){
+                    if (category.equals("count")){
+                        category = "1";
+                    } else {
+                        category = "2";
+                    }
+                    data = expName + "|" + category;
+                    if (category.equals("2")){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(experimentInfo_user.this).setTitle("Pass or Fail?")
+                                .setPositiveButton("Pass", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        choose = "1";
+                                        data = data + "|" + choose;
+                                        Intent intent = new Intent(experimentInfo_user.this, qrcodeView.class);
+                                        intent.putExtra("exp",data);
+                                        startActivity(intent);
+                                    }
+                                })
+                                .setNegativeButton("Fail", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        choose = "0";
+                                        data = data + "|" + choose;
+                                        Intent intent = new Intent(experimentInfo_user.this, qrcodeView.class);
+                                        intent.putExtra("exp",data);
+                                        startActivity(intent);
+                                    }
+                                });
+                        builder.create().show();
+                    }
+                    if (category.equals("1")){
+                        data = data + "|1";
+                        Intent intent = new Intent(experimentInfo_user.this, qrcodeView.class);
+                        intent.putExtra("exp",data);
+                        startActivity(intent);
+                    }
+                } else {
+                    Toast.makeText(experimentInfo_user.this, "This type of experiment currently does not support generate the QRCode", Toast.LENGTH_SHORT).show();
                 }
 
-                QRFragment qrFragment = QRFragment.newInstance(bitmap);
-                qrFragment.show(getSupportFragmentManager(),"qrfrag");
             }
         });
 
@@ -363,6 +383,17 @@ public class experimentInfo_user extends AppCompatActivity {
         questionButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) { showQuestionInfo(); }
         });
+    }
+
+    public void showMap(View view) {
+        if(experiment.geoState.equals("1")) {
+            Intent intent = new Intent(experimentInfo_user.this, SeeMapActivity.class);
+            intent.putExtra("exp_category",experiment.getCategory());
+            intent.putExtra("exp_name", experiment.getExpName());
+            startActivity(intent);
+        } else {
+            Toast.makeText(experimentInfo_user.this, "There is no map!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     void showQuestionInfo()

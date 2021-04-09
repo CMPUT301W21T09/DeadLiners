@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
@@ -27,6 +28,8 @@ public class TrialsActivity extends AppCompatActivity {
     public String currentOwner;
     public String exp_category;
     public String exp_name;
+
+    public int trailNum = 0;
 
     private ListView trialsList;
     private ArrayAdapter<Trial> trialsAdapter;
@@ -89,6 +92,7 @@ public class TrialsActivity extends AppCompatActivity {
                 for(QueryDocumentSnapshot doc: value) {
                     String expName = (String) doc.getData().get("expName");
                     if(expName.equals(exp_name)) {
+                        trailNum += 1;
                         String experimenter = (String) doc.getData().get("experimenter");
                         String time = (String) doc.getData().get("time");
                         Boolean ignore = (Boolean) doc.getData().get("ignore");
@@ -148,10 +152,15 @@ public class TrialsActivity extends AppCompatActivity {
         statistics.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(TrialsActivity.this, StatisticsActivity.class);
-                intent.putExtra("exp_name", exp_name);
-                intent.putExtra("exp_category", exp_category);
-                startActivity(intent);
+                if(trailNum > 0) {
+                    Intent intent = new Intent(TrialsActivity.this, StatisticsActivity.class);
+                    intent.putExtra("exp_name", exp_name);
+                    intent.putExtra("exp_category", exp_category);
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(TrialsActivity.this, "Since there is no trials, no statistics available!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
