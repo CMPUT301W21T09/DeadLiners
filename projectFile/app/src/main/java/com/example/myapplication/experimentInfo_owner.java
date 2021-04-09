@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,8 +30,10 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
+import com.google.gson.Gson;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
@@ -77,6 +81,10 @@ public class experimentInfo_owner extends AppCompatActivity {
     QRGEncoder qrgEncoder;
     FusedLocationProviderClient fusedLocationProviderClient;
 
+
+    private CollectionReference userCollectionReference;
+    Gson gson = new Gson();
+    private String expName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +93,7 @@ public class experimentInfo_owner extends AppCompatActivity {
         Intent intent = getIntent();
         experiment = (Experiment) intent.getSerializableExtra("experiment");
         uid = intent.getStringExtra("uid");
-
+        userCollectionReference = db.collection("Users");
         experimentName = findViewById(R.id.experimentName);
         description = findViewById(R.id.Description);
         owner = findViewById(R.id.Owner);
@@ -95,6 +103,58 @@ public class experimentInfo_owner extends AppCompatActivity {
 
         qrCode = findViewById(R.id.QR_code);
         subscribe = findViewById(R.id.subscribe);
+
+        subscribe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                userCollectionReference.document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+
+                    private Subscribe subscribe;
+
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                Log.d("DOC", "DocumentSnapshot data: " + document.getData());
+                                String subscribeString = document.getString("Subscribe");
+                                subscribe = gson.fromJson(subscribeString, Subscribe.class);
+                                if ( subscribe.getSubscribe().size()>0){
+
+                                    if (!subscribe.getSubscribe().contains(expName)){
+                                        Toast.makeText(experimentInfo_owner.this, "Successfully Subscribed.", Toast.LENGTH_SHORT).show();
+                                        subscribe.getSubscribe().add(expName);
+                                        userCollectionReference.document(uid)
+                                                .update(
+                                                        "Subscribe", gson.toJson(subscribe)
+                                                );
+                                    }else {
+                                        Toast.makeText(experimentInfo_owner.this, "This experiment has already been subscribed", Toast.LENGTH_SHORT).show();
+                                        Log.d("DOC", " already Subscribe");
+                                    }
+
+                                }else {
+                                    Toast.makeText(experimentInfo_owner.this, "Successfully Subscribed.", Toast.LENGTH_SHORT).show();
+                                    subscribe.getSubscribe().add(expName);
+                                    userCollectionReference.document(uid)
+                                            .update(
+                                                    "Subscribe", gson.toJson(subscribe)
+                                            );
+                                }
+                            } else {
+                                Log.d("DOC", "No such document");
+                            }
+                        } else {
+                            Log.d("DOC", "get failed with ", task.getException());
+                        }
+                    }
+                });
+            }
+        });
+
+
         viewTrails = findViewById(R.id.View_Trials);
         addTrail = findViewById(R.id.Add_Trial);
         back = findViewById(R.id.back);
@@ -123,7 +183,7 @@ public class experimentInfo_owner extends AppCompatActivity {
         region.setText(experiment.getRegion());
         status.setText(experiment.getPublished());
 
-        String expName = experiment.getExpName();
+         expName = experiment.getExpName();
 
 
 
@@ -545,6 +605,7 @@ public class experimentInfo_owner extends AppCompatActivity {
     }
 
 
+    @SuppressLint("MissingPermission")
     public void getLocation(){
         LocationManager locationManager = (LocationManager) getSystemService(
                 Context.LOCATION_SERVICE
