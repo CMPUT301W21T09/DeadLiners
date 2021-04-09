@@ -119,4 +119,10 @@ public class StartPageTest {
         solo.clickOnView(solo.getView(R.id.button_exp));
         assertTrue(solo.waitForText("Android Test",1,2000));
     }
+
+    @After
+    public void tearDown() throws Exception{
+        solo.finishOpenedActivities();
+    }
+
 }
