@@ -59,15 +59,15 @@ public class SeeMapActivity extends FragmentActivity implements OnMapReadyCallba
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        Intent intent = getIntent();
-        exp_name = intent.getStringExtra("exp_name");
-        exp_category = intent.getStringExtra("exp_category");
-
-
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
+        Intent intent = getIntent();
+        exp_name = intent.getStringExtra("exp_name");
+        exp_category = intent.getStringExtra("exp_category");
+
         mMap = googleMap;
 
         db = FirebaseFirestore.getInstance();
@@ -90,17 +90,17 @@ public class SeeMapActivity extends FragmentActivity implements OnMapReadyCallba
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                int i = 0;
                 for(QueryDocumentSnapshot doc: value) {
                     String expName = (String) doc.getData().get("expName");
-                    if(expName.equals(exp_name)) {
-                        Double lat  = (Double) doc.getData().get("lat");
-                        Double lon  = (Double) doc.getData().get("longi");
-                        LatLng location = new LatLng(lat, lon);
-                        mMap.addMarker(new MarkerOptions().position(location).title("Marker"));
-
-                        // below line is use to move camera.
-                        mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+                    Boolean ignore = (Boolean) doc.getData().get("ignore");
+                    if(expName.equals(exp_name) && !ignore) {
+                        if(doc.getData().get("lat") != null && doc.getData().get("longi") != null) {
+                            Double lat  = (Double) doc.getData().get("lat");
+                            Double lon  = (Double) doc.getData().get("longi");
+                            LatLng location = new LatLng(lat, lon);
+                            mMap.addMarker(new MarkerOptions().position(location).title("Marker"));
+                            mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+                        }
                     }
                 }
             }

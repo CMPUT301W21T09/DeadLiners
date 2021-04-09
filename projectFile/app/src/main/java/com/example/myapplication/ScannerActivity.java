@@ -4,13 +4,23 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Looper;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -52,6 +62,10 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
     final CollectionReference CountcollectionReference = db.collection("CountDataset");
 
     private String uid;
+    public double latitude;
+    public double longitude;
+    private String uniqueTrailId;
+    FusedLocationProviderClient fusedLocationProviderClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,20 +101,22 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
                 }).check();
     }
 
+
+
     @Override
     public void handleResult(Result rawResult) {
         String data = rawResult.getText().toString();
-
-        String[] arrOfdata = data.split("\\|",3);
+        String[] arrOfdata = data.split("\\|",4);
         String expName = arrOfdata[0];
         String category = arrOfdata[1];
         String trial = arrOfdata[2];
+        String geoState = arrOfdata[3];
 
         if(category.equals("1")) {
 
             String currentTime = String.format("%d", currentTimeMillis());
             currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.parseLong(currentTime)));
-            String uniqueTrailId = String.format("Trail of %s at %s", uid, currentTime);
+            uniqueTrailId = String.format("Trail of %s at %s", uid, currentTime);
 
             HashMap<String, String> input = new HashMap<>();
             input.put("expName", expName);
@@ -115,12 +131,16 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
             CountcollectionReference
                     .document(uniqueTrailId)
                     .set(ignore, SetOptions.merge());
+            if (geoState.equals("1")){
+                getLocation(category);
+            }
+
         }
         else if(category.equals("2")) {
 
             String currentTime = String.format("%d",currentTimeMillis());
             currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.parseLong(currentTime)));
-            String uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
+            uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
 
             HashMap<String, String> input = new HashMap<>();
 
@@ -141,11 +161,77 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
             BinomialcollectionReference
                     .document(uniqueTrailId)
                     .set(ignore,SetOptions.merge());
+
+            if (geoState.equals("1")){
+                getLocation(category);
+            }
         }
 
         Toast.makeText(ScannerActivity.this,"Data added!",Toast.LENGTH_SHORT).show();
         finish();
     }
+
+    public void getLocation(String category){
+        LocationManager locationManager = (LocationManager) getSystemService(
+                Context.LOCATION_SERVICE
+        );
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(
+                ScannerActivity.this
+        );
+
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+                || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+                @Override
+                public void onComplete(@NonNull Task<Location> task) {
+                    Location location = task.getResult();
+                    if (location != null){
+                        latitude = location.getLatitude();
+                        longitude = location.getLongitude();
+                    } else {
+                        LocationRequest locationRequest = new LocationRequest()
+                                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                                .setInterval(10000)
+                                .setFastestInterval(1000)
+                                .setNumUpdates(1);
+
+                        LocationCallback locationCallback = new LocationCallback() {
+                            @Override
+                            public void onLocationResult(LocationResult locationResult){
+                                Location location1 = locationResult.getLastLocation();
+                                latitude = location1.getLatitude();
+                                longitude = location1.getLongitude();
+                            }
+                        };
+                        fusedLocationProviderClient.requestLocationUpdates(locationRequest
+                                ,locationCallback, Looper.myLooper());
+                    }
+
+                    HashMap<String, Double> loc = new HashMap<>();
+                    loc.put("longi", longitude);
+                    loc.put("lat", latitude);
+
+                    if (category.equals("1")) {
+                        CountcollectionReference
+                                .document(uniqueTrailId)
+                                .set(loc,SetOptions.merge());
+                    }
+                    if (category.equals("2")) {
+                        BinomialcollectionReference
+                                .document(uniqueTrailId)
+                                .set(loc,SetOptions.merge());
+                    }
+                }
+            });
+        } else {
+            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+        }
+    }
+
+
+
 
     @Override
     protected void onPause() {
