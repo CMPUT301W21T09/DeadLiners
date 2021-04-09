@@ -88,6 +88,7 @@ public class experimentInfo_owner extends AppCompatActivity {
     private Button unPublish;
     private Button end;
     private Button barCode;
+    private Button seeMap;
 
     private TextView experimentName;
     private TextView description;
@@ -125,6 +126,11 @@ public class experimentInfo_owner extends AppCompatActivity {
         end = findViewById(R.id.End);
         aSwitch = findViewById(R.id.Geo_enable);
         barCode = findViewById(R.id.barcode);
+        seeMap = findViewById(R.id.seeMap_owner);
+
+        if (experiment.getGeoState().equals("0")){
+            seeMap.setVisibility(View.INVISIBLE);
+        }
 
         if (experiment.getGeoState().equals("1")) {
             aSwitch.setChecked(true);
@@ -141,6 +147,8 @@ public class experimentInfo_owner extends AppCompatActivity {
 
         String expName = experiment.getExpName();
 
+
+
         viewTrails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,6 +158,20 @@ public class experimentInfo_owner extends AppCompatActivity {
                 intent.putExtra("uid", uid);
                 intent.putExtra("owner", experiment.getOwner());
                 startActivity(intent);
+            }
+        });
+
+        seeMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(experiment.geoState.equals("1")) {
+                    Intent intent = new Intent(experimentInfo_owner.this, SeeMapActivity.class);
+                    intent.putExtra("exp_category",experiment.getCategory());
+                    intent.putExtra("exp_name", experiment.getExpName());
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(experimentInfo_owner.this, "There is no map!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -513,16 +535,6 @@ public class experimentInfo_owner extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void showMap(View view) {
-        if(experiment.geoState.equals("1")) {
-            Intent intent = new Intent(experimentInfo_owner.this, SeeMapActivity.class);
-            intent.putExtra("exp_category",experiment.getCategory());
-            intent.putExtra("exp_name", experiment.getExpName());
-            startActivity(intent);
-        } else {
-            Toast.makeText(experimentInfo_owner.this, "There is no map!", Toast.LENGTH_SHORT).show();
-        }
-    }
 
     public void getLocation(){
         LocationManager locationManager = (LocationManager) getSystemService(
@@ -560,7 +572,7 @@ public class experimentInfo_owner extends AppCompatActivity {
                         fusedLocationProviderClient.requestLocationUpdates(locationRequest
                         ,locationCallback, Looper.myLooper());
                     }
-                    
+
                     HashMap<String, Double> loc = new HashMap<>();
                     loc.put("longi", longitude);
                     loc.put("lat", latitude);
