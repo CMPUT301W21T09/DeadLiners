@@ -28,7 +28,7 @@ public class StatisticsActivity extends AppCompatActivity {
     TextView quartile2_text;
     TextView quartile3_text;
     TextView attention;
-
+    
     private String exp_name;
     private String exp_category;
 

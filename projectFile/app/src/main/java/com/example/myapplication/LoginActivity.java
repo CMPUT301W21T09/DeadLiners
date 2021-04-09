@@ -94,7 +94,8 @@ public class LoginActivity extends AppCompatActivity {
                     HashMap<String, String> username = new HashMap<>();
                     HashMap<String, String> phone = new HashMap<>();
                     HashMap<String, Location> location = new HashMap<>();
-
+                    HashMap<String, String> subscribe = new HashMap<>();
+                    subscribe.put("Subscribe", "{\"subscribe\":[]}");
                     email.put("Email", userinfo.getEmail());
                     username.put("Username", userinfo.getUsername());
                     phone.put("Phone", userinfo.getPhoneNumber());
@@ -104,6 +105,8 @@ public class LoginActivity extends AppCompatActivity {
                             .set(username, SetOptions.merge());
                     userCollectionReference.document(uid)
                             .set(phone, SetOptions.merge());
+                    userCollectionReference.document(uid)
+                            .set(subscribe, SetOptions.merge());
                     intent.putExtra("return2", "Defalt Username");
                     finish();
                 }else{
