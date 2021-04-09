@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 public class AddExperimentFragment extends DialogFragment {
+//Set up the variables
     private EditText expname;
     private EditText description;
     private EditText category;
@@ -28,6 +29,7 @@ public class AddExperimentFragment extends DialogFragment {
     private Button measurement;
     private String uid;
 
+//pass the uid into the fragment and set the OK button
     AddExperimentFragment(String uid){
         this.uid = uid;
     }
@@ -63,7 +65,7 @@ public class AddExperimentFragment extends DialogFragment {
         Button measurement = (Button) view.findViewById(R.id.Measure);
         Button required = (Button) view.findViewById(R.id.Required);
         Button NotRequired = (Button) view.findViewById(R.id.NotRequired);
-
+//pass the text into the edit text view when user click on "count","binomial", and so on...
         count.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
