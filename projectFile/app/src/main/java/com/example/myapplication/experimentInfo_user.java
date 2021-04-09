@@ -385,6 +385,17 @@ public class experimentInfo_user extends AppCompatActivity {
         });
     }
 
+    public void showMap(View view) {
+        if(experiment.geoState.equals("1")) {
+            Intent intent = new Intent(experimentInfo_user.this, SeeMapActivity.class);
+            intent.putExtra("exp_category",experiment.getCategory());
+            intent.putExtra("exp_name", experiment.getExpName());
+            startActivity(intent);
+        } else {
+            Toast.makeText(experimentInfo_user.this, "There is no map!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     void showQuestionInfo()
     {
         Intent intent = new Intent(this, QuestionListActivity.class);

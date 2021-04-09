@@ -538,19 +538,14 @@ public class experimentInfo_owner extends AppCompatActivity {
     }
 
     public void showMap(View view) {
-        Intent intent1 = new Intent(experimentInfo_owner.this, MapsActivity.class);
-
-
-        // CollectionReference experimentCollectionReference = db.collection("Experiments");
-        //    CollectionReference countCollectionReference = db.collection("CountDataset");
-        //    CollectionReference binomialCollectionReference = db.collection("BinomialDataSet");
-        //    CollectionReference intCountCollectionReference = db.collection("IntCountDataset");
-        //    CollectionReference measurementCollectionReference = db.collection("MeasurementDataset");
-        String cat = experiment.getCategory();
-
-        intent1.putExtra("cType", cat);
-        startActivity(intent1);
-
+        if(experiment.geoState.equals("1")) {
+            Intent intent = new Intent(experimentInfo_owner.this, SeeMapActivity.class);
+            intent.putExtra("exp_category",experiment.getCategory());
+            intent.putExtra("exp_name", experiment.getExpName());
+            startActivity(intent);
+        } else {
+            Toast.makeText(experimentInfo_owner.this, "There is no map!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void getLocation(){
