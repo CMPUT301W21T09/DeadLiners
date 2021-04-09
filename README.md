@@ -1,5 +1,7 @@
 # DeadLiners
 
+Please enter the setting to open the location permission of this application before using the application!
+
 References:
 
 Cmput 301 Lab 
