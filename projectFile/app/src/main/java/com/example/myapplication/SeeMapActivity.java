@@ -90,7 +90,6 @@ public class SeeMapActivity extends FragmentActivity implements OnMapReadyCallba
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                int i = 0;
                 for(QueryDocumentSnapshot doc: value) {
                     String expName = (String) doc.getData().get("expName");
                     if(expName.equals(exp_name)) {
