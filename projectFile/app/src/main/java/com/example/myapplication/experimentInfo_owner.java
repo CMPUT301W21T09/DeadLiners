@@ -175,9 +175,13 @@ public class experimentInfo_owner extends AppCompatActivity {
             }
         });
 
+
         addTrail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (experiment.getGeoState().equals("1")) {
+                    Toast.makeText(experimentInfo_owner.this,"This experiment require your location!",Toast.LENGTH_SHORT).show();
+                }
                 if (experiment.getCategory().equals("count") && (experiment.getPublished().equals("open"))){
                     String currentTime = String.format("%d",currentTimeMillis());
 
