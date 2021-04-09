@@ -120,6 +120,24 @@ public class StartPageTest {
         assertTrue(solo.waitForText("Android Test",1,2000));
     }
 
+    @Test
+    public void post_question_forum(){
+        solo.clickOnView(solo.getView(R.id.start));
+        solo.clickOnView(solo.getView(R.id.imageButton_add));
+        solo.enterText((EditText) solo.getView(R.id.Name_editText), "Android Test");
+        solo.enterText((EditText) solo.getView(R.id.description_editText), "This is for android test");
+        solo.clickOnView(solo.getView(R.id.Count));
+        solo.enterText((EditText) solo.getView(R.id.Region_editText), "China");
+        solo.enterText((EditText) solo.getView(R.id.Number_Of_Trails_editText), "10");
+        solo.clickOnView(solo.getView(R.id.NotRequired));
+        solo.clickOnButton("OK");
+        solo.clickOnText("Android Test");
+        solo.clickOnView(solo.getView(R.id.Question_Forum));
+        solo.clickOnView(solo.getView(R.id.add_question_button));
+        solo.enterText(solo.getEditText("Description"),"123");
+        solo.clickOnText("OK");
+        assertTrue(solo.waitForText("Question 0",1,2000));
+    }
     @After
     public void tearDown() throws Exception{
         solo.finishOpenedActivities();
