@@ -7,7 +7,7 @@ public class User {
     private String username;
     private String email;
     private String phoneNumber;
-    private Location address;
+
 
     User(String uid, String username, String email, String phoneNumber){
         this.uid = uid;
@@ -44,10 +44,4 @@ public class User {
         this.email = email;
     }
 
-    public Location getAddress() {
-        return address;
-    }
-    public void setAddress(Location address) {
-        this.address = address;
-    }
 }

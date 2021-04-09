@@ -61,7 +61,6 @@ public class experimentInfo_user extends AppCompatActivity {
     private Button viewTrails;
     private Button addTrail;
     private Button back;
-    private Button seeMap;
     private Switch aSwitch;
 
     private TextView experimentName;
@@ -97,11 +96,6 @@ public class experimentInfo_user extends AppCompatActivity {
         viewTrails = findViewById(R.id.View_Trials);
         addTrail = findViewById(R.id.Add_Trial);
         back = findViewById(R.id.Back);
-        seeMap = findViewById(R.id.seeMap_user);
-
-        if (experiment.getGeoState().equals("0")){
-            seeMap.setVisibility(View.INVISIBLE);
-        }
 
         experimentName.setText(experiment.getExpName());
         description.setText(experiment.getDescription());
@@ -134,19 +128,7 @@ public class experimentInfo_user extends AppCompatActivity {
             }
         });
 
-        seeMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(experiment.geoState.equals("1")) {
-                    Intent intent = new Intent(experimentInfo_user.this, SeeMapActivity.class);
-                    intent.putExtra("exp_category",experiment.getCategory());
-                    intent.putExtra("exp_name", experiment.getExpName());
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(experimentInfo_user.this, "There is no map!", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+
 
         addTrail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -326,6 +308,7 @@ public class experimentInfo_user extends AppCompatActivity {
             }
         });
 
+
         barCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -390,6 +373,7 @@ public class experimentInfo_user extends AppCompatActivity {
 
             }
         });
+
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -469,7 +453,6 @@ public class experimentInfo_user extends AppCompatActivity {
         });
     }
 
-
     public void getLocation(){
         LocationManager locationManager = (LocationManager) getSystemService(
                 Context.LOCATION_SERVICE
@@ -507,6 +490,8 @@ public class experimentInfo_user extends AppCompatActivity {
                                 ,locationCallback, Looper.myLooper());
                     }
 
+
+
                     HashMap<String, Double> loc = new HashMap<>();
                     loc.put("longi", longitude);
                     loc.put("lat", latitude);
@@ -542,6 +527,7 @@ public class experimentInfo_user extends AppCompatActivity {
 
 
     }
+
     public void showMap(View view) {
         if(experiment.geoState.equals("1")) {
             Intent intent = new Intent(experimentInfo_user.this, SeeMapActivity.class);
