@@ -69,12 +69,6 @@ public class LoginActivity extends AppCompatActivity {
                         username_view.setText(document.getString("Username"));
                         username[0] = document.getString("Username");
                         is_new[0] = false;
-                        if (document.get("Subscribe")==null){
-                            userCollectionReference.document(uid)
-                                    .update(
-                                            "Subscribe", "{\"subscribe\":[]}"
-                                    );
-                        }
                     } else {
                         Log.d("DOC", "No such document");
                     }
@@ -100,9 +94,6 @@ public class LoginActivity extends AppCompatActivity {
                     HashMap<String, String> username = new HashMap<>();
                     HashMap<String, String> phone = new HashMap<>();
                     HashMap<String, Location> location = new HashMap<>();
-                    HashMap<String, String> subscribe = new HashMap<>();
-                    subscribe.put("Subscribe", "{\"subscribe\":[]}");
-
 
                     email.put("Email", userinfo.getEmail());
                     username.put("Username", userinfo.getUsername());
@@ -113,8 +104,6 @@ public class LoginActivity extends AppCompatActivity {
                             .set(username, SetOptions.merge());
                     userCollectionReference.document(uid)
                             .set(phone, SetOptions.merge());
-                    userCollectionReference.document(uid)
-                            .set(subscribe, SetOptions.merge());
                     intent.putExtra("return2", "Defalt Username");
                     finish();
                 }else{

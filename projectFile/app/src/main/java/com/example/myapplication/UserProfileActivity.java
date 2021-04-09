@@ -81,14 +81,6 @@ public class UserProfileActivity extends AppCompatActivity {
                 finish();
             }
         });
-        Button profileSubscribe = (Button)findViewById(R.id.profile_subscribe);
-        profileSubscribe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(UserProfileActivity.this,SubscribeExperimentListActivity.class).putExtra("uid",uid));
-            }
-        });
-
 
 
         //set the edit button and update the information to firebase
