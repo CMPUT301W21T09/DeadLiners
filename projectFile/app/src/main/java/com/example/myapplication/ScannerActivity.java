@@ -4,13 +4,23 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Looper;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -52,6 +62,10 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
     final CollectionReference CountcollectionReference = db.collection("CountDataset");
 
     private String uid;
+    public double latitude;
+    public double longitude;
+    private String uniqueTrailId;
+    FusedLocationProviderClient fusedLocationProviderClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +101,8 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
                 }).check();
     }
 
+
+
     @Override
     public void handleResult(Result rawResult) {
         String data = rawResult.getText().toString();
@@ -100,7 +116,7 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
 
             String currentTime = String.format("%d", currentTimeMillis());
             currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.parseLong(currentTime)));
-            String uniqueTrailId = String.format("Trail of %s at %s", uid, currentTime);
+            uniqueTrailId = String.format("Trail of %s at %s", uid, currentTime);
 
             HashMap<String, String> input = new HashMap<>();
             input.put("expName", expName);
@@ -115,12 +131,13 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
             CountcollectionReference
                     .document(uniqueTrailId)
                     .set(ignore, SetOptions.merge());
+
         }
         else if(category.equals("2")) {
 
             String currentTime = String.format("%d",currentTimeMillis());
             currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.parseLong(currentTime)));
-            String uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
+            uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
 
             HashMap<String, String> input = new HashMap<>();
 
@@ -146,6 +163,10 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
         Toast.makeText(ScannerActivity.this,"Data added!",Toast.LENGTH_SHORT).show();
         finish();
     }
+
+
+
+
 
     @Override
     protected void onPause() {

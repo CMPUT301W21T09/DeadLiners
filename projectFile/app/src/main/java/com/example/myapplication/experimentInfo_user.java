@@ -331,6 +331,7 @@ public class experimentInfo_user extends AppCompatActivity {
             public void onClick(View v) {
                 String expName = experiment.getExpName();
                 String category = experiment.getCategory();
+                String geoState = experiment.getGeoState();
                 if (category.equals("binomial") || category.equals("count")){
                     if (category.equals("count")){
                         category = "1";
@@ -345,6 +346,11 @@ public class experimentInfo_user extends AppCompatActivity {
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         choose = "1";
                                         data = data + "|" + choose;
+                                        if (geoState.equals("0")) {
+                                            data = data + "|0";
+                                        } else {
+                                            data = data + "|1";
+                                        }
                                         Intent intent = new Intent(experimentInfo_user.this, barcodeView.class);
                                         intent.putExtra("exp",data);
                                         startActivity(intent);
@@ -355,6 +361,11 @@ public class experimentInfo_user extends AppCompatActivity {
                                     public void onClick(DialogInterface dialog, int which) {
                                         choose = "0";
                                         data = data + "|" + choose;
+                                        if (geoState.equals("0")) {
+                                            data = data + "|0";
+                                        } else {
+                                            data = data + "|1";
+                                        }
                                         Intent intent = new Intent(experimentInfo_user.this, barcodeView.class);
                                         intent.putExtra("exp",data);
                                         startActivity(intent);
@@ -364,6 +375,11 @@ public class experimentInfo_user extends AppCompatActivity {
                     }
                     if (category.equals("1")){
                         data = data + "|1";
+                        if (geoState.equals("0")) {
+                            data = data + "|0";
+                        } else {
+                            data = data + "|1";
+                        }
                         Intent intent = new Intent(experimentInfo_user.this, barcodeView.class);
                         intent.putExtra("exp",data);
                         startActivity(intent);
@@ -387,6 +403,7 @@ public class experimentInfo_user extends AppCompatActivity {
             public void onClick(View v) {
                 String expName = experiment.getExpName();
                 String category = experiment.getCategory();
+                String geoState = experiment.getGeoState();
                 if (category.equals("binomial") || category.equals("count")){
                     if (category.equals("count")){
                         category = "1";
@@ -401,6 +418,11 @@ public class experimentInfo_user extends AppCompatActivity {
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         choose = "1";
                                         data = data + "|" + choose;
+                                        if (geoState.equals("0")) {
+                                            data = data + "|0";
+                                        } else {
+                                            data = data + "|1";
+                                        }
                                         Intent intent = new Intent(experimentInfo_user.this, qrcodeView.class);
                                         intent.putExtra("exp",data);
                                         startActivity(intent);
@@ -411,6 +433,11 @@ public class experimentInfo_user extends AppCompatActivity {
                                     public void onClick(DialogInterface dialog, int which) {
                                         choose = "0";
                                         data = data + "|" + choose;
+                                        if (geoState.equals("0")) {
+                                            data = data + "|0";
+                                        } else {
+                                            data = data + "|1";
+                                        }
                                         Intent intent = new Intent(experimentInfo_user.this, qrcodeView.class);
                                         intent.putExtra("exp",data);
                                         startActivity(intent);
@@ -420,6 +447,11 @@ public class experimentInfo_user extends AppCompatActivity {
                     }
                     if (category.equals("1")){
                         data = data + "|1";
+                        if (geoState.equals("0")) {
+                            data = data + "|0";
+                        } else {
+                            data = data + "|1";
+                        }
                         Intent intent = new Intent(experimentInfo_user.this, qrcodeView.class);
                         intent.putExtra("exp",data);
                         startActivity(intent);
