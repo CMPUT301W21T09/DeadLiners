@@ -38,7 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
 import static java.lang.System.currentTimeMillis;
-
+// user cannot end and unpublish the experiment, else are same as owner's class
 public class experimentInfo_user extends AppCompatActivity {
     private static final String TAG = "experiment";
     private FirebaseFirestore db = FirebaseFirestore.getInstance();

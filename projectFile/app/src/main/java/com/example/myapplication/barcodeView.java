@@ -36,6 +36,7 @@ public class barcodeView extends AppCompatActivity {
         try {
             BitMatrix bitMatrix = multiFormatWriter.encode(expNameAndCategory, BarcodeFormat.CODE_128,337,92);
             Bitmap bitmap = Bitmap.createBitmap(337,92,Bitmap.Config.RGB_565);
+            // convert bitMatrix into bitmap
             for (int i = 0; i < 337;i++){
                 for (int j = 0; j < 92;j++){
                     bitmap.setPixel(i,j,bitMatrix.get(i,j)? Color.BLACK:Color.WHITE);

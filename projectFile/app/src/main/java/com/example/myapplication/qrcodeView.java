@@ -35,6 +35,7 @@ public class qrcodeView extends AppCompatActivity {
         try {
             BitMatrix bitMatrix = qrCodeWriter.encode(expNameAndCategory, BarcodeFormat.QR_CODE,200,200);
             Bitmap bitmap = Bitmap.createBitmap(200,200,Bitmap.Config.RGB_565);
+            // convert bitMatrix into bitmap
             for (int i = 0; i < 200; i++){
                 for (int j = 0; j< 200;j++){
                     bitmap.setPixel(i,j,bitMatrix.get(i,j)? Color.BLACK:Color.WHITE);
