@@ -94,9 +94,9 @@ public class SeeMapActivity extends FragmentActivity implements OnMapReadyCallba
                     String expName = (String) doc.getData().get("expName");
                     Boolean ignore = (Boolean) doc.getData().get("ignore");
                     if(expName.equals(exp_name) && !ignore) {
-                        Double lat  = (Double) doc.getData().get("lat");
-                        Double lon  = (Double) doc.getData().get("longi");
-                        if(lat != null || lon != null) {
+                        if(doc.getData().get("lat") != null && doc.getData().get("longi") != null) {
+                            Double lat  = (Double) doc.getData().get("lat");
+                            Double lon  = (Double) doc.getData().get("longi");
                             LatLng location = new LatLng(lat, lon);
                             mMap.addMarker(new MarkerOptions().position(location).title("Marker"));
                             mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
