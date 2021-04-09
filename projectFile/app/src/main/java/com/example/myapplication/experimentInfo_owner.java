@@ -204,7 +204,7 @@ public class experimentInfo_owner extends AppCompatActivity {
             }
         });
 
-
+        // add trail
         addTrail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -231,7 +231,7 @@ public class experimentInfo_owner extends AppCompatActivity {
                     countCollectionReference
                             .document(uniqueTrailId)
                             .set(ignore,SetOptions.merge());
-
+                    // if experiment need geoLocation, store the location into database
                     if (experiment.getGeoState().equals("1")) {
                         getLocation();
                     }
@@ -383,6 +383,8 @@ public class experimentInfo_owner extends AppCompatActivity {
             }
         });
 
+        // pass experiment info by barcode and qrCode
+        // format: ExpName|category|choose|location
         barCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
