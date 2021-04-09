@@ -1,8 +1,5 @@
 package com.example.myapplication;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
-
 public class Trial {
     private String expName;
     private String experimenter;

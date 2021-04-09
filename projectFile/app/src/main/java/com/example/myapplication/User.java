@@ -1,7 +1,5 @@
 package com.example.myapplication;
 
-import android.location.Location;
-
 public class User {
     private String uid;
     private String username;

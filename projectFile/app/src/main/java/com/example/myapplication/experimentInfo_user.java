@@ -1,13 +1,8 @@
 package com.example.myapplication;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -21,6 +16,9 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -38,8 +36,6 @@ import com.google.gson.Gson;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
-
-import androidmads.library.qrgenearator.QRGEncoder;
 
 import static java.lang.System.currentTimeMillis;
 
@@ -74,8 +70,6 @@ public class experimentInfo_user extends AppCompatActivity {
     private TextView region;
     private TextView status;
 
-    Bitmap bitmap;
-    QRGEncoder qrgEncoder;
     FusedLocationProviderClient fusedLocationProviderClient;
     private CollectionReference userCollectionReference;
     Gson gson = new Gson();
@@ -597,16 +591,6 @@ public class experimentInfo_user extends AppCompatActivity {
 
 
 
-    }
-    public void showMap(View view) {
-        if(experiment.geoState.equals("1")) {
-            Intent intent = new Intent(experimentInfo_user.this, SeeMapActivity.class);
-            intent.putExtra("exp_category",experiment.getCategory());
-            intent.putExtra("exp_name", experiment.getExpName());
-            startActivity(intent);
-        } else {
-            Toast.makeText(experimentInfo_user.this, "There is no map!", Toast.LENGTH_SHORT).show();
-        }
     }
 
     void showQuestionInfo()

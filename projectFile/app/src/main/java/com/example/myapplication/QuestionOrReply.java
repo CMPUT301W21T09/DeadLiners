@@ -1,12 +1,9 @@
 package com.example.myapplication;
 
 
-
 import java.io.Serializable;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
-
-import static java.lang.System.currentTimeMillis;
 
 //class to store a Question or A Reply
 public class QuestionOrReply implements Serializable{

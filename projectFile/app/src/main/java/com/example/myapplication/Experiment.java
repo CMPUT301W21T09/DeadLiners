@@ -1,9 +1,6 @@
 package com.example.myapplication;
 
-import android.location.Location;
-
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class Experiment implements Serializable {
     private String expName;
@@ -12,12 +9,8 @@ public class Experiment implements Serializable {
     private String region;
     private String minimum_trails;
     public String status;
-    public ArrayList<Location> locations;
-    public ArrayList<Location> ignores;
-    //public barcode;
     public String owner;
     public String ownerName;
-    //public Array<User> participants;
     public String geoState;
 
     public Experiment(String name, String description, String category, String region, String minimum_trails,String uid, String geoState) {

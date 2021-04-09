@@ -1,13 +1,8 @@
 package com.example.myapplication;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -20,6 +15,10 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -37,8 +36,6 @@ import com.google.gson.Gson;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
-
-import androidmads.library.qrgenearator.QRGEncoder;
 
 import static java.lang.System.currentTimeMillis;
 
@@ -76,12 +73,9 @@ public class experimentInfo_owner extends AppCompatActivity {
     private TextView region;
     private TextView status;
     private Switch aSwitch;
-    Bitmap bitmap;
-    QRGEncoder qrgEncoder;
     FusedLocationProviderClient fusedLocationProviderClient;
     private CollectionReference userCollectionReference;
     Gson gson = new Gson();
-    private String expName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -557,42 +551,7 @@ public class experimentInfo_owner extends AppCompatActivity {
             }
         });
 
-        //locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-        /*locationListener = new LocationListener() {
-            @Override
-            public void onLocationChanged(@NonNull Location location) {
-                locationManager.removeUpdates(locationListener);
-                //Toast.makeText(experimentInfo_owner.this, "update", Toast.LENGTH_SHORT).show();
-                Intent intent1 = new Intent(experimentInfo_owner.this, MapsActivity.class);
-
-
-                // CollectionReference experimentCollectionReference = db.collection("Experiments");
-                //    CollectionReference countCollectionReference = db.collection("CountDataset");
-                //    CollectionReference binomialCollectionReference = db.collection("BinomialDataSet");
-                //    CollectionReference intCountCollectionReference = db.collection("IntCountDataset");
-                //    CollectionReference measurementCollectionReference = db.collection("MeasurementDataset");
-                CollectionReference passCRef = null;
-
-                if (experiment.getCategory().equals("measurement")){
-                     passCRef = measurementCollectionReference;
-                }else if (experiment.getCategory().equals("intCount")){
-                    passCRef = intCountCollectionReference;
-                }else if (experiment.getCategory().equals("binomial")){
-                    passCRef = binomialCollectionReference;
-                }else if (experiment.getCategory().equals("count")){
-                    passCRef = countCollectionReference;
-                }
-
-
-                CostomeCRef costomeCRef = new CostomeCRef(passCRef);
-                intent1.putExtra("cRef", costomeCRef);
-                startActivity(intent1);
-            }
-        };*/
     }
-
-    ////////////
 
     void showQuestionInfo() {
         Intent intent = new Intent(this, QuestionListActivity.class);
@@ -672,26 +631,4 @@ public class experimentInfo_owner extends AppCompatActivity {
     }
 
 
-
-    private void showAlert(){
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage("GPS is currently disabled")
-                .setCancelable(false)
-                .setPositiveButton("Enable GPS service",
-                        new DialogInterface.OnClickListener(){
-                            public void onClick(DialogInterface dialog, int id){
-                                Intent callGPSSettingIntent = new Intent(
-                                        android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                                startActivity(callGPSSettingIntent);
-                            }
-                        });
-        alertDialogBuilder.setNegativeButton("Cancel",
-                new DialogInterface.OnClickListener(){
-                    public void onClick(DialogInterface dialog, int id){
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog alert = alertDialogBuilder.create();
-        alert.show();
-    }
 }
