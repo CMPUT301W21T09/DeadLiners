@@ -126,8 +126,11 @@ public class experimentInfo_owner extends AppCompatActivity {
         end = findViewById(R.id.End);
         aSwitch = findViewById(R.id.Geo_enable);
         barCode = findViewById(R.id.barcode);
-        seeMap = findViewById(R.id.see_map);
+        seeMap = findViewById(R.id.seeMap_owner);
 
+        if (experiment.getGeoState().equals("0")){
+            seeMap.setVisibility(View.INVISIBLE);
+        }
 
         if (experiment.getGeoState().equals("1")) {
             aSwitch.setChecked(true);
@@ -143,6 +146,8 @@ public class experimentInfo_owner extends AppCompatActivity {
         status.setText(experiment.getPublished());
 
         String expName = experiment.getExpName();
+
+
 
         viewTrails.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,9 +178,6 @@ public class experimentInfo_owner extends AppCompatActivity {
         addTrail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (experiment.getGeoState().equals("1")) {
-                    Toast.makeText(experimentInfo_owner.this,"This experiment require your location!",Toast.LENGTH_SHORT).show();
-                }
                 if (experiment.getCategory().equals("count") && (experiment.getPublished().equals("open"))){
                     String currentTime = String.format("%d",currentTimeMillis());
 
@@ -566,7 +568,7 @@ public class experimentInfo_owner extends AppCompatActivity {
                         fusedLocationProviderClient.requestLocationUpdates(locationRequest
                         ,locationCallback, Looper.myLooper());
                     }
-                    
+
                     HashMap<String, Double> loc = new HashMap<>();
                     loc.put("longi", longitude);
                     loc.put("lat", latitude);
