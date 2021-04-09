@@ -59,15 +59,16 @@ public class SeeMapActivity extends FragmentActivity implements OnMapReadyCallba
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        Intent intent = getIntent();
-        exp_name = intent.getStringExtra("exp_name");
-        exp_category = intent.getStringExtra("exp_category");
-
 
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
+        Intent intent = getIntent();
+        exp_name = intent.getStringExtra("exp_name");
+        exp_category = intent.getStringExtra("exp_category");
+
         mMap = googleMap;
 
         db = FirebaseFirestore.getInstance();
