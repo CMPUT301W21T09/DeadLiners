@@ -106,8 +106,8 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
     @Override
     public void handleResult(Result rawResult) {
         String data = rawResult.getText().toString();
-
-        String[] arrOfdata = data.split("\\|",3);
+        Toast.makeText(ScannerActivity.this,data,Toast.LENGTH_SHORT).show();
+        String[] arrOfdata = data.split("\\|",4);
         String expName = arrOfdata[0];
         String category = arrOfdata[1];
         String trial = arrOfdata[2];
@@ -172,7 +172,7 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
         finish();
     }
 
-    public void getLocation(String categoty){
+    public void getLocation(String category){
         LocationManager locationManager = (LocationManager) getSystemService(
                 Context.LOCATION_SERVICE
         );
@@ -213,12 +213,12 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
                     loc.put("longi", longitude);
                     loc.put("lat", latitude);
 
-                    if (categoty.equals("1")) {
+                    if (category.equals("1")) {
                         CountcollectionReference
                                 .document(uniqueTrailId)
                                 .set(loc,SetOptions.merge());
                     }
-                    if (categoty.equals("2")) {
+                    if (category.equals("2")) {
                         BinomialcollectionReference
                                 .document(uniqueTrailId)
                                 .set(loc,SetOptions.merge());
