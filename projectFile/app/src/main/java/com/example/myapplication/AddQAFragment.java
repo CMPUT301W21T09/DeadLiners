@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+//fragment to generate a new QuestionOrReply object
 public class AddQAFragment extends DialogFragment {
     private EditText description;
     private OnAddFragmentInteractionListener listener;
@@ -36,6 +37,7 @@ public class AddQAFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
             .setView(view)
+            .setTitle("Add a Question/Reply")
             .setNegativeButton("Cancel", null)
             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
