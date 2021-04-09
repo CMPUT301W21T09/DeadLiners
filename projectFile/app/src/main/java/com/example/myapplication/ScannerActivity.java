@@ -111,6 +111,7 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
         String expName = arrOfdata[0];
         String category = arrOfdata[1];
         String trial = arrOfdata[2];
+        String geoState = arrOfdata[3];
 
         if(category.equals("1")) {
 
@@ -131,6 +132,9 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
             CountcollectionReference
                     .document(uniqueTrailId)
                     .set(ignore, SetOptions.merge());
+            if (geoState.equals("1")){
+                getLocation(category);
+            }
 
         }
         else if(category.equals("2")) {
@@ -158,12 +162,74 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
             BinomialcollectionReference
                     .document(uniqueTrailId)
                     .set(ignore,SetOptions.merge());
+
+            if (geoState.equals("1")){
+                getLocation(category);
+            }
         }
 
         Toast.makeText(ScannerActivity.this,"Data added!",Toast.LENGTH_SHORT).show();
         finish();
     }
 
+    public void getLocation(String categoty){
+        LocationManager locationManager = (LocationManager) getSystemService(
+                Context.LOCATION_SERVICE
+        );
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(
+                ScannerActivity.this
+        );
+
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+                || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+                @Override
+                public void onComplete(@NonNull Task<Location> task) {
+                    Location location = task.getResult();
+                    if (location != null){
+                        latitude = location.getLatitude();
+                        longitude = location.getLongitude();
+                    } else {
+                        LocationRequest locationRequest = new LocationRequest()
+                                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                                .setInterval(10000)
+                                .setFastestInterval(1000)
+                                .setNumUpdates(1);
+
+                        LocationCallback locationCallback = new LocationCallback() {
+                            @Override
+                            public void onLocationResult(LocationResult locationResult){
+                                Location location1 = locationResult.getLastLocation();
+                                latitude = location1.getLatitude();
+                                longitude = location1.getLongitude();
+                            }
+                        };
+                        fusedLocationProviderClient.requestLocationUpdates(locationRequest
+                                ,locationCallback, Looper.myLooper());
+                    }
+
+                    HashMap<String, Double> loc = new HashMap<>();
+                    loc.put("longi", longitude);
+                    loc.put("lat", latitude);
+
+                    if (categoty.equals("1")) {
+                        CountcollectionReference
+                                .document(uniqueTrailId)
+                                .set(loc,SetOptions.merge());
+                    }
+                    if (categoty.equals("2")) {
+                        BinomialcollectionReference
+                                .document(uniqueTrailId)
+                                .set(loc,SetOptions.merge());
+                    }
+                }
+            });
+        } else {
+            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+        }
+    }
 
 
 
