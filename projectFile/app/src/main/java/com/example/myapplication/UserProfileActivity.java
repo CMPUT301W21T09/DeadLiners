@@ -23,6 +23,7 @@ import com.google.firebase.firestore.SetOptions;
 import java.util.HashMap;
 
 public class UserProfileActivity extends AppCompatActivity {
+    public User userinfo;
     public String uid;
     public TextView uid_show;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -85,6 +86,7 @@ public class UserProfileActivity extends AppCompatActivity {
         //set the edit button and update the information to firebase
         Button edit = (Button)findViewById(R.id.profile_edit);
         edit.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();

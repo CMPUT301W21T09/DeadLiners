@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
     CollectionReference countCollectionReference = db.collection("CountDataset");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // go to login page
+// go to login page
         if( login == false ){
             Intent intent = new Intent().setClass(MainActivity.this, LoginActivity.class);
             intent.putExtra("login",login);
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // setup buttons and listview
+// setup buttons and listview
         button_add = findViewById(R.id.imageButton_add);
         button_user = findViewById(R.id.imageButton_user);
         button_search = findViewById(R.id.imageButton_search);
@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
     }
 
 
-    // go to profile activity
+// go to profile activity
     public void GoProfile(View view) {
         if(login == true){
             Intent intent = new Intent().setClass(MainActivity.this, UserProfileActivity.class);
@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
         }
     }
 
-    // pass the uid between main activity and profile activity
+// pass the uid between main activity and profile activity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

@@ -89,15 +89,15 @@ public class LoginActivity extends AppCompatActivity {
 
 
                 if(is_new[0] == true) {
+                    User userinfo = new User(uid, "Default Username", "Default Email","Default Phone number");
                     HashMap<String, String> email = new HashMap<>();
                     HashMap<String, String> username = new HashMap<>();
                     HashMap<String, String> phone = new HashMap<>();
                     HashMap<String, Location> location = new HashMap<>();
 
-                    email.put("Email", "Default Email");
-                    username.put("Username", "Default Username");
-                    phone.put("Phone", "Default Phone number");
-                    //location.put("Location",(0,0));
+                    email.put("Email", userinfo.getEmail());
+                    username.put("Username", userinfo.getUsername());
+                    phone.put("Phone", userinfo.getPhoneNumber());
                     userCollectionReference.document(uid)
                             .set(email);
                     userCollectionReference.document(uid)
