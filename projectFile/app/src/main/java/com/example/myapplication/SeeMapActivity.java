@@ -91,15 +91,17 @@ public class SeeMapActivity extends FragmentActivity implements OnMapReadyCallba
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 for(QueryDocumentSnapshot doc: value) {
-                    String expName = (String) doc.getData().get("expName");
-                    Boolean ignore = (Boolean) doc.getData().get("ignore");
-                    if(expName.equals(exp_name) && !ignore) {
-                        if(doc.getData().get("lat") != null && doc.getData().get("longi") != null) {
-                            Double lat  = (Double) doc.getData().get("lat");
-                            Double lon  = (Double) doc.getData().get("longi");
-                            LatLng location = new LatLng(lat, lon);
-                            mMap.addMarker(new MarkerOptions().position(location).title("Marker"));
-                            mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+                    if(doc.getData().get("expName") != null && doc.getData().get("ignore") != null) {
+                        String expName = (String) doc.getData().get("expName");
+                        Boolean ignore = (Boolean) doc.getData().get("ignore");
+                        if(expName.equals(exp_name) && !ignore) {
+                            if(doc.getData().get("lat") != null && doc.getData().get("longi") != null) {
+                                Double lat  = (Double) doc.getData().get("lat");
+                                Double lon  = (Double) doc.getData().get("longi");
+                                LatLng location = new LatLng(lat, lon);
+                                mMap.addMarker(new MarkerOptions().position(location).title("Marker"));
+                                mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+                            }
                         }
                     }
                 }
