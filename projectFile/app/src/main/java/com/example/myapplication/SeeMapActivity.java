@@ -92,7 +92,8 @@ public class SeeMapActivity extends FragmentActivity implements OnMapReadyCallba
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 for(QueryDocumentSnapshot doc: value) {
                     String expName = (String) doc.getData().get("expName");
-                    if(expName.equals(exp_name)) {
+                    Boolean ignore = (Boolean) doc.getData().get("ignore");
+                    if(expName.equals(exp_name) && !ignore) {
                         Double lat  = (Double) doc.getData().get("lat");
                         Double lon  = (Double) doc.getData().get("longi");
                         LatLng location = new LatLng(lat, lon);
