@@ -118,6 +118,7 @@ public class experimentInfo_user extends AppCompatActivity {
         aSwitch = findViewById(R.id.geo_switch);
 
         String expName = experiment.getExpName();
+        userCollectionReference = db.collection("Users");
 
         if (experiment.getGeoState().equals("1")) {
             aSwitch.setChecked(true);
