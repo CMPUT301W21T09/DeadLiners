@@ -560,6 +560,8 @@ public class experimentInfo_owner extends AppCompatActivity {
                         fusedLocationProviderClient.requestLocationUpdates(locationRequest
                         ,locationCallback, Looper.myLooper());
                     }
+
+
                     
                     HashMap<String, Double> loc = new HashMap<>();
                     loc.put("longi", longitude);

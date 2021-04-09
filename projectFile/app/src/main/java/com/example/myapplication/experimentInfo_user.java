@@ -5,11 +5,16 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +24,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -48,6 +58,9 @@ public class experimentInfo_user extends AppCompatActivity {
     CollectionReference measurementCollectionReference = db.collection("MeasurementDataset");
     private String choose;
     private String data;
+    public double latitude;
+    public double longitude;
+    private String uniqueTrailId;
 
     private Button qrCode;
     private Button subscribe;
@@ -66,6 +79,7 @@ public class experimentInfo_user extends AppCompatActivity {
 
     Bitmap bitmap;
     QRGEncoder qrgEncoder;
+    FusedLocationProviderClient fusedLocationProviderClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,21 +135,25 @@ public class experimentInfo_user extends AppCompatActivity {
             }
         });
 
+
+
         addTrail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (experiment.getGeoState().equals("1")) {
-                    Toast.makeText(experimentInfo_user.this,"This experiment requires your Geo-Location!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(experimentInfo_user.this,"This experiment require your location!",Toast.LENGTH_SHORT).show();
                 }
                 if (experiment.getCategory().equals("count") && (experiment.getPublished().equals("open"))){
                     String currentTime = String.format("%d",currentTimeMillis());
+
                     currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.parseLong(currentTime)));
-                    String uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
+                    uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
 
                     HashMap<String, String> data = new HashMap<>();
                     data.put("expName",expName);
                     data.put("experimenter",uid);
                     data.put("time",currentTime);
+
                     HashMap<String,Boolean> ignore = new HashMap<>();
                     ignore.put("ignore",false);
 
@@ -145,6 +163,12 @@ public class experimentInfo_user extends AppCompatActivity {
                     countCollectionReference
                             .document(uniqueTrailId)
                             .set(ignore,SetOptions.merge());
+
+                    if (experiment.getGeoState().equals("1")) {
+                        getLocation();
+                    }
+
+
 
                     Toast.makeText(experimentInfo_user.this,"Increment the count by 1!",Toast.LENGTH_SHORT).show();
                 }
@@ -156,7 +180,7 @@ public class experimentInfo_user extends AppCompatActivity {
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     String currentTime = String.format("%d",currentTimeMillis());
                                     currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.parseLong(currentTime)));
-                                    String uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
+                                    uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
 
                                     HashMap<String, String> data = new HashMap<>();
 
@@ -166,14 +190,17 @@ public class experimentInfo_user extends AppCompatActivity {
                                     data.put("time",currentTime);
                                     HashMap<String,Boolean> ignore = new HashMap<>();
                                     ignore.put("ignore",false);
+
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(data);
 
-
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(ignore,SetOptions.merge());
+                                    if (experiment.getGeoState().equals("1")) {
+                                        getLocation();
+                                    }
 
                                 }
                             })
@@ -182,24 +209,29 @@ public class experimentInfo_user extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     String currentTime = String.format("%d",currentTimeMillis());
                                     currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.parseLong(currentTime)));
-                                    String uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
+                                    uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
 
                                     HashMap<String, String> data = new HashMap<>();
 
-                                    data.put("value", "fail");
+
+                                    data.put("value","fail");
                                     data.put("expName",expName);
                                     data.put("experimenter",uid);
                                     data.put("time",currentTime);
                                     HashMap<String,Boolean> ignore = new HashMap<>();
                                     ignore.put("ignore",false);
+
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(data);
 
-
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(ignore,SetOptions.merge());
+
+                                    if (experiment.getGeoState().equals("1")) {
+                                        getLocation();
+                                    }
 
                                 }
                             });
@@ -216,7 +248,7 @@ public class experimentInfo_user extends AppCompatActivity {
 
                                     String currentTime = String.format("%d",currentTimeMillis());
                                     currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.parseLong(currentTime)));
-                                    String uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
+                                    uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
 
                                     HashMap<String, String> data = new HashMap<>();
                                     data.put("expName",expName);
@@ -234,6 +266,10 @@ public class experimentInfo_user extends AppCompatActivity {
                                             .document(uniqueTrailId)
                                             .set(ignore,SetOptions.merge());
 
+                                    if (experiment.getGeoState().equals("1")) {
+                                        getLocation();
+                                    }
+
                                 }
                             });
                     builder.create().show();
@@ -249,7 +285,7 @@ public class experimentInfo_user extends AppCompatActivity {
 
                                     String currentTime = String.format("%d",currentTimeMillis());
                                     currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.parseLong(currentTime)));
-                                    String uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
+                                    uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
 
                                     HashMap<String, String> data = new HashMap<>();
                                     data.put("expName",expName);
@@ -265,14 +301,20 @@ public class experimentInfo_user extends AppCompatActivity {
                                     measurementCollectionReference
                                             .document(uniqueTrailId)
                                             .set(ignore,SetOptions.merge());
+
+                                    if (experiment.getGeoState().equals("1")) {
+                                        getLocation();
+                                    }
                                 }
                             });
                     builder.create().show();
+
                 } else {
                     Toast.makeText(experimentInfo_user.this,"This experiment is ended",Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
 
         barCode.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -322,6 +364,7 @@ public class experimentInfo_user extends AppCompatActivity {
 
             }
         });
+
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -383,6 +426,81 @@ public class experimentInfo_user extends AppCompatActivity {
         questionButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) { showQuestionInfo(); }
         });
+    }
+
+    public void getLocation(){
+        LocationManager locationManager = (LocationManager) getSystemService(
+                Context.LOCATION_SERVICE
+        );
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(
+                experimentInfo_user.this
+        );
+
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+                || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+                @Override
+                public void onComplete(@NonNull Task<Location> task) {
+                    Location location = task.getResult();
+                    if (location != null){
+                        latitude = location.getLatitude();
+                        longitude = location.getLongitude();
+                    } else {
+                        LocationRequest locationRequest = new LocationRequest()
+                                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                                .setInterval(10000)
+                                .setFastestInterval(1000)
+                                .setNumUpdates(1);
+
+                        LocationCallback locationCallback = new LocationCallback() {
+                            @Override
+                            public void onLocationResult(LocationResult locationResult){
+                                Location location1 = locationResult.getLastLocation();
+                                latitude = location1.getLatitude();
+                                longitude = location1.getLongitude();
+                            }
+                        };
+                        fusedLocationProviderClient.requestLocationUpdates(locationRequest
+                                ,locationCallback, Looper.myLooper());
+                    }
+
+
+
+                    HashMap<String, Double> loc = new HashMap<>();
+                    loc.put("longi", longitude);
+                    loc.put("lat", latitude);
+
+                    if (experiment.getCategory().equals("count")) {
+                        countCollectionReference
+                                .document(uniqueTrailId)
+                                .set(loc,SetOptions.merge());
+                    }
+                    if (experiment.getCategory().equals("binomial")) {
+                        binomialCollectionReference
+                                .document(uniqueTrailId)
+                                .set(loc,SetOptions.merge());
+                    }
+                    if (experiment.getCategory().equals("intCount")) {
+                        intCountCollectionReference
+                                .document(uniqueTrailId)
+                                .set(loc,SetOptions.merge());
+                    }
+                    if (experiment.getCategory().equals("measurement")) {
+                        measurementCollectionReference
+                                .document(uniqueTrailId)
+                                .set(loc,SetOptions.merge());
+                    }
+                }
+            });
+        } else {
+            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+        }
+
+
+
+
     }
 
     public void showMap(View view) {
