@@ -26,6 +26,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+//Availability https://blog.csdn.net/hekai7217/article/details/61198322
+//Availability https://svipbug.com/2020/03/19/MPAndroidChart的详细使用——BarChart条形图组（三）/
+//Accessed on Apr.8
+
 
 public class BarActivity extends AppCompatActivity {
 
