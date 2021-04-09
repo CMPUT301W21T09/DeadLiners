@@ -110,9 +110,9 @@ public class StatisticsActivity extends AppCompatActivity {
                     Collections.sort(measurement_result);
                     float sum = 0;
                     float stdev = 0;
-                    double quartile1 = 0;
-                    double quartile3 = 0;
-                    double median = 0;
+                    float quartile1 = 0;
+                    float quartile3 = 0;
+                    float median = 0;
                     for(int i = 0; i < measurement_result.size(); i++) {
                         sum += measurement_result.get(i);
                     }
@@ -123,7 +123,7 @@ public class StatisticsActivity extends AppCompatActivity {
                     stdev_text.setText(String.valueOf(Math.sqrt(stdev/measurement_result.size())));
 
                     if(measurement_result.size() % 2 == 0) {
-                        median = (measurement_result.get(measurement_result.size()/2 - 1) + measurement_result.get(measurement_result.size()/2))*1.0/2;
+                        median = (float) ((measurement_result.get(measurement_result.size()/2 - 1) + measurement_result.get(measurement_result.size()/2))*1.0/2);
                         median_text.setText(String.valueOf(median));
                         quartile2_text.setText(String.valueOf(median));
                     }
@@ -135,38 +135,49 @@ public class StatisticsActivity extends AppCompatActivity {
 
                     ArrayList<Float> lowerList = new ArrayList<Float>();
                     ArrayList<Float> higherList = new ArrayList<Float>();
-                    if(measurement_result.size() % 2 == 0) {
-                        for(int i = 0; i <= measurement_result.size() / 2 - 1; i++) {
-                            lowerList.add(measurement_result.get(i));
+                    if(measurement_result.size() == 1) {
+                        quartile1_text.setText(String.valueOf(measurement_result.get(0)));
+                        quartile3_text.setText(String.valueOf(measurement_result.get(0)));
+                    } else if(measurement_result.size() == 2) {
+                        quartile1_text.setText(String.valueOf(measurement_result.get(0)));
+                        quartile3_text.setText(String.valueOf(measurement_result.get(1)));
+                    } else if(measurement_result.size() == 3) {
+                        quartile1_text.setText(String.valueOf(measurement_result.get(0)));
+                        quartile3_text.setText(String.valueOf(measurement_result.get(2)));
+                    } else {
+                        if(measurement_result.size() % 2 == 0) {
+                            for(int i = 0; i <= measurement_result.size() / 2 - 1; i++) {
+                                lowerList.add(measurement_result.get(i));
+                            }
+                            for(int i = measurement_result.size() / 2 ; i <= measurement_result.size() - 1; i++) {
+                                higherList.add(measurement_result.get(i));
+                            }
                         }
-                        for(int i = measurement_result.size() / 2 ; i <= measurement_result.size() - 1; i++) {
-                            higherList.add(measurement_result.get(i));
+                        else {
+                            for(int i = 0; i <= measurement_result.size() / 2; i++) {
+                                lowerList.add(measurement_result.get(i));
+                            }
+                            for(int i = measurement_result.size() / 2 + 1; i <= measurement_result.size() - 1; i++) {
+                                higherList.add(measurement_result.get(i));
+                            }
                         }
-                    }
-                    else {
-                        for(int i = 0; i <= measurement_result.size() / 2; i++) {
-                            lowerList.add(measurement_result.get(i));
-                        }
-                        for(int i = measurement_result.size() / 2 + 1; i <= measurement_result.size() - 1; i++) {
-                            higherList.add(measurement_result.get(i));
-                        }
-                    }
 
-                    if(lowerList.size() % 2 == 0) {
-                        quartile1 = (lowerList.get(lowerList.size()/2 - 1) + lowerList.get(lowerList.size()/2))*1.0/2;
-                        quartile1_text.setText(String.valueOf(quartile1));
-                    }
-                    else {
-                        quartile1 = (lowerList.get(lowerList.size()/2));
-                        quartile1_text.setText(String.valueOf(quartile1));
-                    }
-                    if(higherList.size() % 2 == 0) {
-                        quartile3 = (higherList.get(higherList.size()/2 - 1) + higherList.get(higherList.size()/2))*1.0/2;
-                        quartile3_text.setText(String.valueOf(quartile3));
-                    }
-                    else {
-                        quartile3 = (higherList.get(higherList.size()/2));
-                        quartile3_text.setText(String.valueOf(quartile3));
+                        if(lowerList.size() % 2 == 0) {
+                            quartile1 = (float) ((lowerList.get(lowerList.size()/2 - 1) + lowerList.get(lowerList.size()/2))*1.0/2);
+                            quartile1_text.setText(String.valueOf(quartile1));
+                        }
+                        else {
+                            quartile1 = (lowerList.get(lowerList.size()/2));
+                            quartile1_text.setText(String.valueOf(quartile1));
+                        }
+                        if(higherList.size() % 2 == 0) {
+                            quartile3 = (float) ((higherList.get(higherList.size()/2 - 1) + higherList.get(higherList.size()/2))*1.0/2);
+                            quartile3_text.setText(String.valueOf(quartile3));
+                        }
+                        else {
+                            quartile3 = (higherList.get(higherList.size()/2));
+                            quartile3_text.setText(String.valueOf(quartile3));
+                        }
                     }
 
                 }
@@ -174,9 +185,9 @@ public class StatisticsActivity extends AppCompatActivity {
                     Collections.sort(results);
                     float sum = 0;
                     float stdev = 0;
-                    double quartile1 = 0;
-                    double quartile3 = 0;
-                    double median = 0;
+                    float quartile1 = 0;
+                    float quartile3 = 0;
+                    float median = 0;
                     for(int i = 0; i < results.size(); i++) {
                         sum += results.get(i);
                     }
@@ -187,7 +198,7 @@ public class StatisticsActivity extends AppCompatActivity {
                     stdev_text.setText(String.valueOf(Math.sqrt(stdev/results.size())));
 
                     if(results.size() % 2 == 0) {
-                        median = (results.get(results.size()/2 - 1) + results.get(results.size()/2))*1.0/2;
+                        median = (float) ((results.get(results.size()/2 - 1) + results.get(results.size()/2))*1.0/2);
                         median_text.setText(String.valueOf(median));
                         quartile2_text.setText(String.valueOf(median));
                     }
@@ -200,38 +211,49 @@ public class StatisticsActivity extends AppCompatActivity {
 
                     ArrayList<Integer> lowerList = new ArrayList<Integer>();
                     ArrayList<Integer> higherList = new ArrayList<Integer>();
-                    if(results.size() % 2 == 0) {
-                        for(int i = 0; i <= results.size() / 2 - 1; i++) {
-                            lowerList.add(results.get(i));
+                    if(results.size() == 1) {
+                        quartile1_text.setText(String.valueOf(results.get(0)));
+                        quartile3_text.setText(String.valueOf(results.get(0)));
+                    } else if(results.size() == 2) {
+                        quartile1_text.setText(String.valueOf(results.get(0)));
+                        quartile3_text.setText(String.valueOf(results.get(1)));
+                    } else if(results.size() == 3) {
+                        quartile1_text.setText(String.valueOf(results.get(0)));
+                        quartile3_text.setText(String.valueOf(results.get(2)));
+                    } else {
+                        if(results.size() % 2 == 0) {
+                            for(int i = 0; i <= results.size() / 2 - 1; i++) {
+                                lowerList.add(results.get(i));
+                            }
+                            for(int i = results.size() / 2 ; i <= results.size() - 1; i++) {
+                                higherList.add(results.get(i));
+                            }
                         }
-                        for(int i = results.size() / 2 ; i <= results.size() - 1; i++) {
-                            higherList.add(results.get(i));
+                        else {
+                            for(int i = 0; i <= results.size() / 2; i++) {
+                                lowerList.add(results.get(i));
+                            }
+                            for(int i = results.size() / 2 + 1; i <= results.size() - 1; i++) {
+                                higherList.add(results.get(i));
+                            }
                         }
-                    }
-                    else {
-                        for(int i = 0; i <= results.size() / 2; i++) {
-                            lowerList.add(results.get(i));
-                        }
-                        for(int i = results.size() / 2 + 1; i <= results.size() - 1; i++) {
-                            higherList.add(results.get(i));
-                        }
-                    }
 
-                    if(lowerList.size() % 2 == 0) {
-                        quartile1 = ((lowerList.get(lowerList.size()/2 - 1) + lowerList.get(lowerList.size()/2)) * 1.0 / 2);
-                        quartile1_text.setText(String.valueOf(quartile1));
-                    }
-                    else {
-                        quartile1 = (lowerList.get(lowerList.size()/2));
-                        quartile1_text.setText(String.valueOf(quartile1));
-                    }
-                    if(higherList.size() % 2 == 0) {
-                        quartile3 = (higherList.get(higherList.size()/2 - 1) + higherList.get(higherList.size()/2))*1.0/2;
-                        quartile3_text.setText(String.valueOf(quartile3));
-                    }
-                    else {
-                        quartile3 = (higherList.get(higherList.size()/2));
-                        quartile3_text.setText(String.valueOf(quartile3));
+                        if(lowerList.size() % 2 == 0) {
+                            quartile1 = (float) ((lowerList.get(lowerList.size()/2 - 1) + lowerList.get(lowerList.size()/2)) * 1.0 / 2);
+                            quartile1_text.setText(String.valueOf(quartile1));
+                        }
+                        else {
+                            quartile1 = (lowerList.get(lowerList.size()/2));
+                            quartile1_text.setText(String.valueOf(quartile1));
+                        }
+                        if(higherList.size() % 2 == 0) {
+                            quartile3 = (float) ((higherList.get(higherList.size()/2 - 1) + higherList.get(higherList.size()/2))*1.0/2);
+                            quartile3_text.setText(String.valueOf(quartile3));
+                        }
+                        else {
+                            quartile3 = (higherList.get(higherList.size()/2));
+                            quartile3_text.setText(String.valueOf(quartile3));
+                        }
                     }
 
                 }
