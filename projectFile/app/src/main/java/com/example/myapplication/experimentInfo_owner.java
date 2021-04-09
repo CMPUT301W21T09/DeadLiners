@@ -19,8 +19,11 @@ import android.graphics.Point;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.audiofx.BassBoost;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
@@ -33,6 +36,11 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -67,8 +75,9 @@ public class experimentInfo_owner extends AppCompatActivity {
     private String uid;
     private String choose;
     private String data;
-    private double latitude;
-    private double longitude;
+    public double latitude;
+    public double longitude;
+    private String uniqueTrailId;
 
 
     private Button qrCode;
@@ -87,11 +96,9 @@ public class experimentInfo_owner extends AppCompatActivity {
     private TextView region;
     private TextView status;
     private Switch aSwitch;
-    private LocationManager locationManager;
-    private LocationListener locationListener;
-    private LocationListener locationListener2;
     Bitmap bitmap;
     QRGEncoder qrgEncoder;
+    FusedLocationProviderClient fusedLocationProviderClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,36 +153,23 @@ public class experimentInfo_owner extends AppCompatActivity {
             }
         });
 
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-        locationListener2 = new LocationListener() {
-            @Override
-            public void onLocationChanged(@NonNull Location location) {
-                locationManager.removeUpdates(locationListener2);
-                //Toast.makeText(experimentInfo_owner.this, "update", Toast.LENGTH_SHORT).show();
-                latitude = location.getLatitude();
-                longitude = location.getLongitude();
-            }
-        };
 
         addTrail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (experiment.getGeoState().equals("1")) {
+                    Toast.makeText(experimentInfo_owner.this,"This experiment require your location!",Toast.LENGTH_SHORT).show();
+                }
                 if (experiment.getCategory().equals("count") && (experiment.getPublished().equals("open"))){
                     String currentTime = String.format("%d",currentTimeMillis());
 
                     currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.parseLong(currentTime)));
-                    String uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
+                    uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
 
                     HashMap<String, String> data = new HashMap<>();
                     data.put("expName",expName);
                     data.put("experimenter",uid);
                     data.put("time",currentTime);
-
-                    getLocation();
-                    HashMap<String, Double> loc = new HashMap<>();
-                    loc.put("longi", longitude);
-                    loc.put("lat", latitude);
 
                     HashMap<String,Boolean> ignore = new HashMap<>();
                     ignore.put("ignore",false);
@@ -186,9 +180,11 @@ public class experimentInfo_owner extends AppCompatActivity {
                     countCollectionReference
                             .document(uniqueTrailId)
                             .set(ignore,SetOptions.merge());
-                    countCollectionReference
-                            .document(uniqueTrailId)
-                            .set(loc, SetOptions.merge());
+
+                    if (experiment.getGeoState().equals("1")) {
+                        getLocation();
+                    }
+
 
 
                     Toast.makeText(experimentInfo_owner.this,"Increment the count by 1!",Toast.LENGTH_SHORT).show();
@@ -201,7 +197,7 @@ public class experimentInfo_owner extends AppCompatActivity {
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     String currentTime = String.format("%d",currentTimeMillis());
                                     currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.parseLong(currentTime)));
-                                    String uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
+                                    uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
 
                                     HashMap<String, String> data = new HashMap<>();
 
@@ -212,11 +208,6 @@ public class experimentInfo_owner extends AppCompatActivity {
                                     HashMap<String,Boolean> ignore = new HashMap<>();
                                     ignore.put("ignore",false);
 
-                                    getLocation();
-                                    HashMap<String, Double> loc = new HashMap<>();
-                                    loc.put("longi", longitude);
-                                    loc.put("lat", latitude);
-
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(data);
@@ -224,9 +215,9 @@ public class experimentInfo_owner extends AppCompatActivity {
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(ignore,SetOptions.merge());
-                                    binomialCollectionReference
-                                            .document(uniqueTrailId)
-                                            .set(loc, SetOptions.merge());
+                                    if (experiment.getGeoState().equals("1")) {
+                                        getLocation();
+                                    }
 
                                 }
                             })
@@ -235,7 +226,7 @@ public class experimentInfo_owner extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     String currentTime = String.format("%d",currentTimeMillis());
                                     currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.parseLong(currentTime)));
-                                    String uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
+                                    uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
 
                                     HashMap<String, String> data = new HashMap<>();
 
@@ -247,22 +238,17 @@ public class experimentInfo_owner extends AppCompatActivity {
                                     HashMap<String,Boolean> ignore = new HashMap<>();
                                     ignore.put("ignore",false);
 
-                                    getLocation();
-                                    HashMap<String, Double> loc = new HashMap<>();
-                                    loc.put("longi", longitude);
-                                    loc.put("lat", latitude);
-
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
                                             .set(data);
 
                                     binomialCollectionReference
                                             .document(uniqueTrailId)
-                                            .set(loc, SetOptions.merge());
-
-                                    binomialCollectionReference
-                                            .document(uniqueTrailId)
                                             .set(ignore,SetOptions.merge());
+
+                                    if (experiment.getGeoState().equals("1")) {
+                                        getLocation();
+                                    }
 
                                 }
                             });
@@ -279,7 +265,7 @@ public class experimentInfo_owner extends AppCompatActivity {
 
                                     String currentTime = String.format("%d",currentTimeMillis());
                                     currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.parseLong(currentTime)));
-                                    String uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
+                                    uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
 
                                     HashMap<String, String> data = new HashMap<>();
                                     data.put("expName",expName);
@@ -289,11 +275,6 @@ public class experimentInfo_owner extends AppCompatActivity {
                                     HashMap<String,Boolean> ignore = new HashMap<>();
                                     ignore.put("ignore",false);
 
-                                    getLocation();
-                                    HashMap<String, Double> loc = new HashMap<>();
-                                    loc.put("longi", longitude);
-                                    loc.put("lat", latitude);
-
 
                                     intCountCollectionReference
                                             .document(uniqueTrailId)
@@ -302,9 +283,9 @@ public class experimentInfo_owner extends AppCompatActivity {
                                             .document(uniqueTrailId)
                                             .set(ignore,SetOptions.merge());
 
-                                    intCountCollectionReference
-                                            .document(uniqueTrailId)
-                                            .set(loc, SetOptions.merge());
+                                    if (experiment.getGeoState().equals("1")) {
+                                        getLocation();
+                                    }
 
                                 }
                             });
@@ -321,7 +302,7 @@ public class experimentInfo_owner extends AppCompatActivity {
 
                                     String currentTime = String.format("%d",currentTimeMillis());
                                     currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.parseLong(currentTime)));
-                                    String uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
+                                    uniqueTrailId = String.format("Trail of %s at %s",uid,currentTime);
 
                                     HashMap<String, String> data = new HashMap<>();
                                     data.put("expName",expName);
@@ -331,25 +312,20 @@ public class experimentInfo_owner extends AppCompatActivity {
                                     HashMap<String,Boolean> ignore = new HashMap<>();
                                     ignore.put("ignore",false);
 
-                                    getLocation();
-                                    HashMap<String, Double> loc = new HashMap<>();
-                                    loc.put("longi", longitude);
-                                    loc.put("lat", latitude);
-
-                                    measurementCollectionReference
-                                            .document(uniqueTrailId)
-                                            .set(loc, SetOptions.merge());
-
                                     measurementCollectionReference
                                             .document(uniqueTrailId)
                                             .set(data);
                                     measurementCollectionReference
                                             .document(uniqueTrailId)
                                             .set(ignore,SetOptions.merge());
+
+                                    if (experiment.getGeoState().equals("1")) {
+                                        getLocation();
+                                    }
                                 }
                             });
                     builder.create().show();
-                    
+
                 } else {
                     Toast.makeText(experimentInfo_owner.this,"This experiment is ended",Toast.LENGTH_SHORT).show();
                 }
@@ -554,30 +530,75 @@ public class experimentInfo_owner extends AppCompatActivity {
     }
 
     public void getLocation(){
-        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                ActivityCompat.requestPermissions(experimentInfo_owner.this, new String[]{
-                        Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION,
-                        Manifest.permission.INTERNET
-                }, 10);
+        LocationManager locationManager = (LocationManager) getSystemService(
+                Context.LOCATION_SERVICE
+        );
 
-                //locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, locationListener, );
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListener2);
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(
+                experimentInfo_owner.this
+        );
 
-            } else {
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListener2);
-            }
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+                @Override
+                public void onComplete(@NonNull Task<Location> task) {
+                    Location location = task.getResult();
+                    if (location != null){
+                        latitude = location.getLatitude();
+                        longitude = location.getLongitude();
+                    } else {
+                        LocationRequest locationRequest = new LocationRequest()
+                                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                                .setInterval(10000)
+                                .setFastestInterval(1000)
+                                .setNumUpdates(1);
 
-        }else{
-            showAlert();
+                        LocationCallback locationCallback = new LocationCallback() {
+                            @Override
+                            public void onLocationResult(LocationResult locationResult){
+                                Location location1 = locationResult.getLastLocation();
+                                latitude = location1.getLatitude();
+                                longitude = location1.getLongitude();
+                            }
+                        };
+                        fusedLocationProviderClient.requestLocationUpdates(locationRequest
+                        ,locationCallback, Looper.myLooper());
+                    }
+                    
+                    HashMap<String, Double> loc = new HashMap<>();
+                    loc.put("longi", longitude);
+                    loc.put("lat", latitude);
+
+                    if (experiment.getCategory().equals("count")) {
+                        countCollectionReference
+                                .document(uniqueTrailId)
+                                .set(loc,SetOptions.merge());
+                    }
+                    if (experiment.getCategory().equals("binomial")) {
+                        binomialCollectionReference
+                                .document(uniqueTrailId)
+                                .set(loc,SetOptions.merge());
+                    }
+                    if (experiment.getCategory().equals("intCount")) {
+                        intCountCollectionReference
+                                .document(uniqueTrailId)
+                                .set(loc,SetOptions.merge());
+                    }
+                    if (experiment.getCategory().equals("measurement")) {
+                        measurementCollectionReference
+                                .document(uniqueTrailId)
+                                .set(loc,SetOptions.merge());
+                    }
+                }
+            });
+        } else {
+            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+            .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         }
+
+
+
 
     }
 
