@@ -1,7 +1,6 @@
 package com.example.myapplication;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,11 +10,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,17 +29,13 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
-import com.google.zxing.WriterException;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
-import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
 
 import static java.lang.System.currentTimeMillis;
@@ -70,7 +63,6 @@ public class experimentInfo_user extends AppCompatActivity {
     private Button back;
     private Button seeMap;
     private Switch aSwitch;
-    private Button seeMap;
 
     private TextView experimentName;
     private TextView description;
@@ -117,7 +109,7 @@ public class experimentInfo_user extends AppCompatActivity {
         category.setText(experiment.getCategory());
         region.setText(experiment.getRegion());
         status.setText(experiment.getPublished());
-        aSwitch = findViewById(R.id.Geo_enable);
+        aSwitch = findViewById(R.id.geo_switch);
 
         String expName = experiment.getExpName();
 

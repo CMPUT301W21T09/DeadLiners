@@ -1,37 +1,21 @@
 package com.example.myapplication;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.ActivityChooserView;
-import androidx.core.app.ActivityCompat;
 
-import android.Manifest;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Point;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
-import android.media.audiofx.BassBoost;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
-import android.util.Log;
-import android.view.Display;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,21 +28,13 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
-import com.google.zxing.WriterException;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
-import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
 
 import static java.lang.System.currentTimeMillis;
@@ -124,9 +100,9 @@ public class experimentInfo_owner extends AppCompatActivity {
         back = findViewById(R.id.back);
         unPublish = findViewById(R.id.Unpublish);
         end = findViewById(R.id.End);
-        aSwitch = findViewById(R.id.Geo_enable);
+        aSwitch = findViewById(R.id.geo_switch);
         barCode = findViewById(R.id.barcode);
-        seeMap = findViewById(R.id.seeMap_owner);
+        seeMap = findViewById(R.id.see_map_owner);
 
         if (experiment.getGeoState().equals("0")){
             seeMap.setVisibility(View.INVISIBLE);
@@ -137,6 +113,8 @@ public class experimentInfo_owner extends AppCompatActivity {
         } else {
             aSwitch.setChecked(false);
         }
+
+        aSwitch.setClickable(false);
 
         experimentName.setText(experiment.getExpName());
         description.setText(experiment.getDescription());
@@ -175,9 +153,13 @@ public class experimentInfo_owner extends AppCompatActivity {
             }
         });
 
+
         addTrail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (experiment.getGeoState().equals("1")) {
+                    Toast.makeText(experimentInfo_owner.this,"This experiment require your location!",Toast.LENGTH_SHORT).show();
+                }
                 if (experiment.getCategory().equals("count") && (experiment.getPublished().equals("open"))){
                     String currentTime = String.format("%d",currentTimeMillis());
 
