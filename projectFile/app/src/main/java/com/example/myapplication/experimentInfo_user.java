@@ -55,6 +55,7 @@ public class experimentInfo_user extends AppCompatActivity {
     private Button viewTrails;
     private Button addTrail;
     private Button back;
+    private Button seeMap;
     private Switch aSwitch;
 
     private TextView experimentName;
@@ -89,6 +90,7 @@ public class experimentInfo_user extends AppCompatActivity {
         viewTrails = findViewById(R.id.View_Trials);
         addTrail = findViewById(R.id.Add_Trial);
         back = findViewById(R.id.Back);
+        seeMap = findViewById(R.id.see_map);
 
         experimentName.setText(experiment.getExpName());
         description.setText(experiment.getDescription());
@@ -118,6 +120,20 @@ public class experimentInfo_user extends AppCompatActivity {
                 intent.putExtra("uid", uid);
                 intent.putExtra("owner", experiment.getOwner());
                 startActivity(intent);
+            }
+        });
+
+        seeMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(experiment.geoState.equals("1")) {
+                    Intent intent = new Intent(experimentInfo_user.this, SeeMapActivity.class);
+                    intent.putExtra("exp_category",experiment.getCategory());
+                    intent.putExtra("exp_name", experiment.getExpName());
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(experimentInfo_user.this, "There is no map!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -383,17 +399,6 @@ public class experimentInfo_user extends AppCompatActivity {
         questionButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) { showQuestionInfo(); }
         });
-    }
-
-    public void showMap(View view) {
-        if(experiment.geoState.equals("1")) {
-            Intent intent = new Intent(experimentInfo_user.this, SeeMapActivity.class);
-            intent.putExtra("exp_category",experiment.getCategory());
-            intent.putExtra("exp_name", experiment.getExpName());
-            startActivity(intent);
-        } else {
-            Toast.makeText(experimentInfo_user.this, "There is no map!", Toast.LENGTH_SHORT).show();
-        }
     }
 
     void showQuestionInfo()
