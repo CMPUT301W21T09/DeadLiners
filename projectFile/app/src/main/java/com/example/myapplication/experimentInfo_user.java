@@ -70,7 +70,6 @@ public class experimentInfo_user extends AppCompatActivity {
     private Button back;
     private Button seeMap;
     private Switch aSwitch;
-    private Button seeMap;
 
     private TextView experimentName;
     private TextView description;
