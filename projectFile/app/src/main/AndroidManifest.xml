@@ -19,7 +19,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
-        <activity android:name=".qrcodeView"></activity>
+        <activity android:name=".SeeMapActivity"></activity>
+        <activity android:name=".qrcodeView" />
         <activity android:name=".barcodeView" />
         <activity android:name=".ScannerActivity" />
         <activity android:name=".PlotActivity" />
