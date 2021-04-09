@@ -154,16 +154,16 @@
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <Switch
-        android:id="@+id/Geo_enable"
+        android:id="@+id/geo_switch"
         android:layout_width="54dp"
         android:layout_height="44dp"
         android:layout_marginStart="100dp"
         android:layout_marginLeft="100dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="19dp"
-        android:layout_marginRight="19dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
         android:checked="false"
-        app:layout_constraintEnd_toStartOf="@+id/seeMap_owner"
+        app:layout_constraintEnd_toStartOf="@+id/see_map_owner"
         app:layout_constraintStart_toEndOf="@+id/Geo_Location"
         app:layout_constraintTop_toBottomOf="@+id/Status" />
 
@@ -248,9 +248,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
         android:text="See map"
-        app:layout_constraintStart_toEndOf="@+id/Geo_enable"
-        app:layout_constraintTop_toTopOf="@+id/Geo_enable" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/geo_switch"
+        app:layout_constraintTop_toBottomOf="@+id/Status" />
 
     <Button
         android:id="@+id/barcode"
