@@ -59,7 +59,64 @@ public class StartPageTest {
     }
 
     @Test
-    public void click_add_exp(){
+    public void click_add_exp_fragment(){
+        solo.clickOnView(solo.getView(R.id.start));
+        solo.clickOnView(solo.getView(R.id.imageButton_add));
+        solo.waitForText("Add Experiment",1,2000);
+    }
 
+    @Test
+    public void click_search(){
+        solo.clickOnView(solo.getView(R.id.start));
+        solo.clickOnView(solo.getView(R.id.imageButton_search));
+        solo.clickOnView(solo.getView(R.id.button_user));
+        solo.assertCurrentActivity("Wrong Activity",SearchUserActivity.class);
+    }
+
+    @Test
+    public void edit_profile(){
+        solo.clickOnView(solo.getView(R.id.start));
+        solo.clickOnView(solo.getView(R.id.imageButton_user));
+        solo.waitForText("Default Username",1,20000);
+        solo.enterText((EditText) solo.getView(R.id.profile_username), "DeadLiners");
+        solo.clickOnView(solo.getView(R.id.profile_edit));
+        solo.clickOnView(solo.getView(R.id.imageButton_user));
+        solo.waitForText("DeadLiners",1,2000);
+        String username = ((EditText) solo.getView(R.id.profile_username)).getText().toString();
+        assertEquals("Default UsernameDeadLiners",username);
+    }
+
+    @Test
+    public void add_and_delete_exp(){
+        solo.clickOnView(solo.getView(R.id.start));
+        solo.clickOnView(solo.getView(R.id.imageButton_add));
+        solo.enterText((EditText) solo.getView(R.id.Name_editText), "Android Test");
+        solo.enterText((EditText) solo.getView(R.id.description_editText), "This is for android test");
+        solo.clickOnView(solo.getView(R.id.Count));
+        solo.enterText((EditText) solo.getView(R.id.Region_editText), "China");
+        solo.enterText((EditText) solo.getView(R.id.Number_Of_Trails_editText), "10");
+        solo.clickOnView(solo.getView(R.id.NotRequired));
+        solo.clickOnButton("OK");
+        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
+        assertTrue(solo.waitForText("Android Test",1,2000));
+        solo.clickOnText("Android Test");
+        solo.clickOnView(solo.getView(R.id.End));
+        assertFalse(solo.waitForText("Android Test",1,2000));
+    }
+
+    @Test
+    public void make_search(){
+        solo.clickOnView(solo.getView(R.id.start));
+        solo.clickOnView(solo.getView(R.id.imageButton_add));
+        solo.enterText((EditText) solo.getView(R.id.Name_editText), "Android Test");
+        solo.enterText((EditText) solo.getView(R.id.description_editText), "This is for android test");
+        solo.clickOnView(solo.getView(R.id.Count));
+        solo.enterText((EditText) solo.getView(R.id.Region_editText), "China");
+        solo.enterText((EditText) solo.getView(R.id.Number_Of_Trails_editText), "10");
+        solo.clickOnView(solo.getView(R.id.NotRequired));
+        solo.clickOnButton("OK");
+        solo.clickOnView(solo.getView(R.id.imageButton_search));
+        solo.clickOnView(solo.getView(R.id.button_exp));
+        assertTrue(solo.waitForText("Android Test",1,2000));
     }
 }

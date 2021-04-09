@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
+    private User user;
     public ArrayList<String> uidList = new ArrayList<String>();
     public Boolean login;
     String uid;
