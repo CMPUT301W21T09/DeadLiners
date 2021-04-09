@@ -36,6 +36,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+//Availbility https://svipbug.com/2020/03/19/MPAndroidChart的详细使用——BarChart条形图组（三）/
+//Accessed on Apr.7
+// Availbility https://www.geeksforgeeks.org/bubble-sort/
+//Title 'Bubble Sort'
+//Accessed on Apr.8
+
+
 public class PlotActivity extends AppCompatActivity {
 
     private LineChart line;
@@ -102,6 +109,7 @@ public class PlotActivity extends AppCompatActivity {
                         }
                     }
 
+                    //bubble sort, reference from website stated above
                     for(int i = 0; i < length; i++) {
                         for(int j = 0; j < length-i-1; j++) {
                             String d1 = dateList[j];
