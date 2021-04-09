@@ -1,20 +1,14 @@
 package com.example.myapplication;
 
-import android.app.AppComponentFactory;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.provider.ContactsContract;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,17 +18,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.UUID;
 
 public class LoginActivity extends AppCompatActivity {
+    private User user;
     public ArrayList<String> uidList = new ArrayList<String>();
     public Boolean login;
     String uid;
@@ -48,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         login = bundle.getBoolean("login");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.log_in_activity);
-        Button OK = (Button)findViewById(R.id.login);
+        Button OK = (Button)findViewById(R.id.start);
         TextView user = (TextView)findViewById(R.id.uid);
 
         // Save uuid as a unique uid

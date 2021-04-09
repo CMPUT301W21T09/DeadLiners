@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements AddExperimentFrag
     public ArrayAdapter<Experiment> experimentsArrayAdapter;
     private ListView mainScrollView;
 
-    mainCustomList customList;
+    ListView customList;
     public Boolean login = false;
     private String uid;
     private String username;
