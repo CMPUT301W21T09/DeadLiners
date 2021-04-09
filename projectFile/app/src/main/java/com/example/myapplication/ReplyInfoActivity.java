@@ -10,6 +10,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+//follow instructions of lab3 on eclass w21cmput301
+//https://eclass.srv.ualberta.ca/mod/page/view.php?id=4829650
+
+//Activity to show detailed info of a Reply
 public class ReplyInfoActivity extends AppCompatActivity {
     private QuestionOrReply reply;
     private TextView description;

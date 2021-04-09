@@ -29,6 +29,10 @@ import java.util.HashMap;
 
 import static java.lang.System.currentTimeMillis;
 
+//follow instructions of lab3 on eclass w21cmput301
+//https://eclass.srv.ualberta.ca/mod/page/view.php?id=4829650
+
+//Activity to show list of all questions under a experiment
 public class QuestionListActivity extends AppCompatActivity
         implements AddQAFragment.OnAddFragmentInteractionListener
 {
