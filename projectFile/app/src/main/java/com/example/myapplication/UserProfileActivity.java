@@ -48,7 +48,13 @@ public class UserProfileActivity extends AppCompatActivity {
         final String[] email = new String[1];
         final String[] phone = new String[1];
 
-
+        Button profileSubscribe = (Button)findViewById(R.id.profile_subscribe);
+        profileSubscribe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(UserProfileActivity.this,SubscribeExperimentListActivity.class).putExtra("uid",uid));
+            }
+        });
         //get the profile information from firebase
         userCollectionReference.document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
