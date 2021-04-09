@@ -15,3 +15,5 @@ https://www.youtube.com/watch?v=AiNi9K94W5c Scanner
 https://www.geeksforgeeks.org/how-to-add-dynamic-markers-in-google-maps-with-firebase-firstore/ Map markers
 
 https://www.geeksforgeeks.org/bubble-sort/ Bubble sort
+
+https://www.youtube.com/watch?v=Ak1O9Gip-pg Get current location
